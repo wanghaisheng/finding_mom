@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://dgm4e67fuse6b"]
+
+[ext_resource type="Texture2D" uid="uid://c4028s837j6k6" path="res://main_menu_background.jpg" id="1_8h8bc"]
+[ext_resource type="Texture2D" uid="uid://cbo7wcn3kbxp3" path="res://icon.svg" id="2_omwi6"]
+[ext_resource type="Script" path="res://Sprite2D.gd" id="3_4q72d"]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="MainMenuBackground" type="Sprite2D" parent="."]
+position = Vector2(576, 324)
+scale = Vector2(0.6, 0.618911)
+texture = ExtResource("1_8h8bc")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(579, 301)
+texture = ExtResource("2_omwi6")
+script = ExtResource("3_4q72d")
