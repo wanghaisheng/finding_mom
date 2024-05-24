@@ -9,43 +9,47 @@
 
 [node name="Node2D" type="Node2D"]
 
-[node name="MainMenuBackground" type="Sprite2D" parent="."]
+[node name="Main_Menu" type="Node2D" parent="."]
+
+[node name="MainMenuBackground" type="Sprite2D" parent="Main_Menu"]
 position = Vector2(576, 324)
 scale = Vector2(0.6, 0.618911)
 texture = ExtResource("1_8h8bc")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(579, 301)
+[node name="Sprite2D" type="Sprite2D" parent="Main_Menu"]
+position = Vector2(604, 803)
 texture = ExtResource("2_omwi6")
 script = ExtResource("3_4q72d")
 
-[node name="PLAY_BUTTON" type="Button" parent="."]
-offset_left = 128.0
-offset_top = 91.0
-offset_right = 350.0
-offset_bottom = 161.0
+[node name="PLAY_BUTTON" type="Button" parent="Main_Menu"]
+offset_left = 53.0
+offset_top = 189.0
+offset_right = 275.0
+offset_bottom = 259.0
 text = "PLAY"
 script = ExtResource("4_b2bim")
 
-[node name="SETTINGS_BUTTON" type="Button" parent="."]
-offset_left = 128.0
-offset_top = 231.0
-offset_right = 350.0
-offset_bottom = 301.0
+[node name="SETTINGS_BUTTON" type="Button" parent="Main_Menu"]
+offset_left = 53.0
+offset_top = 293.0
+offset_right = 275.0
+offset_bottom = 363.0
 text = "SETTINGS"
 script = ExtResource("4_b2gi6")
 
-[node name="QUIT_BUTTON" type="Button" parent="."]
-offset_left = 126.0
-offset_top = 362.0
-offset_right = 348.0
-offset_bottom = 432.0
+[node name="QUIT_BUTTON" type="Button" parent="Main_Menu"]
+offset_left = 53.0
+offset_top = 396.0
+offset_right = 275.0
+offset_bottom = 466.0
 text = "QUIT"
 script = ExtResource("5_01xdb")
 
-[node name="QUIT_CONFIRMATION" type="RichTextLabel" parent="."]
-offset_left = 408.0
-offset_top = 133.0
-offset_right = 740.0
-offset_bottom = 381.0
+[node name="QUIT_CONFIRMATION" type="RichTextLabel" parent="Main_Menu"]
+offset_left = 1273.0
+offset_top = 178.0
+offset_right = 1576.0
+offset_bottom = 235.0
 text = "Are you sure you want to quit?"
+
+[node name="AutoLoad" type="Node2D" parent="."]
