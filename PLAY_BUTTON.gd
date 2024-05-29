@@ -13,7 +13,7 @@ func _process(_delta):
 	
 func _button_pressed():
 	print("Play")
-	get_tree().change_scene_to_file("res://main.tscn")
+	get_tree().change_scene_to_file("res://demo_game.tscn")
 
 
 

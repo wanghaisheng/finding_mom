@@ -1,10 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://cdcc8bsxvcjjg"]
+[gd_scene load_steps=8 format=3 uid="uid://cj3uemfbc0u4k"]
 
-[ext_resource type="Texture2D" uid="uid://cunpor58dtkcu" path="res://dodge_the_creeps_2d_assets/art/playerGrey_up1.png" id="1_jgo15"]
+[ext_resource type="Texture2D" uid="uid://cunpor58dtkcu" path="res://Assets/Characters/playerGrey_up1.png" id="1_jgo15"]
 [ext_resource type="Script" path="res://player.gd" id="1_r8k0x"]
-[ext_resource type="Texture2D" uid="uid://cxgslm4ygfasy" path="res://dodge_the_creeps_2d_assets/art/playerGrey_up2.png" id="2_q7ikg"]
-[ext_resource type="Texture2D" uid="uid://b2pbblcimq1ut" path="res://dodge_the_creeps_2d_assets/art/playerGrey_walk1.png" id="2_um6u4"]
-[ext_resource type="Texture2D" uid="uid://coxu3q06hvgug" path="res://dodge_the_creeps_2d_assets/art/playerGrey_walk2.png" id="4_1rm2g"]
+[ext_resource type="Texture2D" uid="uid://cxgslm4ygfasy" path="res://Assets/Characters/playerGrey_up2.png" id="2_q7ikg"]
+[ext_resource type="Texture2D" uid="uid://b2pbblcimq1ut" path="res://Assets/Characters/playerGrey_walk1.png" id="2_um6u4"]
+[ext_resource type="Texture2D" uid="uid://coxu3q06hvgug" path="res://Assets/Characters/playerGrey_walk2.png" id="4_1rm2g"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_nwkqy"]
 animations = [{

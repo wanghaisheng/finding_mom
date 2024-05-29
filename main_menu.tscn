@@ -1,0 +1,65 @@
+[gd_scene load_steps=8 format=3 uid="uid://bdvjclafdrhy4"]
+
+[ext_resource type="Texture2D" uid="uid://c4028s837j6k6" path="res://Assets/Backgrounds/main_menu_background.jpg" id="1_lsqt1"]
+[ext_resource type="Texture2D" uid="uid://cbo7wcn3kbxp3" path="res://Assets/icon.svg" id="2_c8es6"]
+[ext_resource type="Script" path="res://Sprite2D.gd" id="3_af0c0"]
+[ext_resource type="FontFile" uid="uid://bevi2yfn4fjyf" path="res://Assets/fonts/Xolonium-Regular.ttf" id="4_14if2"]
+[ext_resource type="Script" path="res://PLAY_BUTTON.gd" id="4_wqh45"]
+[ext_resource type="Script" path="res://SETTINGS_BUTTON.gd" id="5_xx5au"]
+[ext_resource type="Script" path="res://QUIT_BUTTON.gd" id="6_ei5fb"]
+
+[node name="MainMenu" type="Node2D"]
+
+[node name="MainMenuCanvas" type="CanvasLayer" parent="."]
+
+[node name="MainMenuBackground" type="Sprite2D" parent="MainMenuCanvas"]
+position = Vector2(1920, 1080)
+scale = Vector2(2, 2.06304)
+texture = ExtResource("1_lsqt1")
+
+[node name="Sprite2D" type="Sprite2D" parent="MainMenuCanvas"]
+position = Vector2(1956, 2516)
+texture = ExtResource("2_c8es6")
+script = ExtResource("3_af0c0")
+
+[node name="PLAY_BUTTON" type="Button" parent="MainMenuCanvas"]
+anchors_preset = -1
+anchor_right = 0.0924479
+anchor_bottom = 0.0523148
+offset_left = 237.0
+offset_top = 541.0
+offset_right = 459.0
+offset_bottom = 611.0
+theme_override_fonts/font = ExtResource("4_14if2")
+theme_override_font_sizes/font_size = 64
+text = "PLAY"
+script = ExtResource("4_wqh45")
+metadata/_edit_use_anchors_ = true
+
+[node name="SETTINGS_BUTTON" type="Button" parent="MainMenuCanvas"]
+anchors_preset = -1
+anchor_right = 0.0911458
+anchor_bottom = 0.0560185
+offset_left = 244.0
+offset_top = 839.0
+offset_right = 466.0
+offset_bottom = 909.0
+theme_override_fonts/font = ExtResource("4_14if2")
+theme_override_font_sizes/font_size = 64
+text = "SETTINGS"
+script = ExtResource("5_xx5au")
+metadata/_edit_use_anchors_ = true
+
+[node name="QUIT_BUTTON" type="Button" parent="MainMenuCanvas"]
+anchors_preset = -1
+anchor_right = 0.0898438
+anchor_bottom = 0.0523148
+offset_left = 254.0
+offset_top = 1148.0
+offset_right = 476.0
+offset_bottom = 1218.0
+theme_override_fonts/font = ExtResource("4_14if2")
+theme_override_font_sizes/font_size = 64
+text = "QUIT"
+script = ExtResource("6_ei5fb")
+metadata/_edit_use_anchors_ = true

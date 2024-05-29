@@ -13,11 +13,17 @@ config_version=5
 config/name="v1"
 run/main_scene="res://first_2d_node.tscn"
 config/features=PackedStringArray("4.2", "GL Compatibility")
-config/icon="res://icon.svg"
+config/icon="res://Assets/icon.svg"
+
+[audio]
+
+buses/default_bus_layout="res://Assets/default_bus_layout.tres"
 
 [display]
 
-window/size/resizable=false
+window/size/viewport_width=3840
+window/size/viewport_height=2160
+window/stretch/mode="viewport"
 
 [input]
 

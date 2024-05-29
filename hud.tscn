@@ -1,6 +1,6 @@
-[gd_scene load_steps=5 format=3 uid="uid://4kcjgrvpxxq"]
+[gd_scene load_steps=5 format=3 uid="uid://bbmdp63cwku5e"]
 
-[ext_resource type="FontFile" uid="uid://bevi2yfn4fjyf" path="res://dodge_the_creeps_2d_assets/fonts/Xolonium-Regular.ttf" id="1_47ro8"]
+[ext_resource type="FontFile" uid="uid://bevi2yfn4fjyf" path="res://Assets/fonts/Xolonium-Regular.ttf" id="1_47ro8"]
 [ext_resource type="Script" path="res://hud.gd" id="1_bv657"]
 
 [sub_resource type="InputEventAction" id="InputEventAction_2cs01"]
