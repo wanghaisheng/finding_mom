@@ -11,3 +11,13 @@ func _process(delta):
 
 func _on_visible_on_screen_notifier_2d_screen_exited():
 	queue_free()
+
+
+func _on_body_entered(body):
+	if body.is_in_group("player_bullets"):
+		queue_free()
+
+
+func _on_bullet_timer_timeout():
+	# produce a bullet
+	pass

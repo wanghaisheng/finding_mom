@@ -23,6 +23,8 @@ func game_over():
 	$HUD.show_game_over()
 	$Music.stop()
 	$DeathSound.play()
+	
+	$Player.hide()
 
 func new_game():
 	score = 0
@@ -32,10 +34,16 @@ func new_game():
 	$HUD.update_score(score)
 	$HUD.show_message("Get Ready")
 	
-	get_tree().call_group("mobs", "queue_free")
+	
+	get_tree().call_group("enemies", "queue_free")
+	get_tree().call_group("bullets", "queue_free")
 	
 	$DeathSound.stop()
 	$Music.play()
+	
+	# TODO: reset hearts
+	$Player.show()
+	$HUD.display_hearts()
 
 func _on_mob_timer_timeout():
 	# Create a new instance of the Mob scene.
@@ -56,6 +64,7 @@ func _on_mob_timer_timeout():
 	mob.rotation = direction
 
 	# Choose the velocity for the mob.
+	# TODO: let the enemy move itself after letting it know of the player
 	var velocity = Vector2(randf_range(150.0, 250.0), 0.0)
 	mob.linear_velocity = velocity.rotated(direction)
 
@@ -71,3 +80,25 @@ func _on_start_timer_timeout():
 	$MobTimer.start()
 	$ScoreTimer.start()
 
+
+
+func _on_player_shoot(bullet, direction, location):
+	# check to see if Player is alive ***CHANGE***
+	if $Player.visible:
+		var spawned_bullet = bullet.instantiate()
+		spawned_bullet.position = location
+		var velocity = Vector2(800.0, 0.0) # let the bullet set this
+		spawned_bullet.linear_velocity = velocity.rotated(direction)
+		add_child(spawned_bullet)
+
+
+func _on_player_hit():
+	if $Player.visible:
+		do_damage()
+	
+func do_damage():
+	$HUD.lose_heart()
+
+
+func _on_hud_player_die():
+	game_over()

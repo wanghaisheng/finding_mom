@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://bbmdp63cwku5e"]
 
-[ext_resource type="FontFile" uid="uid://bevi2yfn4fjyf" path="res://Assets/fonts/Xolonium-Regular.ttf" id="1_47ro8"]
 [ext_resource type="Script" path="res://hud.gd" id="1_bv657"]
+[ext_resource type="FontFile" uid="uid://bevi2yfn4fjyf" path="res://Assets/fonts/Xolonium-Regular.ttf" id="2_uq8fv"]
 
 [sub_resource type="InputEventAction" id="InputEventAction_2cs01"]
 action = &"start_game"
@@ -20,7 +20,7 @@ offset_left = -22.5
 offset_right = 22.5
 offset_bottom = 78.0
 grow_horizontal = 2
-theme_override_fonts/font = ExtResource("1_47ro8")
+theme_override_fonts/font = ExtResource("2_uq8fv")
 theme_override_font_sizes/font_size = 64
 text = "0
 "
@@ -37,7 +37,7 @@ offset_right = 22.5
 offset_bottom = 39.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_fonts/font = ExtResource("1_47ro8")
+theme_override_fonts/font = ExtResource("2_uq8fv")
 theme_override_font_sizes/font_size = 64
 text = "Dodge the creeps!
 "
@@ -53,12 +53,14 @@ offset_top = -86.0
 offset_right = 26.5
 grow_horizontal = 2
 grow_vertical = 0
-theme_override_fonts/font = ExtResource("1_47ro8")
+theme_override_fonts/font = ExtResource("2_uq8fv")
 theme_override_font_sizes/font_size = 64
 shortcut = SubResource("Shortcut_tre7f")
 text = "Start"
 
 [node name="MessageTimer" type="Timer" parent="."]
+
+[node name="HeartArea" type="Area2D" parent="."]
 
 [connection signal="pressed" from="StartButton" to="." method="_on_start_button_pressed"]
 [connection signal="timeout" from="MessageTimer" to="." method="_on_message_timer_timeout"]
