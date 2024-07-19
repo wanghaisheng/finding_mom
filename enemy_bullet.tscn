@@ -8,12 +8,11 @@ script/source = "extends RigidBody2D
 var velocity = Vector2.ZERO
 var speed = 800
 
-const trio_bullet = \"trio_bullet\"
-const single_bullet = \"single_bullet\"
+var purple_ball = \"purple_ball\"
 
 func _ready():
 	gravity_scale = 0.0
-	$AnimatedSprite2D.play(trio_bullet)
+	$AnimatedSprite2D.play(purple_ball)
 	pass
 func set_members(direction, p):
 	velocity = Vector2.ZERO
@@ -42,7 +41,7 @@ animations = [{
 "texture": ExtResource("1_eidis")
 }],
 "loop": true,
-"name": &"new_animation",
+"name": &"purple_ball",
 "speed": 5.0
 }]
 
@@ -56,7 +55,7 @@ script = SubResource("GDScript_f2ymo")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 scale = Vector2(2, 2)
 sprite_frames = SubResource("SpriteFrames_1o8r6")
-animation = &"new_animation"
+animation = &"purple_ball"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 scale = Vector2(2.5, 2.5)

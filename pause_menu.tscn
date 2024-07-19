@@ -1,8 +1,12 @@
-[gd_scene load_steps=2 format=3 uid="uid://dbdpur6xsrko7"]
+[gd_scene load_steps=4 format=3 uid="uid://dbdpur6xsrko7"]
 
+[ext_resource type="Script" path="res://pause_menu.gd" id="1_gslj7"]
+[ext_resource type="FontFile" uid="uid://omargf2labe" path="res://Assets/fonts/Robot Crush.ttf" id="1_iaiic"]
 [ext_resource type="FontFile" uid="uid://bevi2yfn4fjyf" path="res://Assets/fonts/Xolonium-Regular.ttf" id="1_xjqcs"]
 
 [node name="PauseMenu" type="CanvasLayer"]
+process_mode = 3
+script = ExtResource("1_gslj7")
 
 [node name="FadedBackground" type="ColorRect" parent="."]
 offset_right = 3840.0
@@ -30,7 +34,7 @@ offset_right = 182.5
 offset_bottom = 87.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_fonts/font = ExtResource("1_xjqcs")
+theme_override_fonts/font = ExtResource("1_iaiic")
 theme_override_font_sizes/font_size = 64
 text = "Resume"
 
@@ -59,7 +63,7 @@ offset_right = 182.5
 offset_bottom = 87.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_fonts/font = ExtResource("1_xjqcs")
+theme_override_fonts/font = ExtResource("1_iaiic")
 theme_override_font_sizes/font_size = 64
 text = "Settings"
 
@@ -87,7 +91,7 @@ offset_right = 182.5
 offset_bottom = 87.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_fonts/font = ExtResource("1_xjqcs")
+theme_override_fonts/font = ExtResource("1_iaiic")
 theme_override_font_sizes/font_size = 64
 text = "Quit"
 
@@ -104,3 +108,7 @@ theme_override_font_sizes/font_size = 128
 text = "Paused"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[connection signal="pressed" from="ReferenceRect/ResumeButton" to="." method="_on_resume_button_pressed"]
+[connection signal="pressed" from="ReferenceRect2/SettingsButton" to="." method="_on_settings_button_pressed"]
+[connection signal="pressed" from="ReferenceRect3/QuitButton" to="." method="_on_quit_button_pressed"]

@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://bbmdp63cwku5e"]
 
 [ext_resource type="Script" path="res://hud.gd" id="1_bv657"]
-[ext_resource type="FontFile" uid="uid://bevi2yfn4fjyf" path="res://Assets/fonts/Xolonium-Regular.ttf" id="2_uq8fv"]
+[ext_resource type="FontFile" uid="uid://omargf2labe" path="res://Assets/fonts/Robot Crush.ttf" id="2_ga6r0"]
 
 [sub_resource type="InputEventAction" id="InputEventAction_2cs01"]
 action = &"start_game"
@@ -20,10 +20,12 @@ offset_left = -22.5
 offset_right = 22.5
 offset_bottom = 78.0
 grow_horizontal = 2
-theme_override_fonts/font = ExtResource("2_uq8fv")
+theme_override_fonts/font = ExtResource("2_ga6r0")
 theme_override_font_sizes/font_size = 64
 text = "0
 "
+
+[node name="ScoreTimer" type="Timer" parent="."]
 
 [node name="Message" type="Label" parent="."]
 anchors_preset = 8
@@ -31,29 +33,31 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -22.5
+offset_left = -306.5
 offset_top = -39.0
-offset_right = 22.5
+offset_right = 306.5
 offset_bottom = 39.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_fonts/font = ExtResource("2_uq8fv")
+size_flags_horizontal = 4
+size_flags_vertical = 0
+theme_override_fonts/font = ExtResource("2_ga6r0")
 theme_override_font_sizes/font_size = 64
-text = "Dodge the creeps!
-"
+horizontal_alignment = 1
 
 [node name="StartButton" type="Button" parent="."]
-anchors_preset = 7
+anchors_preset = 8
 anchor_left = 0.5
-anchor_top = 1.0
+anchor_top = 0.5
 anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -26.5
-offset_top = -86.0
-offset_right = 26.5
+anchor_bottom = 0.5
+offset_left = -88.5
+offset_top = -43.0
+offset_right = 88.5
+offset_bottom = 43.0
 grow_horizontal = 2
-grow_vertical = 0
-theme_override_fonts/font = ExtResource("2_uq8fv")
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("2_ga6r0")
 theme_override_font_sizes/font_size = 64
 shortcut = SubResource("Shortcut_tre7f")
 text = "Start"
@@ -62,5 +66,21 @@ text = "Start"
 
 [node name="HeartArea" type="Area2D" parent="."]
 
+[node name="LevelLabel" type="Label" parent="."]
+visible = false
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -247.0
+offset_bottom = 78.0
+grow_horizontal = 0
+theme_override_fonts/font = ExtResource("2_ga6r0")
+theme_override_font_sizes/font_size = 64
+text = "Level 0"
+
+[node name="BulletArea" type="Area2D" parent="."]
+position = Vector2(0, 2160)
+
+[connection signal="timeout" from="ScoreTimer" to="." method="_on_score_timer_timeout"]
 [connection signal="pressed" from="StartButton" to="." method="_on_start_button_pressed"]
 [connection signal="timeout" from="MessageTimer" to="." method="_on_message_timer_timeout"]

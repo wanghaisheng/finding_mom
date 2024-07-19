@@ -1,12 +1,16 @@
-[gd_scene load_steps=11 format=3 uid="uid://rgkuwjb6bgdc"]
+[gd_scene load_steps=33 format=3 uid="uid://rgkuwjb6bgdc"]
 
 [ext_resource type="Script" path="res://player.gd" id="1_r8k0x"]
 [ext_resource type="Texture2D" uid="uid://buyr3kd5j0ove" path="res://Assets/Characters/player_character/middle_legs.png" id="2_q014k"]
 [ext_resource type="Texture2D" uid="uid://cx00ltjwdpyvb" path="res://Assets/Characters/player_character/right_leg.png" id="3_4sruf"]
 [ext_resource type="Texture2D" uid="uid://cns7vj442rkaq" path="res://Assets/Characters/player_character/left_leg.png" id="4_a4qr6"]
+[ext_resource type="Texture2D" uid="uid://cgpcp3721xdj0" path="res://Assets/Portal/portal1.png" id="5_7wsc7"]
 [ext_resource type="Texture2D" uid="uid://bry5rkatim6u1" path="res://Assets/Characters/player_character/middle_shoulder.png" id="5_mvej2"]
+[ext_resource type="Texture2D" uid="uid://b6kw4oevrvpcy" path="res://Assets/Portal/portal3.png" id="6_4uhnk"]
 [ext_resource type="Texture2D" uid="uid://d2vjm6hiuf8y" path="res://Assets/Characters/player_character/left_shoulder.png" id="6_81vrl"]
+[ext_resource type="Texture2D" uid="uid://250ssoo43cgu" path="res://Assets/Portal/portal5.png" id="7_nkf7c"]
 [ext_resource type="Texture2D" uid="uid://brr5s60ku3c0u" path="res://Assets/Characters/player_character/right_shoulder.png" id="7_wmbge"]
+[ext_resource type="PackedScene" uid="uid://du73pextvouwn" path="res://cursor.tscn" id="8_8ks3i"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_cry5f"]
 animations = [{
@@ -40,6 +44,20 @@ animations = [{
 animations = [{
 "frames": [{
 "duration": 1.0,
+"texture": ExtResource("5_7wsc7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_4uhnk")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_nkf7c")
+}],
+"loop": true,
+"name": &"roll",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": ExtResource("5_mvej2")
 }],
 "loop": true,
@@ -65,26 +83,155 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rmu4x"]
-size = Vector2(63, 111)
+size = Vector2(84, 112)
 
-[node name="Player" type="Area2D"]
+[sub_resource type="Animation" id="Animation_aeb0n"]
+length = 0.001
+
+[sub_resource type="Animation" id="Animation_kbekm"]
+resource_name = "roll"
+length = 0.5
+step = 0.25
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.5),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"on_roll_end"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_ypkj4"]
+resource_name = "idle"
+
+[sub_resource type="Animation" id="Animation_xdgl4"]
+resource_name = "walk"
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_7kiid"]
+_data = {
+"RESET": SubResource("Animation_aeb0n"),
+"idle": SubResource("Animation_ypkj4"),
+"roll": SubResource("Animation_kbekm"),
+"walk": SubResource("Animation_xdgl4")
+}
+
+[sub_resource type="AnimationNodeBlendSpace2D" id="AnimationNodeBlendSpace2D_npc1j"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_t3bpl"]
+animation = &"roll"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_g22g0"]
+animation = &"roll"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ybg0b"]
+animation = &"roll"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_n2ibh"]
+animation = &"roll"
+
+[sub_resource type="AnimationNodeBlendSpace2D" id="AnimationNodeBlendSpace2D_jx1va"]
+blend_point_0/node = SubResource("AnimationNodeAnimation_t3bpl")
+blend_point_0/pos = Vector2(-1, 0)
+blend_point_1/node = SubResource("AnimationNodeAnimation_g22g0")
+blend_point_1/pos = Vector2(0, 1)
+blend_point_2/node = SubResource("AnimationNodeAnimation_ybg0b")
+blend_point_2/pos = Vector2(1, 0)
+blend_point_3/node = SubResource("AnimationNodeAnimation_n2ibh")
+blend_point_3/pos = Vector2(0, -1)
+
+[sub_resource type="AnimationNodeBlendSpace2D" id="AnimationNodeBlendSpace2D_ncvod"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_87j5v"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_qghtw"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_jp7y0"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_x35ae"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_0ffu8"]
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_7qe21"]
+states/Idle/node = SubResource("AnimationNodeBlendSpace2D_npc1j")
+states/Idle/position = Vector2(456.667, 191.58)
+states/Roll/node = SubResource("AnimationNodeBlendSpace2D_jx1va")
+states/Roll/position = Vector2(604, 191.053)
+states/Start/position = Vector2(314.667, 191.778)
+states/Walk/node = SubResource("AnimationNodeBlendSpace2D_ncvod")
+states/Walk/position = Vector2(457.778, 99.1111)
+transitions = ["Start", "Idle", SubResource("AnimationNodeStateMachineTransition_87j5v"), "Idle", "Walk", SubResource("AnimationNodeStateMachineTransition_qghtw"), "Walk", "Idle", SubResource("AnimationNodeStateMachineTransition_jp7y0"), "Idle", "Roll", SubResource("AnimationNodeStateMachineTransition_x35ae"), "Roll", "Idle", SubResource("AnimationNodeStateMachineTransition_0ffu8")]
+
+[node name="Player" type="CharacterBody2D" groups=["player"]]
 script = ExtResource("1_r8k0x")
 metadata/_edit_group_ = true
 
-[node name="LegsSprite" type="AnimatedSprite2D" parent="."]
-scale = Vector2(3, 3)
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="LegsSprite" type="AnimatedSprite2D" parent="Area2D"]
+scale = Vector2(4, 4)
 sprite_frames = SubResource("SpriteFrames_cry5f")
 animation = &"walk"
 
-[node name="BodySprite" type="AnimatedSprite2D" parent="."]
-scale = Vector2(3, 3)
+[node name="BodySprite" type="AnimatedSprite2D" parent="Area2D"]
+scale = Vector2(4, 4)
 sprite_frames = SubResource("SpriteFrames_nwkqy")
-animation = &"walk"
+animation = &"roll"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(7.5, -1.5)
+[node name="RightSide" type="Marker2D" parent="Area2D/BodySprite"]
+position = Vector2(0, 15)
+
+[node name="LeftSide" type="Marker2D" parent="Area2D/BodySprite"]
+position = Vector2(0, -15)
+
+[node name="ParryAnimation" type="Area2D" parent="Area2D/BodySprite"]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Area2D/BodySprite/ParryAnimation"]
+
+[node name="ParryCollisionBox" type="CollisionShape2D" parent="Area2D/BodySprite/ParryAnimation"]
+
+[node name="CollisionBox" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(10, 0)
 shape = SubResource("RectangleShape2D_rmu4x")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+[node name="Marker2D" type="Marker2D" parent="."]
 
-[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[node name="Cursor" parent="." instance=ExtResource("8_8ks3i")]
+visible = false
+z_index = 4096
+
+[node name="InvulnerableTimer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[node name="VisibilityFlashTimer" type="Timer" parent="."]
+wait_time = 0.2
+
+[node name="MusicNoteTimer" type="Timer" parent="."]
+autostart = true
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_7kiid")
+}
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+tree_root = SubResource("AnimationNodeStateMachine_7qe21")
+anim_player = NodePath("../AnimationPlayer")
+parameters/Idle/blend_position = Vector2(0, 0)
+parameters/Roll/blend_position = Vector2(-0.711471, 0.0857143)
+parameters/Walk/blend_position = Vector2(0, 0)
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="animation_finished" from="Area2D/BodySprite" to="." method="_on_body_sprite_animation_finished"]
+[connection signal="animation_looped" from="Area2D/BodySprite" to="." method="_on_body_sprite_animation_finished"]
+[connection signal="timeout" from="InvulnerableTimer" to="." method="_on_invulnerable_timer_timeout"]
+[connection signal="timeout" from="VisibilityFlashTimer" to="." method="_on_visibility_flash_timer_timeout"]
+[connection signal="timeout" from="MusicNoteTimer" to="." method="_on_music_note_timer_timeout"]

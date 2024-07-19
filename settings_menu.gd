@@ -1,5 +1,7 @@
 extends CanvasLayer
 
+signal back_button_pressed
+
 var selectedResolution = ""
 var selectedViewportMode = ""
 
@@ -33,6 +35,8 @@ func _on_apply_button_pressed():
 		"Fullscreen":
 			windowMode = Window.MODE_FULLSCREEN
 	get_tree().root.mode = windowMode
+	
+	#TODO: get the volume changing working
 
 
 func _on_resolution_list_item_selected(index):
@@ -41,3 +45,7 @@ func _on_resolution_list_item_selected(index):
 
 func _on_viewport_mode_list_item_selected(index):
 	selectedViewportMode = $ViewportModeList.get_item_text(index)
+
+
+func _on_back_button_pressed():
+	back_button_pressed.emit()

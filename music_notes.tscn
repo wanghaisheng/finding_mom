@@ -1,78 +1,51 @@
-[gd_scene load_steps=4 format=3 uid="uid://c7xoa808opdgr"]
+[gd_scene load_steps=2 format=3 uid="uid://c7xoa808opdgr"]
 
 [sub_resource type="GDScript" id="GDScript_88y84"]
-script/source = "extends Node
+script/source = "extends Area2D
 
 var quarter_note_path = \"res://Assets/Characters/player_character/quarter_note.png\"
 var eighth_note_path = \"res://Assets/Characters/player_character/eighth_notes.png\"
+var notes_list = [quarter_note_path, eighth_note_path]
 
-var left_note_position = Vector2(-60, 0)
-var right_note_position = Vector2(60, 0)
+#var left_note_position = Vector2(-60, 0)
+#var right_note_position = Vector2(60, 0)
+
+#var start_time = Time.get_unix_time_from_system()
 
 func _ready():
-	$AnimationPlayer.play(\"new_animation\")
-	$RightEarNote.texture = ResourceLoader.load(eighth_note_path)
-	$LeftEarNote.texture = ResourceLoader.load(quarter_note_path)
+	var note = notes_list[randi_range(0, 1)]
+	$Note.texture = ResourceLoader.load(note)
+	$Timer.start()
+	#$LeftEarNote.texture = ResourceLoader.load(quarter_note_path)
+	
+func _process(delta):
+	var now = Time.get_unix_time_from_system()
+	var new_position = Vector2(position.x, position.y + sin(now * 5)) # rate of bobbing up and down
+	position = new_position
 
-func play_left_ear():
-	left_note_position.x -= 1
-	left_note_position.y = sin($Timer.time_left)
-	$LeftEarNote.position = left_note_position
+#func play_left_ear():
+	#left_note_position.x -= 1
+	#left_note_position.y = sin($Timer.time_left)
+	#$LeftEarNote.position = left_note_position
 
-func play_right_ear():
-	right_note_position.x += 1
-	right_note_position.y = cos($Timer.time_left)
-	$RightEarNote.position = right_note_position
+#func play_right_ear():
+	#right_note_position.x += 1
+	#right_note_position.y = cos($Timer.time_left)
+	#$RightEarNote.position = right_note_position
+
+func _on_timer_timeout():
+	print('queue')
+	queue_free()
 "
 
-[sub_resource type="Animation" id="Animation_2gt4q"]
-resource_name = "new_animation"
-tracks/0/type = "method"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"values": [{
-"args": [],
-"method": &"play_left_ear"
-}]
-}
-tracks/1/type = "method"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"values": [{
-"args": [],
-"method": &"play_right_ear"
-}]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_s5okd"]
-_data = {
-"new_animation": SubResource("Animation_2gt4q")
-}
-
-[node name="MusicNotes" type="Node"]
+[node name="MusicNotes" type="Area2D"]
 script = SubResource("GDScript_88y84")
 
-[node name="LeftEarNote" type="Sprite2D" parent="."]
-
-[node name="RightEarNote" type="Sprite2D" parent="."]
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-"": SubResource("AnimationLibrary_s5okd")
-}
+[node name="Note" type="Sprite2D" parent="."]
+scale = Vector2(2, 2)
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 2.0
 autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

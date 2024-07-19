@@ -1,40 +1,41 @@
-[gd_scene load_steps=8 format=3 uid="uid://tgjwyacbj8ww"]
+[gd_scene load_steps=5 format=3 uid="uid://tgjwyacbj8ww"]
 
-[ext_resource type="Texture2D" uid="uid://bbg4auj785j5h" path="res://Assets/Bullets/Red_Trio_1.png" id="1_taxlg"]
-[ext_resource type="Texture2D" uid="uid://i5bvk42kjj45" path="res://Assets/Bullets/Red_Trio_2.png" id="2_yy78j"]
-[ext_resource type="Texture2D" uid="uid://bk57kudi82apq" path="res://Assets/Bullets/Red_Trio_3.png" id="3_m8cd0"]
-[ext_resource type="Texture2D" uid="uid://b71pflgk2omqh" path="res://Assets/Bullets/Red_Trio_4.png" id="4_8s3ig"]
+[ext_resource type="Texture2D" uid="uid://bxwfp47uyk6o1" path="res://Assets/Bullets/basic_bullet.png" id="1_o6bw2"]
 
 [sub_resource type="GDScript" id="GDScript_f2ymo"]
 script/source = "extends RigidBody2D
 
+signal bullet_dequeue
+
 var velocity = Vector2.ZERO
 var speed = 800
 
-const trio_bullet = \"trio_bullet\"
 const single_bullet = \"single_bullet\"
 
 func _ready():
 	gravity_scale = 0.0
-	$AnimatedSprite2D.play(trio_bullet)
+	$AnimatedSprite2D.play(single_bullet)
 	pass
-func set_members(direction, p):
-	velocity = Vector2.ZERO
-	velocity.x = cos(direction)
-	velocity.y = sin(direction)
-	position = p
+
+func set_sprite_rotation(direction):
+	$AnimatedSprite2D.rotation = direction
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
+	#var rotation = atan2(velocity.y, velocity.x)
+	#print(rotation)
+	#$AnimatedSprite2D.rotation = rotation
 	apply_force(velocity, position)
 
 
 func _on_visible_on_screen_notifier_2d_screen_exited():
+	bullet_dequeue.emit()
 	queue_free()
 
 
 func _on_body_entered(body):
 	if body.is_in_group(\"enemies\"):
+		bullet_dequeue.emit()
 		queue_free()
 "
 
@@ -42,36 +43,30 @@ func _on_body_entered(body):
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("1_taxlg")
-}, {
-"duration": 1.0,
-"texture": ExtResource("2_yy78j")
-}, {
-"duration": 1.0,
-"texture": ExtResource("3_m8cd0")
-}, {
-"duration": 1.0,
-"texture": ExtResource("4_8s3ig")
+"texture": ExtResource("1_o6bw2")
 }],
 "loop": true,
-"name": &"trio_bullet",
+"name": &"single_bullet",
 "speed": 10.0
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_kqn6h"]
 
 [node name="PlayerBullet" type="RigidBody2D" groups=["bullets", "player_bullets"]]
+collision_layer = 2
+collision_mask = 2
 max_contacts_reported = 1000
 contact_monitor = true
 script = SubResource("GDScript_f2ymo")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-scale = Vector2(5, 5)
+scale = Vector2(2, 2)
 sprite_frames = SubResource("SpriteFrames_1o8r6")
-animation = &"trio_bullet"
+animation = &"single_bullet"
+frame_progress = 0.885993
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-scale = Vector2(2.5, 2.5)
+scale = Vector2(2, 2)
 shape = SubResource("CircleShape2D_kqn6h")
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]

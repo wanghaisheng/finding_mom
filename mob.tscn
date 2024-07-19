@@ -1,8 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://b4lsq4j31jm0c"]
+[gd_scene load_steps=9 format=3 uid="uid://b4lsq4j31jm0c"]
 
 [ext_resource type="Script" path="res://mob.gd" id="1_x3otr"]
 [ext_resource type="Texture2D" uid="uid://co4eihc8e5y20" path="res://Assets/Characters/bug/basic_bug.png" id="2_w3a3n"]
-[ext_resource type="Texture2D" uid="uid://dscq1xy8dxabq" path="res://Assets/Characters/bug/basic_bug_walk.png" id="3_6jiub"]
+[ext_resource type="Texture2D" uid="uid://dao871lqfvf7m" path="res://Assets/Characters/bug/basic_bug_2.png" id="3_3utmt"]
+[ext_resource type="Texture2D" uid="uid://cvm3preojnpnw" path="res://Assets/Characters/spider/spider1.png" id="4_3svpk"]
+[ext_resource type="Texture2D" uid="uid://de87mbqqj0mut" path="res://Assets/Characters/spider/spider2.png" id="5_ssjif"]
+[ext_resource type="Texture2D" uid="uid://bgs7eu87vvu6o" path="res://Assets/Characters/spider/spider3.png" id="6_wodph"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_cxtoe"]
 animations = [{
@@ -11,19 +14,37 @@ animations = [{
 "texture": ExtResource("2_w3a3n")
 }, {
 "duration": 1.0,
-"texture": ExtResource("3_6jiub")
+"texture": ExtResource("3_3utmt")
 }],
 "loop": true,
-"name": &"crawl",
-"speed": 3.0
+"name": &"bug",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_3svpk")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_ssjif")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_wodph")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_ssjif")
+}],
+"loop": true,
+"name": &"spider",
+"speed": 5.0
 }]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_riuna"]
-radius = 37.0
-height = 80.0
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_5wwe1"]
+radius = 29.0
+height = 76.0
 
 [node name="Mob" type="RigidBody2D" groups=["enemies"]]
-collision_mask = 0
+collision_layer = 3
+collision_mask = 3
 gravity_scale = 0.0
 max_contacts_reported = 1000
 contact_monitor = true
@@ -31,15 +52,15 @@ script = ExtResource("1_x3otr")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 rotation = 4.71239
-scale = Vector2(3.5, 3.5)
+scale = Vector2(6, 6)
 sprite_frames = SubResource("SpriteFrames_cxtoe")
-animation = &"crawl"
+animation = &"spider"
 metadata/_edit_group_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(-5, 0)
-rotation = 1.5708
-shape = SubResource("CapsuleShape2D_riuna")
+scale = Vector2(1.8, 1.8)
+shape = SubResource("CapsuleShape2D_5wwe1")
 metadata/_edit_group_ = true
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
@@ -48,4 +69,5 @@ metadata/_edit_group_ = true
 [node name="BulletTimer" type="Timer" parent="."]
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
 [connection signal="timeout" from="BulletTimer" to="." method="_on_bullet_timer_timeout"]
