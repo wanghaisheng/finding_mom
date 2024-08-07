@@ -5,32 +5,41 @@
 [sub_resource type="GDScript" id="GDScript_f2ymo"]
 script/source = "extends RigidBody2D
 
-var velocity = Vector2.ZERO
+var velocity = Vector2(1, 0).normalized()
 var speed = 800
+var direction = 0
 
-var purple_ball = \"purple_ball\"
+var purple_ball = \"purple_ball\" #TODO figure out if we want them rotating or animated in any way
 
 func _ready():
 	gravity_scale = 0.0
 	$AnimatedSprite2D.play(purple_ball)
 	pass
-func set_members(direction, p):
-	velocity = Vector2.ZERO
-	velocity.x = cos(direction)
-	velocity.y = sin(direction)
-	position = p
+
+func set_direction(d):
+	direction = d
+	#TODO: take care of multiplying by bullet_speed
+	velocity = Vector2(500.0, 0.0)
+	linear_velocity = velocity.rotated(direction)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	apply_force(velocity, position)
+	#apply_force(direction, position) # use this for speeding up TODO might use for a tracking projectile
+	pass
 
 
 func _on_visible_on_screen_notifier_2d_screen_exited():
 	queue_free()
+	
+func parried(): 
+	#TODO: we might need to do some additional logic for parrying directly back
+	set_direction(direction - PI)
 
 
+# TODO: BUG: fix collision detection or let the player call you
 func _on_body_entered(body):
-	if body.is_in_group(\"enemies\"):
+	if body.is_in_group(\"player\"):
+		print('entered enemy bullet')
 		queue_free()
 "
 
@@ -47,7 +56,9 @@ animations = [{
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_kqn6h"]
 
-[node name="EnemyBullet" type="RigidBody2D" groups=["bullets", "player_bullets"]]
+[node name="EnemyBullet" type="RigidBody2D" groups=["bullets", "enemy_bullets"]]
+collision_layer = 4
+collision_mask = 0
 max_contacts_reported = 1000
 contact_monitor = true
 script = SubResource("GDScript_f2ymo")

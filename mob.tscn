@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://b4lsq4j31jm0c"]
+[gd_scene load_steps=15 format=3 uid="uid://b4lsq4j31jm0c"]
 
 [ext_resource type="Script" path="res://mob.gd" id="1_x3otr"]
 [ext_resource type="Texture2D" uid="uid://co4eihc8e5y20" path="res://Assets/Characters/bug/basic_bug.png" id="2_w3a3n"]
@@ -6,6 +6,11 @@
 [ext_resource type="Texture2D" uid="uid://cvm3preojnpnw" path="res://Assets/Characters/spider/spider1.png" id="4_3svpk"]
 [ext_resource type="Texture2D" uid="uid://de87mbqqj0mut" path="res://Assets/Characters/spider/spider2.png" id="5_ssjif"]
 [ext_resource type="Texture2D" uid="uid://bgs7eu87vvu6o" path="res://Assets/Characters/spider/spider3.png" id="6_wodph"]
+[ext_resource type="Texture2D" uid="uid://c1o4avu4su2k0" path="res://Assets/Icons/empty_heart.png" id="7_7ftyi"]
+[ext_resource type="Texture2D" uid="uid://bebku0aa4cg6f" path="res://Assets/Icons/heart.png" id="8_1dy0n"]
+[ext_resource type="Texture2D" uid="uid://cgpcp3721xdj0" path="res://Assets/Portal/portal1.png" id="9_7ipdp"]
+[ext_resource type="Texture2D" uid="uid://dld3v1hh66e0a" path="res://Assets/Portal/portal2.png" id="10_7rdfc"]
+[ext_resource type="Texture2D" uid="uid://b6kw4oevrvpcy" path="res://Assets/Portal/portal3.png" id="11_8qd3e"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_cxtoe"]
 animations = [{
@@ -38,6 +43,37 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="SpriteFrames" id="SpriteFrames_7x2qw"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("7_7ftyi")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_1dy0n")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_7ftyi")
+}],
+"loop": true,
+"name": &"bug",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("9_7ipdp")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_7rdfc")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_8qd3e")
+}],
+"loop": true,
+"name": &"spider",
+"speed": 5.0
+}]
+
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_5wwe1"]
 radius = 29.0
 height = 76.0
@@ -57,6 +93,11 @@ sprite_frames = SubResource("SpriteFrames_cxtoe")
 animation = &"spider"
 metadata/_edit_group_ = true
 
+[node name="DeadSprites" type="AnimatedSprite2D" parent="."]
+visible = false
+sprite_frames = SubResource("SpriteFrames_7x2qw")
+animation = &"bug"
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(-5, 0)
 scale = Vector2(1.8, 1.8)
@@ -67,7 +108,11 @@ metadata/_edit_group_ = true
 metadata/_edit_group_ = true
 
 [node name="BulletTimer" type="Timer" parent="."]
+wait_time = 5.0
+autostart = true
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="animation_finished" from="DeadSprites" to="." method="_on_dead_sprites_animation_finished"]
+[connection signal="animation_looped" from="DeadSprites" to="." method="_on_dead_sprites_animation_finished"]
 [connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
 [connection signal="timeout" from="BulletTimer" to="." method="_on_bullet_timer_timeout"]
