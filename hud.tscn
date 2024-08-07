@@ -62,6 +62,22 @@ theme_override_font_sizes/font_size = 64
 shortcut = SubResource("Shortcut_tre7f")
 text = "Start"
 
+[node name="QuitButton" type="Button" parent="."]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -89.0
+offset_top = -86.0
+offset_right = 89.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_fonts/font = ExtResource("2_ga6r0")
+theme_override_font_sizes/font_size = 64
+shortcut = SubResource("Shortcut_tre7f")
+text = "Quit"
+
 [node name="MessageTimer" type="Timer" parent="."]
 
 [node name="HeartArea" type="Area2D" parent="."]
@@ -83,4 +99,5 @@ position = Vector2(0, 2160)
 
 [connection signal="timeout" from="ScoreTimer" to="." method="_on_score_timer_timeout"]
 [connection signal="pressed" from="StartButton" to="." method="_on_start_button_pressed"]
+[connection signal="pressed" from="QuitButton" to="." method="_on_quit_button_pressed"]
 [connection signal="timeout" from="MessageTimer" to="." method="_on_message_timer_timeout"]

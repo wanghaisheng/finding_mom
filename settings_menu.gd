@@ -5,20 +5,22 @@ signal back_button_pressed
 var selectedResolution = ""
 var selectedViewportMode = ""
 
+var config = ConfigFile.new()
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	# select the settings from the loaded settings
-	$ResolutionList.select(0)
-	$ViewportModeList.select(0)
 	# then apply all of the settings
-	pass # Replace with function body.
+	# make sure all settings values are set and not blank when displaying the menu
+	pass
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	pass
 
-
+func apply_settings():
+	_on_apply_button_pressed()
 
 func _on_apply_button_pressed(): 
 	var sizes = selectedResolution.split(" X ", false, 2)
@@ -35,9 +37,32 @@ func _on_apply_button_pressed():
 		"Fullscreen":
 			windowMode = Window.MODE_FULLSCREEN
 	get_tree().root.mode = windowMode
-	
 	#TODO: get the volume changing working
-
+	
+	print(selectedResolution)
+	print(selectedViewportMode)
+	
+	save_config(selectedResolution, selectedViewportMode)
+	
+func save_config(resolution, viewport_mode):
+	config.set_value("Settings", "resolution", resolution)
+	config.set_value("Settings", "viewport_mode", viewport_mode)
+	
+	config.save("./settings.cfg")
+	
+func load_settings():
+	var err = config.load("./settings.cfg")
+	if err != OK:
+		return
+		
+	for setting in config.get_sections():
+		print(setting)
+		selectedResolution = config.get_value("Settings", "resolution")
+		selectedViewportMode = config.get_value("Settings", "viewport_mode")
+		
+	# next find the index of what they are and select them with this:
+	$ResolutionList.select(0)
+	$ViewportModeList.select(0)
 
 func _on_resolution_list_item_selected(index):
 	selectedResolution = $ResolutionList.get_item_text(index)

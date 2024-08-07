@@ -20,6 +20,7 @@ var empty_bullet = load("res://Assets/Bullets/basic_empty_bullet.png")
 
 signal start_game
 signal level_complete
+signal quit_game
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	# need to create health and set to healthy
@@ -42,19 +43,22 @@ func show_game_over():
 
 	#TODO: show back button to main menu
 	$StartButton.show()
+	$QuitButton.show()
 	
 func show_start():
 	$StartButton.show()
+	$QuitButton.show()
 
 func _on_start_button_pressed():
 	$StartButton.hide()
+	$QuitButton.hide()
 	start_game.emit()
 	#current_health = 1
 	#total_hearts = 1
 	display_hearts()
+	# TODO: make sure we reset the score and start it again BUG
 	$ScoreTimer.start()	
 	restart_score()
-	# TODO: update the level???
 
 func _on_message_timer_timeout():
 	$Message.hide()
@@ -74,6 +78,10 @@ func get_level():
 	
 func restart_level():
 	current_level = 0
+	
+func reset_health():
+	# might need to reset total hearts as well if we end up giving more hearts
+	current_health = total_hearts
 	
 func lose_heart():
 	current_health -= 1
@@ -173,3 +181,7 @@ func restart_score():
 	
 func stop():
 	$ScoreTimer.stop()
+
+
+func _on_quit_button_pressed():
+	quit_game.emit()

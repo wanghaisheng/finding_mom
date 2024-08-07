@@ -9,6 +9,7 @@ signal bullet_dequeue
 
 var velocity = Vector2.ZERO
 var speed = 800
+var direction = 0
 
 const single_bullet = \"single_bullet\"
 
@@ -19,13 +20,15 @@ func _ready():
 
 func set_sprite_rotation(direction):
 	$AnimatedSprite2D.rotation = direction
+	
+func set_direction(d):
+	direction = d
+	velocity = Vector2(1500.0, 0.0) # TODO: might change how speed is determined???
+	linear_velocity = velocity.rotated(direction)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	#var rotation = atan2(velocity.y, velocity.x)
-	#print(rotation)
-	#$AnimatedSprite2D.rotation = rotation
-	apply_force(velocity, position)
+	pass
 
 
 func _on_visible_on_screen_notifier_2d_screen_exited():
@@ -54,7 +57,7 @@ animations = [{
 
 [node name="PlayerBullet" type="RigidBody2D" groups=["bullets", "player_bullets"]]
 collision_layer = 2
-collision_mask = 2
+collision_mask = 0
 max_contacts_reported = 1000
 contact_monitor = true
 script = SubResource("GDScript_f2ymo")

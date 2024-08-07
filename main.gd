@@ -2,6 +2,8 @@ extends Node
 
 @export var mob_scene: PackedScene
 
+var portal_scene = preload("res://portal.tscn")
+
 var current_background
 
 var grass_path = "res://Assets/Backgrounds/grass.png"
@@ -57,8 +59,8 @@ func play_next_level():
 	$DeathSound.stop()
 	$Music.play()
 	
-	# TODO: reset hearts
 	$Player.set_is_dead(false)
+	$HUD.reset_health()
 	$HUD.display_hearts()
 	$HUD.display_bullets()
 	
@@ -95,6 +97,8 @@ func _on_mob_timer_timeout():
 	
 	# let the mob know where the player is
 	mob.set_player($Player)
+	
+	mob.shoot.connect(_on_mob_shoot)
 
 	# Spawn the mob by adding it to the Main scene.
 	add_child(mob)
@@ -105,16 +109,24 @@ func _on_start_timer_timeout():
 
 func _on_player_shoot(bullet, direction, location):
 	# TODO: connect a audio sound either here or inside of the Bullet
-	# check to see if Player is alive TODO: CHANGE HOW THIS IS CHECKING
+	# check to see if Player is alive
 	if $Player.get_is_dead and $HUD.shoot_bullet():
 		var spawned_bullet = bullet.instantiate()
 		spawned_bullet.position = location
-		var velocity = Vector2(1500.0, 0.0) # TODO: let the bullet set this
-		spawned_bullet.linear_velocity = velocity.rotated(direction)
+		spawned_bullet.set_direction(direction)
 		spawned_bullet.set_sprite_rotation(direction)
 		add_child(spawned_bullet)
 		spawned_bullet.bullet_dequeue.connect(_on_bullet_dequeue)
 		
+func _on_player_music_note(note):
+	add_child(note)
+
+func _on_mob_shoot(bullet, direction, location):
+	var spawned_bullet = bullet.instantiate()
+	spawned_bullet.position = location
+	spawned_bullet.set_direction(direction)
+	add_child(spawned_bullet)
+
 func _on_bullet_dequeue():
 	$HUD.reclaim_bullet()
 		
@@ -133,10 +145,12 @@ func _on_hud_player_die():
 
 func kill_all_active_things():
 	get_tree().call_group("enemies", "queue_free")
-	#get_tree().call_group("bullets", "queue_free")
+	get_tree().call_group("bullets", "queue_free")
 
 func _on_hud_level_complete():
-	$Portal.show()
+	var portal = portal_scene.instantiate()
+	portal.position = $StartPosition.position
+	add_child(portal)
 	
 	kill_all_active_things()
 	$MobTimer.stop()
@@ -146,8 +160,7 @@ func _on_hud_level_complete():
 	
 	# TODO: get the current level and see which background and enemies to display next
 	var level = $HUD.get_level()
-	var area = level / 1 # TODO: set to 10
-	match area:
+	match level:
 		0:
 			# set grass
 			current_background = ResourceLoader.load(grass_path)
@@ -172,9 +185,23 @@ func _on_hud_level_complete():
 
 	# TODO: create the portal and entering portal logic
 func _on_player_entered_portal():
-	print("start next")
 	play_next_level()
-	$Portal.hide()
+	get_tree().call_group("portals", "queue_free")
 
 func _on_pause_menu_return_menu():
-	get_tree().change_scene_to_file("res://main_menu.tscn")
+	#TODO: fix going back to main menu buttons break
+	var main_menu = preload("res://main_menu.tscn")
+	get_tree().change_scene_to_packed(main_menu)
+	#get_tree().change_scene_to_file("res://main_menu.tscn")
+	#queue_free()
+
+# just return back to main menu
+func _on_hud_quit_game():
+	_on_pause_menu_return_menu()
+
+
+func _on_player_parry_bullet(body):
+	print(body)
+	pass # Replace with function body.
+
+
