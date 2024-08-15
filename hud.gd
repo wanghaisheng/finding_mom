@@ -41,7 +41,6 @@ func show_game_over():
 	# Wait until the MessageTimer has counted down.
 	await $MessageTimer.timeout
 
-	#TODO: show back button to main menu
 	$StartButton.show()
 	$QuitButton.show()
 	
@@ -56,8 +55,6 @@ func _on_start_button_pressed():
 	#current_health = 1
 	#total_hearts = 1
 	display_hearts()
-	# TODO: make sure we reset the score and start it again BUG
-	$ScoreTimer.start()	
 	restart_score()
 
 func _on_message_timer_timeout():
@@ -72,6 +69,7 @@ func hide_level():
 func next_level():
 	current_level += 1
 	$LevelLabel.text = "Level " + String.num_int64(current_level)
+	restart_score()
 	
 func get_level():
 	return current_level
@@ -176,6 +174,7 @@ func _on_score_timer_timeout():
 	update_score()
 	
 func restart_score():
+	$ScoreTimer.start()	
 	score = 0
 	update_score()
 	

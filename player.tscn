@@ -1,19 +1,27 @@
-[gd_scene load_steps=19 format=3 uid="uid://rgkuwjb6bgdc"]
+[gd_scene load_steps=29 format=3 uid="uid://rgkuwjb6bgdc"]
 
 [ext_resource type="Script" path="res://player.gd" id="1_r8k0x"]
 [ext_resource type="Texture2D" uid="uid://buyr3kd5j0ove" path="res://Assets/Characters/player_character/middle_legs.png" id="2_q014k"]
 [ext_resource type="Texture2D" uid="uid://cx00ltjwdpyvb" path="res://Assets/Characters/player_character/right_leg.png" id="3_4sruf"]
 [ext_resource type="Texture2D" uid="uid://cns7vj442rkaq" path="res://Assets/Characters/player_character/left_leg.png" id="4_a4qr6"]
-[ext_resource type="Texture2D" uid="uid://cgpcp3721xdj0" path="res://Assets/Portal/portal1.png" id="5_7wsc7"]
 [ext_resource type="Texture2D" uid="uid://bry5rkatim6u1" path="res://Assets/Characters/player_character/middle_shoulder.png" id="5_mvej2"]
 [ext_resource type="Texture2D" uid="uid://dx4cwkt52tebf" path="res://Assets/Icons/cursor.png" id="5_u2pfp"]
-[ext_resource type="Texture2D" uid="uid://b6kw4oevrvpcy" path="res://Assets/Portal/portal3.png" id="6_4uhnk"]
 [ext_resource type="Texture2D" uid="uid://d2vjm6hiuf8y" path="res://Assets/Characters/player_character/left_shoulder.png" id="6_81vrl"]
 [ext_resource type="Texture2D" uid="uid://c1o4avu4su2k0" path="res://Assets/Icons/empty_heart.png" id="6_gj0b8"]
 [ext_resource type="Texture2D" uid="uid://bebku0aa4cg6f" path="res://Assets/Icons/heart.png" id="7_ngnyx"]
-[ext_resource type="Texture2D" uid="uid://250ssoo43cgu" path="res://Assets/Portal/portal5.png" id="7_nkf7c"]
 [ext_resource type="Texture2D" uid="uid://brr5s60ku3c0u" path="res://Assets/Characters/player_character/right_shoulder.png" id="7_wmbge"]
 [ext_resource type="PackedScene" uid="uid://du73pextvouwn" path="res://cursor.tscn" id="8_8ks3i"]
+[ext_resource type="Texture2D" uid="uid://bdkttohurxmve" path="res://Assets/Characters/player_character/dive_1.png" id="8_souh1"]
+[ext_resource type="Texture2D" uid="uid://dc8ahu74hfqfp" path="res://Assets/Characters/player_character/dive_2.png" id="9_b4ti5"]
+[ext_resource type="Texture2D" uid="uid://pykjgxkbf8p8" path="res://Assets/Characters/player_character/dive_3.png" id="10_6vew8"]
+[ext_resource type="Texture2D" uid="uid://da1750djkvp0d" path="res://Assets/Characters/player_character/dive_4.png" id="11_rk53o"]
+[ext_resource type="Texture2D" uid="uid://dqdabts08tchy" path="res://Assets/Characters/player_character/dive_5.png" id="12_n5ofr"]
+[ext_resource type="Texture2D" uid="uid://m1mr4qtutefm" path="res://Assets/Characters/player_character/dive_6.png" id="13_p36jp"]
+[ext_resource type="Texture2D" uid="uid://ce00j7v8n4t1q" path="res://Assets/Characters/player_character/dive_7.png" id="14_mm28f"]
+[ext_resource type="Texture2D" uid="uid://cf5bpduq1xk0p" path="res://Assets/Characters/player_character/dive_8.png" id="15_bocm0"]
+[ext_resource type="Texture2D" uid="uid://gsb30bpvhfbv" path="res://Assets/Characters/player_character/dive_9.png" id="16_gqerw"]
+[ext_resource type="Texture2D" uid="uid://chdvhau1456ir" path="res://Assets/Characters/player_character/dive_10.png" id="17_heagj"]
+[ext_resource type="Texture2D" uid="uid://dnroqwl4p83p6" path="res://Assets/Characters/player_character/dive_11.png" id="18_5ojxi"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_cry5f"]
 animations = [{
@@ -61,17 +69,41 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("5_7wsc7")
+"texture": ExtResource("8_souh1")
 }, {
 "duration": 1.0,
-"texture": ExtResource("6_4uhnk")
+"texture": ExtResource("9_b4ti5")
 }, {
 "duration": 1.0,
-"texture": ExtResource("7_nkf7c")
+"texture": ExtResource("10_6vew8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_rk53o")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_n5ofr")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_p36jp")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_mm28f")
+}, {
+"duration": 1.0,
+"texture": ExtResource("15_bocm0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("16_gqerw")
+}, {
+"duration": 1.0,
+"texture": ExtResource("17_heagj")
+}, {
+"duration": 1.0,
+"texture": ExtResource("18_5ojxi")
 }],
 "loop": true,
 "name": &"roll",
-"speed": 3.0
+"speed": 10.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -104,6 +136,11 @@ size = Vector2(84, 112)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_md84c"]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_f2s76"]
+size = Vector2(84, 112)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ue1xc"]
+
 [node name="Player" type="CharacterBody2D" groups=["player"]]
 collision_layer = 0
 collision_mask = 0
@@ -122,7 +159,7 @@ animation = &"stand"
 [node name="BodySprite" type="AnimatedSprite2D" parent="Area2D"]
 scale = Vector2(4, 4)
 sprite_frames = SubResource("SpriteFrames_nwkqy")
-animation = &"stand"
+animation = &"roll"
 
 [node name="RightSide" type="Marker2D" parent="Area2D/BodySprite"]
 position = Vector2(0, 15)
@@ -135,13 +172,25 @@ position = Vector2(10, 0)
 shape = SubResource("RectangleShape2D_rmu4x")
 
 [node name="ParryArea" type="Area2D" parent="."]
-collision_layer = 5
-collision_mask = 5
+collision_layer = 0
+collision_mask = 0
 
-[node name="ParryCollisionBox" type="CollisionShape2D" parent="ParryArea"]
+[node name="ParryFrontBox" type="CollisionShape2D" parent="ParryArea"]
 position = Vector2(100, 0)
 scale = Vector2(8, 8)
 shape = SubResource("CircleShape2D_md84c")
+
+[node name="ParryBodyBox" type="CollisionShape2D" parent="ParryArea"]
+position = Vector2(10, 0)
+shape = SubResource("RectangleShape2D_f2s76")
+
+[node name="ParryAreaAll" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 0
+
+[node name="ParryCollision" type="CollisionShape2D" parent="ParryAreaAll"]
+scale = Vector2(40, 40)
+shape = SubResource("CircleShape2D_ue1xc")
 
 [node name="Cursor" parent="." instance=ExtResource("8_8ks3i")]
 visible = false
@@ -157,12 +206,17 @@ wait_time = 0.15
 [node name="MusicNoteTimer" type="Timer" parent="."]
 autostart = true
 
+[node name="ParrySuccessTimer" type="Timer" parent="."]
+wait_time = 0.05
+
 [node name="Camera2D" type="Camera2D" parent="."]
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
 [connection signal="animation_finished" from="Area2D/BodySprite" to="." method="_on_body_sprite_animation_finished"]
 [connection signal="animation_looped" from="Area2D/BodySprite" to="." method="_on_body_sprite_animation_finished"]
 [connection signal="body_entered" from="ParryArea" to="." method="_on_parry_area_body_entered"]
+[connection signal="body_entered" from="ParryAreaAll" to="." method="_on_parry_area_all_body_entered"]
 [connection signal="timeout" from="InvulnerableTimer" to="." method="_on_invulnerable_timer_timeout"]
 [connection signal="timeout" from="VisibilityFlashTimer" to="." method="_on_visibility_flash_timer_timeout"]
 [connection signal="timeout" from="MusicNoteTimer" to="." method="_on_music_note_timer_timeout"]
+[connection signal="timeout" from="ParrySuccessTimer" to="." method="_on_parry_success_timer_timeout"]

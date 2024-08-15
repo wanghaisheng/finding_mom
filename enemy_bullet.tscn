@@ -27,19 +27,22 @@ func _process(delta):
 	#apply_force(direction, position) # use this for speeding up TODO might use for a tracking projectile
 	pass
 
-
 func _on_visible_on_screen_notifier_2d_screen_exited():
 	queue_free()
 	
 func parried(): 
 	#TODO: we might need to do some additional logic for parrying directly back
-	set_direction(direction - PI)
+	if is_in_group(\"enemy_bullets\"):
+		set_direction(direction - PI)
+		remove_from_group(\"enemy_bullets\")
+		add_to_group(\"player_bullets\")
+		collision_layer = 2
 
+func collide_with_player():
+	queue_free()
 
-# TODO: BUG: fix collision detection or let the player call you
 func _on_body_entered(body):
-	if body.is_in_group(\"player\"):
-		print('entered enemy bullet')
+	if body.is_in_group(\"enemies\"): # coverage for parried bullets
 		queue_free()
 "
 
