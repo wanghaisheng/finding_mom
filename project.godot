@@ -10,7 +10,7 @@ config_version=5
 
 [application]
 
-config/name="v1"
+config/name="Robot Game"
 run/main_scene="res://first_2d_node.tscn"
 config/features=PackedStringArray("4.2", "GL Compatibility")
 config/icon="res://Assets/icon.svg"

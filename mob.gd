@@ -75,7 +75,6 @@ func _on_bullet_timer_timeout():
 			pass
 			
 func shoot_bug_bullet():
-	#TODO BUG: projectile doesn't interact with anything
 	shoot.emit(BugBullet, rotation, position)
 	pass
 

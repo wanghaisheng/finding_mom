@@ -72,10 +72,8 @@ func _on_mob_timer_timeout():
 	# Create a new instance of the Mob scene.
 	var mob = mob_scene.instantiate()
 
-
 	# ----------------------------------------
 	# TODO: change where they spawn in AND let the enemy move itself
-	# TODO: change the parent of the enemies so they are always displayed on the same level
 	# Choose a random location on Path2D.
 	var mob_spawn_location = $MobPath/MobSpawnLocation
 	mob_spawn_location.progress_ratio = randf()
@@ -183,25 +181,20 @@ func _on_hud_level_complete():
 			pass
 	$Background.texture = current_background
 
-	# TODO: create the portal and entering portal logic
 func _on_player_entered_portal():
-	play_next_level()
+	play_next_level() # TODO: do we want health to reset? It does now
 	get_tree().call_group("portals", "queue_free")
 
 func _on_pause_menu_return_menu():
-	#TODO: fix going back to main menu buttons break
+	get_tree().paused = false
 	var main_menu = preload("res://main_menu.tscn")
 	get_tree().change_scene_to_packed(main_menu)
-	#get_tree().change_scene_to_file("res://main_menu.tscn")
-	#queue_free()
 
 # just return back to main menu
 func _on_hud_quit_game():
 	_on_pause_menu_return_menu()
 
-
 func _on_player_parry_bullet(body):
-	print(body)
 	pass # Replace with function body.
 
 

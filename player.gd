@@ -15,7 +15,7 @@ signal parry_bullet(body)
 @export var _acceleration: float = 500;
 @export var _friction: float = 500;
 
-var input_vector = Vector2.ZERO
+var last_direction_rotation = 0
 
 var screen_size # Size of the game window.
 var PlayerBullet = preload("res://player_bullet.tscn")
@@ -61,9 +61,9 @@ func _process(delta):
 	if !get_is_dead():
 		
 		var v = Input.get_vector("move_left", "move_right", "move_up", "move_down")
-		# set input_vector for rolling
+		# set last_direction_rotation for rolling
 		if v.normalized() != Vector2.ZERO:
-			input_vector = v.normalized()
+			last_direction_rotation = atan2(v.normalized().y, v.normalized().x)
 
 		var speed_used
 		match current_state:
@@ -129,6 +129,7 @@ func _process(delta):
 		elif mouse_direction != Vector2.ZERO and mouse_moved:
 			$Area2D/BodySprite.look_at(get_global_mouse_position())
 			$Area2D/CollisionBox.look_at(get_global_mouse_position())
+		
 
 		# check current state and see what actions we can take
 		match current_state:
@@ -145,6 +146,9 @@ func _process(delta):
 			states.PARRY: # can do ???
 				pass
 			states.ROLL: # cannot parry or shoot
+				# change the body facing direction if we are currently rolling:
+				$Area2D/BodySprite.set_rotation(last_direction_rotation)
+				$Area2D/CollisionBox.set_rotation(last_direction_rotation)
 				pass
 			states.DEAD: # cannot do anything
 				pass
@@ -167,6 +171,14 @@ func roll():
 func set_collisions(c: int):
 	$Area2D.collision_layer = c
 	$Area2D.collision_mask = c
+	
+func set_parry_collisions(c: int):
+	$ParryArea.collision_layer = c
+	$ParryArea.collision_mask = c
+	
+func set_parry_all_collisions(c: int):
+	$ParryAreaAll.collision_layer = c
+	$ParryAreaAll.collision_mask = c
 
 func shoot_bullet(rotation_rads):
 	# find the weapon we are shooting
@@ -176,10 +188,11 @@ func shoot_bullet(rotation_rads):
 	return
 	
 func parry():
+	set_parry_collisions(5)
+	$ParryArea.rotation = $Area2D/BodySprite.rotation
 	$Area2D/BodySprite.animation = "parry"
 	$Area2D/BodySprite.play()
 	$Area2D/LegsSprite.play()
-	# TODO: create collision for parry box
 		
 func start_invulnerability():
 	set_collisions(0)
@@ -226,15 +239,14 @@ func _on_music_note_timer_timeout():
 	note.position = location
 	music_note.emit(note)
 
-# TODO: BUG: fix collision detection with enemy bullets
 func _on_area_2d_body_entered(body):
-	if $InvulnerableTimer.is_stopped() and current_state != states.ROLL:
+	if $InvulnerableTimer.is_stopped() and current_state != states.ROLL and current_state != states.DEAD:
 		if body.is_in_group("player_bullets"):
 			pass
 		elif body.is_in_group("enemy_bullets"):
-			print('enemy bullet')
 			hit.emit()
 			start_invulnerability()
+			body.collide_with_player() # used to remove the bullet
 		elif body.is_in_group("enemies"):
 			hit.emit()
 			start_invulnerability()
@@ -246,6 +258,7 @@ func _on_area_2d_body_entered(body):
 #reset everything after an animation is finished
 func _on_body_sprite_animation_finished():
 	if $Area2D/BodySprite.animation == "parry" and current_state == states.PARRY:
+		set_parry_collisions(0)
 		$Area2D/BodySprite.animation = "stand"
 		current_state = states.MOVE
 	elif $Area2D/BodySprite.animation == "roll" and current_state == states.ROLL:
@@ -257,8 +270,16 @@ func _on_body_sprite_animation_finished():
 
 func _on_parry_area_body_entered(body):
 	if body.is_in_group("enemy_bullets"):
-		body.parried()
-		print('try parrying')
-		# here is our detection. We need to emit that we have successfully parried a bullet and let the game take care of switching them
-		parry_bullet.emit(body)
+		set_parry_all_collisions(4)
+		$ParrySuccessTimer.start()
+		parry_bullet.emit(body) # TODO: might be able to remove this emit
 		pass
+
+func _on_parry_area_all_body_entered(body):
+	if body.is_in_group("bullets"):
+		body.parried()
+
+
+func _on_parry_success_timer_timeout():
+	set_parry_all_collisions(0)
+	$ParrySuccessTimer.stop()

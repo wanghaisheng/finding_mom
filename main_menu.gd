@@ -11,9 +11,7 @@ func _on_quit_button_pressed():
 	get_tree().quit(0)
 
 func _on_play_button_pressed():
-	# TODO: fix this
 	get_tree().change_scene_to_packed(game)
-	#get_tree().change_scene_to_file("res://demo_game.tscn") # try using change_scene_to_packed
 
 func _on_settings_button_pressed():
 	if $MainMenuCanvas.visible:
