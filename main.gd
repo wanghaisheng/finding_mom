@@ -15,7 +15,7 @@ func _ready():
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(_delta):
 	pass
 	
 func _on_pause_menu_resume():
@@ -75,22 +75,25 @@ func _on_mob_timer_timeout():
 	# ----------------------------------------
 	# TODO: change where they spawn in AND let the enemy move itself
 	# Choose a random location on Path2D.
-	var mob_spawn_location = $MobPath/MobSpawnLocation
-	mob_spawn_location.progress_ratio = randf()
+	var mob_spawn_location = $Player.position
+	#mob_spawn_location.progress_ratio = randf()
+	var rand_theta = randf() * 2 * PI
+	var distance_away = Vector2(sin(rand_theta) * 1920, cos(rand_theta) * 1920)
 
 	# Set the mob's direction perpendicular to the path direction.
-	var direction = mob_spawn_location.rotation + PI / 2
+	#var direction = mob_spawn_location.rotation + PI / 2
+	var direction = -rand_theta
 
 	# Set the mob's position to a random location.
-	mob.position = mob_spawn_location.position
+	mob.position = mob_spawn_location + distance_away
 
 	# Add some randomness to the direction.
 	direction += randf_range(-PI / 4, PI / 4)
 	mob.rotation = direction
 
 	# Choose the velocity for the mob.
-	var velocity = Vector2(randf_range(150.0, 250.0), 0.0)
-	mob.linear_velocity = velocity.rotated(direction)
+	var v = Vector2(randf_range(150.0, 250.0), 0.0)
+	mob.linear_velocity = v.rotated(direction)
 	# ------------------------------------------
 	
 	# let the mob know where the player is
@@ -119,16 +122,16 @@ func _on_player_shoot(bullet, direction, location):
 func _on_player_music_note(note):
 	add_child(note)
 
-func _on_mob_shoot(bullet, direction, location):
+func _on_mob_shoot(bullet, direction, location, bullet_name):
 	var spawned_bullet = bullet.instantiate()
 	spawned_bullet.position = location
+	#order matters here
+	spawned_bullet.set_bullet(bullet_name)
 	spawned_bullet.set_direction(direction)
 	add_child(spawned_bullet)
 
 func _on_bullet_dequeue():
 	$HUD.reclaim_bullet()
-		
-
 
 func _on_player_hit():
 	do_damage()
@@ -194,7 +197,7 @@ func _on_pause_menu_return_menu():
 func _on_hud_quit_game():
 	_on_pause_menu_return_menu()
 
-func _on_player_parry_bullet(body):
+func _on_player_parry_bullet(_body):
 	pass # Replace with function body.
 
 

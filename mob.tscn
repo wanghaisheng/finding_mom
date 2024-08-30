@@ -1,16 +1,33 @@
-[gd_scene load_steps=15 format=3 uid="uid://b4lsq4j31jm0c"]
+[gd_scene load_steps=34 format=3 uid="uid://b4lsq4j31jm0c"]
 
 [ext_resource type="Script" path="res://mob.gd" id="1_x3otr"]
 [ext_resource type="Texture2D" uid="uid://co4eihc8e5y20" path="res://Assets/Characters/bug/basic_bug.png" id="2_w3a3n"]
 [ext_resource type="Texture2D" uid="uid://dao871lqfvf7m" path="res://Assets/Characters/bug/basic_bug_2.png" id="3_3utmt"]
-[ext_resource type="Texture2D" uid="uid://cvm3preojnpnw" path="res://Assets/Characters/spider/spider1.png" id="4_3svpk"]
-[ext_resource type="Texture2D" uid="uid://de87mbqqj0mut" path="res://Assets/Characters/spider/spider2.png" id="5_ssjif"]
-[ext_resource type="Texture2D" uid="uid://bgs7eu87vvu6o" path="res://Assets/Characters/spider/spider3.png" id="6_wodph"]
+[ext_resource type="Texture2D" uid="uid://b7iqd8gaaurj4" path="res://Assets/Characters/soldier/soldier_walk_1.png" id="4_hww2t"]
+[ext_resource type="Texture2D" uid="uid://b7e6snpc3o1r" path="res://Assets/Characters/soldier/soldier_walk_2.png" id="5_s68qc"]
+[ext_resource type="Texture2D" uid="uid://c41su37ytbika" path="res://Assets/Characters/soldier/soldier_walk_3.png" id="6_y5186"]
 [ext_resource type="Texture2D" uid="uid://c1o4avu4su2k0" path="res://Assets/Icons/empty_heart.png" id="7_7ftyi"]
+[ext_resource type="Texture2D" uid="uid://bm3cyctwbbbu4" path="res://Assets/Characters/soldier/soldier_shoot_3.png" id="7_ddk5o"]
+[ext_resource type="Texture2D" uid="uid://b1sabaji22vnh" path="res://Assets/Characters/spider/spider_1.png" id="7_twyjg"]
 [ext_resource type="Texture2D" uid="uid://bebku0aa4cg6f" path="res://Assets/Icons/heart.png" id="8_1dy0n"]
-[ext_resource type="Texture2D" uid="uid://cgpcp3721xdj0" path="res://Assets/Portal/portal1.png" id="9_7ipdp"]
-[ext_resource type="Texture2D" uid="uid://dld3v1hh66e0a" path="res://Assets/Portal/portal2.png" id="10_7rdfc"]
-[ext_resource type="Texture2D" uid="uid://b6kw4oevrvpcy" path="res://Assets/Portal/portal3.png" id="11_8qd3e"]
+[ext_resource type="Texture2D" uid="uid://bg0btfqrfsysi" path="res://Assets/Characters/soldier/soldier_shoot_2.png" id="8_exu1w"]
+[ext_resource type="Texture2D" uid="uid://iy87in0bsjob" path="res://Assets/Characters/spider/spider_2.png" id="8_m3rns"]
+[ext_resource type="Texture2D" uid="uid://chndoysfc6it3" path="res://Assets/Characters/soldier/soldier_shoot_1.png" id="9_88i6w"]
+[ext_resource type="Texture2D" uid="uid://bx0mfi4xw7vuv" path="res://Assets/Characters/spider/spider_3.png" id="9_s6u73"]
+[ext_resource type="Texture2D" uid="uid://bno5dg4hyr27j" path="res://Assets/Characters/soldier/soldier_dead_1.png" id="12_34cn4"]
+[ext_resource type="Texture2D" uid="uid://drr0hufdx5sna" path="res://Assets/Characters/soldier/soldier_dead_2.png" id="13_la7e3"]
+[ext_resource type="Texture2D" uid="uid://cjpfxxv6go4xp" path="res://Assets/Characters/soldier/soldier_dead_3.png" id="14_84e3d"]
+[ext_resource type="Texture2D" uid="uid://ckmsqnvt4khj2" path="res://Assets/Characters/soldier/soldier_dead_4.png" id="15_b5x3u"]
+[ext_resource type="Texture2D" uid="uid://t4vcpie0uvtt" path="res://Assets/Characters/soldier/soldier_dead_5.png" id="16_3wc5g"]
+[ext_resource type="Texture2D" uid="uid://glyhp68en1j2" path="res://Assets/Characters/spider/spider_dead_1.png" id="16_06hs3"]
+[ext_resource type="Texture2D" uid="uid://d4jfo3o5hiqm3" path="res://Assets/Characters/spider/spider_dead_2.png" id="17_4k1rx"]
+[ext_resource type="Texture2D" uid="uid://dltxcua03mpft" path="res://Assets/Characters/soldier/soldier_dead_6.png" id="17_83aj1"]
+[ext_resource type="Texture2D" uid="uid://ckawendvs1gx" path="res://Assets/Characters/spider/spider_dead_3.png" id="18_5bdja"]
+[ext_resource type="Texture2D" uid="uid://d0c4c0y3ilbaf" path="res://Assets/Characters/soldier/soldier_dead_7.png" id="18_scetu"]
+[ext_resource type="Texture2D" uid="uid://c0pwgabxi4mhx" path="res://Assets/Characters/spider/spider_dead_4.png" id="19_2und4"]
+[ext_resource type="Texture2D" uid="uid://kdd1whykwfc0" path="res://Assets/Characters/spider/spider_dead_5.png" id="20_wbwfx"]
+[ext_resource type="Texture2D" uid="uid://dp37g3bhu221" path="res://Assets/Characters/spider/spider_dead_6.png" id="21_wlh33"]
+[ext_resource type="Texture2D" uid="uid://xihegy8er2vl" path="res://Assets/Characters/spider/spider_dead_7.png" id="22_ijqq3"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_cxtoe"]
 animations = [{
@@ -27,21 +44,87 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("4_3svpk")
+"texture": ExtResource("4_hww2t")
 }, {
 "duration": 1.0,
-"texture": ExtResource("5_ssjif")
+"texture": ExtResource("5_s68qc")
 }, {
 "duration": 1.0,
-"texture": ExtResource("6_wodph")
+"texture": ExtResource("4_hww2t")
 }, {
 "duration": 1.0,
-"texture": ExtResource("5_ssjif")
+"texture": ExtResource("6_y5186")
+}],
+"loop": true,
+"name": &"soldier",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("7_ddk5o")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_exu1w")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_88i6w")
+}],
+"loop": true,
+"name": &"soldier_attack",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("9_88i6w")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_exu1w")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_ddk5o")
+}],
+"loop": true,
+"name": &"soldier_attack_end",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("7_twyjg")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_m3rns")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_s6u73")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_m3rns")
 }],
 "loop": true,
 "name": &"spider",
 "speed": 5.0
 }]
+
+[sub_resource type="Animation" id="Animation_btp7g"]
+resource_name = "soldier_shoot"
+step = 0.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(),
+"transitions": PackedFloat32Array(),
+"update": 1,
+"values": []
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_d1qcr"]
+_data = {
+"soldier_shoot": SubResource("Animation_btp7g")
+}
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_7x2qw"]
 animations = [{
@@ -57,21 +140,59 @@ animations = [{
 }],
 "loop": true,
 "name": &"bug",
-"speed": 5.0
+"speed": 15.0
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("9_7ipdp")
+"texture": ExtResource("12_34cn4")
 }, {
 "duration": 1.0,
-"texture": ExtResource("10_7rdfc")
+"texture": ExtResource("13_la7e3")
 }, {
 "duration": 1.0,
-"texture": ExtResource("11_8qd3e")
+"texture": ExtResource("14_84e3d")
+}, {
+"duration": 1.0,
+"texture": ExtResource("15_b5x3u")
+}, {
+"duration": 1.0,
+"texture": ExtResource("16_3wc5g")
+}, {
+"duration": 1.0,
+"texture": ExtResource("17_83aj1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("18_scetu")
+}],
+"loop": true,
+"name": &"soldier",
+"speed": 15.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("16_06hs3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("17_4k1rx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("18_5bdja")
+}, {
+"duration": 1.0,
+"texture": ExtResource("19_2und4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("20_wbwfx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("21_wlh33")
+}, {
+"duration": 1.0,
+"texture": ExtResource("22_ijqq3")
 }],
 "loop": true,
 "name": &"spider",
-"speed": 5.0
+"speed": 15.0
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_5wwe1"]
@@ -87,16 +208,21 @@ contact_monitor = true
 script = ExtResource("1_x3otr")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-rotation = 4.71239
 scale = Vector2(6, 6)
 sprite_frames = SubResource("SpriteFrames_cxtoe")
-animation = &"spider"
+animation = &"soldier_attack_end"
 metadata/_edit_group_ = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="AnimatedSprite2D"]
+libraries = {
+"": SubResource("AnimationLibrary_d1qcr")
+}
 
 [node name="DeadSprites" type="AnimatedSprite2D" parent="."]
 visible = false
+scale = Vector2(6, 6)
 sprite_frames = SubResource("SpriteFrames_7x2qw")
-animation = &"bug"
+animation = &"spider"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(-5, 0)
@@ -112,6 +238,7 @@ wait_time = 5.0
 autostart = true
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="animation_looped" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_looped"]
 [connection signal="animation_finished" from="DeadSprites" to="." method="_on_dead_sprites_animation_finished"]
 [connection signal="animation_looped" from="DeadSprites" to="." method="_on_dead_sprites_animation_finished"]
 [connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

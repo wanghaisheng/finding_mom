@@ -1,9 +1,7 @@
-[gd_scene load_steps=10 format=3 uid="uid://bdvjclafdrhy4"]
+[gd_scene load_steps=8 format=3 uid="uid://cscp8ee41n224"]
 
 [ext_resource type="Texture2D" uid="uid://c4028s837j6k6" path="res://Assets/Backgrounds/main_menu_background.jpg" id="1_lsqt1"]
 [ext_resource type="Script" path="res://main_menu.gd" id="1_u8lhs"]
-[ext_resource type="Texture2D" uid="uid://cbo7wcn3kbxp3" path="res://Assets/icon.svg" id="2_c8es6"]
-[ext_resource type="Script" path="res://Sprite2D.gd" id="3_af0c0"]
 [ext_resource type="FontFile" uid="uid://omargf2labe" path="res://Assets/fonts/Robot Crush.ttf" id="5_ad68v"]
 [ext_resource type="PackedScene" uid="uid://bmd1u62glggyi" path="res://settings_menu.tscn" id="9_tt7vj"]
 
@@ -31,11 +29,6 @@ scale = Vector2(2, 2.06304)
 texture = ExtResource("1_lsqt1")
 
 [node name="MainMenuCanvas" type="CanvasLayer" parent="."]
-
-[node name="Sprite2D" type="Sprite2D" parent="MainMenuCanvas"]
-position = Vector2(1956, 2516)
-texture = ExtResource("2_c8es6")
-script = ExtResource("3_af0c0")
 
 [node name="PLAY_BUTTON" type="Button" parent="MainMenuCanvas"]
 anchors_preset = -1

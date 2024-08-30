@@ -16,7 +16,7 @@ func _ready():
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(_delta):
 	pass
 
 func apply_settings():
@@ -36,11 +36,10 @@ func _on_apply_button_pressed():
 			windowMode = Window.MODE_WINDOWED
 		"Fullscreen":
 			windowMode = Window.MODE_FULLSCREEN
+		"Exclusive Fullscreen":
+			windowMode = Window.MODE_EXCLUSIVE_FULLSCREEN
 	get_tree().root.mode = windowMode
-	#TODO: get the volume changing working
-	
-	print(selectedResolution)
-	print(selectedViewportMode)
+	#TODO: get the volume changing working or remove it?
 	
 	save_config(selectedResolution, selectedViewportMode)
 	
@@ -56,13 +55,18 @@ func load_settings():
 		return
 		
 	for setting in config.get_sections():
-		print(setting)
 		selectedResolution = config.get_value("Settings", "resolution")
 		selectedViewportMode = config.get_value("Settings", "viewport_mode")
 		
 	# next find the index of what they are and select them with this:
 	$ResolutionList.select(0)
 	$ViewportModeList.select(0)
+	for i in $ResolutionList.item_count:
+		if $ResolutionList.get_item_text(i) == selectedResolution:
+			$ResolutionList.select(i)
+	for i in $ViewportModeList.item_count:
+		if $ViewportModeList.get_item_text(i) == selectedViewportMode:
+			$ViewportModeList.select(i)
 
 func _on_resolution_list_item_selected(index):
 	selectedResolution = $ResolutionList.get_item_text(index)

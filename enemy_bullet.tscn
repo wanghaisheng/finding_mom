@@ -1,31 +1,62 @@
-[gd_scene load_steps=5 format=3 uid="uid://dpww0w0pt1lf1"]
+[gd_scene load_steps=6 format=3 uid="uid://dpww0w0pt1lf1"]
 
 [ext_resource type="Texture2D" uid="uid://ct45ce43stmoh" path="res://Assets/Bullets/purple_circle.png" id="1_eidis"]
+[ext_resource type="Texture2D" uid="uid://bxwfp47uyk6o1" path="res://Assets/Bullets/basic_bullet.png" id="2_lmc3j"]
 
 [sub_resource type="GDScript" id="GDScript_f2ymo"]
 script/source = "extends RigidBody2D
 
-var velocity = Vector2(1, 0).normalized()
-var speed = 800
 var direction = 0
 
-var purple_ball = \"purple_ball\" #TODO figure out if we want them rotating or animated in any way
+enum bullets {
+	PURPLE_BALL,
+	SOLDIER_BULLET,
+}
+
+var current_bullet = bullets.PURPLE_BALL
+
+var purple_ball = \"purple_ball\"
+var soldier_bullet = \"soldier_bullet\"
 
 func _ready():
 	gravity_scale = 0.0
-	$AnimatedSprite2D.play(purple_ball)
-	pass
 
+# used to set the bullet to the correct image and speed
+func set_bullet(n: int):
+	var b: String = purple_ball
+	match n:
+		bullets.PURPLE_BALL:
+			b = purple_ball
+		bullets.SOLDIER_BULLET:
+			b = soldier_bullet
+		_:
+			return
+	$AnimatedSprite2D.stop()
+	current_bullet = n
+	$AnimatedSprite2D.play(b)
+
+# call this after set_bullet so the direction figures out the speed as well
 func set_direction(d):
 	direction = d
-	#TODO: take care of multiplying by bullet_speed
-	velocity = Vector2(500.0, 0.0)
-	linear_velocity = velocity.rotated(direction)
+	# take care of multiplying by bullet_speed
+	var v = get_bullet_speed()
+	linear_velocity = v.rotated(direction)
+	
+func get_bullet_speed():
+	var s
+	match current_bullet:
+		bullets.PURPLE_BALL:
+			s = Vector2(500.0, 0.0)
+		bullets.SOLDIER_BULLET:
+			s = Vector2(900.0, 0.0)
+	return s
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	#apply_force(direction, position) # use this for speeding up TODO might use for a tracking projectile
-	pass
+	
+	#keeps the bullet facing the direction it is moving
+	rotation = direction
 
 func _on_visible_on_screen_notifier_2d_screen_exited():
 	queue_free()
@@ -55,6 +86,14 @@ animations = [{
 "loop": true,
 "name": &"purple_ball",
 "speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_lmc3j")
+}],
+"loop": true,
+"name": &"soldier_bullet",
+"speed": 5.0
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_kqn6h"]
@@ -69,7 +108,7 @@ script = SubResource("GDScript_f2ymo")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 scale = Vector2(2, 2)
 sprite_frames = SubResource("SpriteFrames_1o8r6")
-animation = &"purple_ball"
+animation = &"soldier_bullet"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 scale = Vector2(2.5, 2.5)

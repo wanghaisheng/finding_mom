@@ -11,9 +11,11 @@ config_version=5
 [application]
 
 config/name="Robot Game"
-run/main_scene="res://first_2d_node.tscn"
+run/main_scene="res://main_menu.tscn"
 config/features=PackedStringArray("4.2", "GL Compatibility")
-config/icon="res://Assets/icon.svg"
+boot_splash/image="res://Assets/Characters/player_character/middle_shoulder.png"
+config/icon="res://Assets/Characters/player_character/robot_shoot_2.png"
+boot_splash/minimum_display_time=3000
 
 [audio]
 

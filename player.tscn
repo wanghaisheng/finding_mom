@@ -1,19 +1,22 @@
-[gd_scene load_steps=29 format=3 uid="uid://rgkuwjb6bgdc"]
+[gd_scene load_steps=35 format=3 uid="uid://rgkuwjb6bgdc"]
 
 [ext_resource type="Script" path="res://player.gd" id="1_r8k0x"]
 [ext_resource type="Texture2D" uid="uid://buyr3kd5j0ove" path="res://Assets/Characters/player_character/middle_legs.png" id="2_q014k"]
 [ext_resource type="Texture2D" uid="uid://cx00ltjwdpyvb" path="res://Assets/Characters/player_character/right_leg.png" id="3_4sruf"]
 [ext_resource type="Texture2D" uid="uid://cns7vj442rkaq" path="res://Assets/Characters/player_character/left_leg.png" id="4_a4qr6"]
+[ext_resource type="Texture2D" uid="uid://dy7bqaqvfh0w5" path="res://Assets/Characters/player_character/parry_1.png" id="5_2b2qh"]
 [ext_resource type="Texture2D" uid="uid://bry5rkatim6u1" path="res://Assets/Characters/player_character/middle_shoulder.png" id="5_mvej2"]
-[ext_resource type="Texture2D" uid="uid://dx4cwkt52tebf" path="res://Assets/Icons/cursor.png" id="5_u2pfp"]
 [ext_resource type="Texture2D" uid="uid://d2vjm6hiuf8y" path="res://Assets/Characters/player_character/left_shoulder.png" id="6_81vrl"]
-[ext_resource type="Texture2D" uid="uid://c1o4avu4su2k0" path="res://Assets/Icons/empty_heart.png" id="6_gj0b8"]
-[ext_resource type="Texture2D" uid="uid://bebku0aa4cg6f" path="res://Assets/Icons/heart.png" id="7_ngnyx"]
+[ext_resource type="Texture2D" uid="uid://dq1bp5w02vb0g" path="res://Assets/Characters/player_character/parry_2.png" id="6_nvya0"]
+[ext_resource type="Texture2D" uid="uid://c4f67h3l6y013" path="res://Assets/Characters/player_character/parry_3.png" id="7_pexeo"]
 [ext_resource type="Texture2D" uid="uid://brr5s60ku3c0u" path="res://Assets/Characters/player_character/right_shoulder.png" id="7_wmbge"]
+[ext_resource type="Texture2D" uid="uid://ci6mketgn2alp" path="res://Assets/Characters/player_character/parry_4.png" id="8_7qg0b"]
 [ext_resource type="PackedScene" uid="uid://du73pextvouwn" path="res://cursor.tscn" id="8_8ks3i"]
 [ext_resource type="Texture2D" uid="uid://bdkttohurxmve" path="res://Assets/Characters/player_character/dive_1.png" id="8_souh1"]
 [ext_resource type="Texture2D" uid="uid://dc8ahu74hfqfp" path="res://Assets/Characters/player_character/dive_2.png" id="9_b4ti5"]
+[ext_resource type="Texture2D" uid="uid://b60uip04wb375" path="res://Assets/Characters/player_character/parry_5.png" id="9_nqgkg"]
 [ext_resource type="Texture2D" uid="uid://pykjgxkbf8p8" path="res://Assets/Characters/player_character/dive_3.png" id="10_6vew8"]
+[ext_resource type="Texture2D" uid="uid://iyqgsgvpu8oc" path="res://Assets/Characters/player_character/parry_6.png" id="10_hr7md"]
 [ext_resource type="Texture2D" uid="uid://da1750djkvp0d" path="res://Assets/Characters/player_character/dive_4.png" id="11_rk53o"]
 [ext_resource type="Texture2D" uid="uid://dqdabts08tchy" path="res://Assets/Characters/player_character/dive_5.png" id="12_n5ofr"]
 [ext_resource type="Texture2D" uid="uid://m1mr4qtutefm" path="res://Assets/Characters/player_character/dive_6.png" id="13_p36jp"]
@@ -22,6 +25,9 @@
 [ext_resource type="Texture2D" uid="uid://gsb30bpvhfbv" path="res://Assets/Characters/player_character/dive_9.png" id="16_gqerw"]
 [ext_resource type="Texture2D" uid="uid://chdvhau1456ir" path="res://Assets/Characters/player_character/dive_10.png" id="17_heagj"]
 [ext_resource type="Texture2D" uid="uid://dnroqwl4p83p6" path="res://Assets/Characters/player_character/dive_11.png" id="18_5ojxi"]
+[ext_resource type="Texture2D" uid="uid://cp24404xcrc4g" path="res://Assets/Characters/player_character/robot_shoot_3.png" id="22_rmrwh"]
+[ext_resource type="Texture2D" uid="uid://bececk7h7ntla" path="res://Assets/Characters/player_character/robot_shoot_2.png" id="23_vxcjv"]
+[ext_resource type="Texture2D" uid="uid://cm3y0qwj0l3cu" path="res://Assets/Characters/player_character/robot_shoot_1.png" id="24_cbs7v"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_cry5f"]
 animations = [{
@@ -31,7 +37,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"stand",
-"speed": 3.0
+"speed": 5.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -48,24 +54,33 @@ animations = [{
 }],
 "loop": true,
 "name": &"walk",
-"speed": 3.0
+"speed": 5.0
 }]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_nwkqy"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("5_u2pfp")
+"texture": ExtResource("5_2b2qh")
 }, {
 "duration": 1.0,
-"texture": ExtResource("6_gj0b8")
+"texture": ExtResource("6_nvya0")
 }, {
 "duration": 1.0,
-"texture": ExtResource("7_ngnyx")
+"texture": ExtResource("7_pexeo")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_7qg0b")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_nqgkg")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_hr7md")
 }],
 "loop": true,
 "name": &"parry",
-"speed": 3.0
+"speed": 12.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -107,11 +122,28 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": ExtResource("22_rmrwh")
+}, {
+"duration": 1.0,
+"texture": ExtResource("23_vxcjv")
+}, {
+"duration": 1.0,
+"texture": ExtResource("24_cbs7v")
+}, {
+"duration": 1.0,
+"texture": ExtResource("23_vxcjv")
+}],
+"loop": true,
+"name": &"shoot",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": ExtResource("5_mvej2")
 }],
 "loop": true,
 "name": &"stand",
-"speed": 3.0
+"speed": 5.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -128,7 +160,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"walk",
-"speed": 3.0
+"speed": 5.0
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rmu4x"]
@@ -154,12 +186,12 @@ collision_mask = 5
 [node name="LegsSprite" type="AnimatedSprite2D" parent="Area2D"]
 scale = Vector2(4, 4)
 sprite_frames = SubResource("SpriteFrames_cry5f")
-animation = &"stand"
+animation = &"walk"
 
 [node name="BodySprite" type="AnimatedSprite2D" parent="Area2D"]
 scale = Vector2(4, 4)
 sprite_frames = SubResource("SpriteFrames_nwkqy")
-animation = &"roll"
+animation = &"parry"
 
 [node name="RightSide" type="Marker2D" parent="Area2D/BodySprite"]
 position = Vector2(0, 15)
@@ -209,7 +241,17 @@ autostart = true
 [node name="ParrySuccessTimer" type="Timer" parent="."]
 wait_time = 0.05
 
+[node name="ParryActiveTimer" type="Timer" parent="."]
+wait_time = 0.5
+
 [node name="Camera2D" type="Camera2D" parent="."]
+position_smoothing_enabled = true
+drag_horizontal_enabled = true
+drag_vertical_enabled = true
+drag_left_margin = 0.1
+drag_top_margin = 0.1
+drag_right_margin = 0.1
+drag_bottom_margin = 0.1
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
 [connection signal="animation_finished" from="Area2D/BodySprite" to="." method="_on_body_sprite_animation_finished"]
@@ -220,3 +262,4 @@ wait_time = 0.05
 [connection signal="timeout" from="VisibilityFlashTimer" to="." method="_on_visibility_flash_timer_timeout"]
 [connection signal="timeout" from="MusicNoteTimer" to="." method="_on_music_note_timer_timeout"]
 [connection signal="timeout" from="ParrySuccessTimer" to="." method="_on_parry_success_timer_timeout"]
+[connection signal="timeout" from="ParryActiveTimer" to="." method="_on_parry_active_timer_timeout"]

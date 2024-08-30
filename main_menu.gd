@@ -1,6 +1,6 @@
 extends Node2D
 
-var game = load("res://demo_game.tscn")
+var game = load("res://main_game.tscn")
 
 func _ready():
 	$SettingsMenu.load_settings()

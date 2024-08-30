@@ -11,9 +11,9 @@ signal parry_bullet(body)
 @export var speed: float = 400 # How fast the player will move (pixels/sec).
 @export var roll_speed: float = 600
 
-@export var _run_speed: float = 100;
-@export var _acceleration: float = 500;
-@export var _friction: float = 500;
+#@export var _run_speed: float = 100;
+#@export var _acceleration: float = 500;
+#@export var _friction: float = 500;
 
 var last_direction_rotation = 0
 
@@ -136,7 +136,6 @@ func _process(delta):
 			states.MOVE: # can shoot, parry, and roll
 				if Input.is_action_just_pressed("shoot"):
 					shoot_bullet($Area2D/BodySprite.rotation)
-					pass
 				if Input.is_action_just_pressed("parry"):
 					current_state = states.PARRY
 					parry()
@@ -193,6 +192,7 @@ func parry():
 	$Area2D/BodySprite.animation = "parry"
 	$Area2D/BodySprite.play()
 	$Area2D/LegsSprite.play()
+	$ParryActiveTimer.start()
 		
 func start_invulnerability():
 	set_collisions(0)
@@ -229,15 +229,16 @@ func _on_visibility_flash_timer_timeout():
 
 # emit the music note to the game
 func _on_music_note_timer_timeout():
-	var note = MusicNotes.instantiate()
-	var location
-	if right_music_note:
-		location = $Area2D/BodySprite/RightSide.global_position
-	else:
-		location = $Area2D/BodySprite/LeftSide.global_position
-	right_music_note = !right_music_note
-	note.position = location
-	music_note.emit(note)
+	if current_state != states.DEAD:
+		var note = MusicNotes.instantiate()
+		var location
+		if right_music_note:
+			location = $Area2D/BodySprite/RightSide.global_position
+		else:
+			location = $Area2D/BodySprite/LeftSide.global_position
+		right_music_note = !right_music_note
+		note.position = location
+		music_note.emit(note)
 
 func _on_area_2d_body_entered(body):
 	if $InvulnerableTimer.is_stopped() and current_state != states.ROLL and current_state != states.DEAD:
@@ -258,7 +259,6 @@ func _on_area_2d_body_entered(body):
 #reset everything after an animation is finished
 func _on_body_sprite_animation_finished():
 	if $Area2D/BodySprite.animation == "parry" and current_state == states.PARRY:
-		set_parry_collisions(0)
 		$Area2D/BodySprite.animation = "stand"
 		current_state = states.MOVE
 	elif $Area2D/BodySprite.animation == "roll" and current_state == states.ROLL:
@@ -283,3 +283,8 @@ func _on_parry_area_all_body_entered(body):
 func _on_parry_success_timer_timeout():
 	set_parry_all_collisions(0)
 	$ParrySuccessTimer.stop()
+
+
+func _on_parry_active_timer_timeout():
+	set_parry_collisions(0)
+	$ParryActiveTimer.stop()
