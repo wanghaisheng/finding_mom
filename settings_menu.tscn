@@ -27,24 +27,24 @@ text = "Apply
 "
 
 [node name="ResolutionList" type="ItemList" parent="."]
-offset_left = 598.0
-offset_top = 925.0
-offset_right = 1286.0
-offset_bottom = 1396.0
+offset_left = 1119.0
+offset_top = 907.0
+offset_right = 1807.0
+offset_bottom = 1378.0
 theme_override_fonts/font = ExtResource("2_rq8ol")
 theme_override_font_sizes/font_size = 64
 item_count = 5
 item_0/text = "3840 X 2160"
 item_1/text = "2560 X 1440"
 item_2/text = "1920 X 1080"
-item_3/text = "1280 X 760"
+item_3/text = "1280 X 720"
 item_4/text = "1152 X 648"
 
 [node name="ResolutionLabel" type="Label" parent="."]
-offset_left = 604.0
-offset_top = 842.0
-offset_right = 961.0
-offset_bottom = 920.0
+offset_left = 1125.0
+offset_top = 824.0
+offset_right = 1482.0
+offset_bottom = 902.0
 theme_override_fonts/font = ExtResource("2_rq8ol")
 theme_override_font_sizes/font_size = 64
 text = "Resolution"
@@ -61,27 +61,11 @@ theme_override_fonts/font = ExtResource("2_rq8ol")
 theme_override_font_sizes/font_size = 128
 text = "Settings"
 
-[node name="VolumeLabel" type="Label" parent="."]
-offset_left = 2615.0
-offset_top = 839.0
-offset_right = 2864.0
-offset_bottom = 917.0
-theme_override_fonts/font = ExtResource("2_rq8ol")
-theme_override_font_sizes/font_size = 64
-text = "Volume"
-
-[node name="VolumeSlider" type="HSlider" parent="."]
-offset_left = 2458.0
-offset_top = 1058.0
-offset_right = 3002.0
-offset_bottom = 1074.0
-mouse_default_cursor_shape = 2
-
 [node name="ViewportModeList" type="ItemList" parent="."]
-offset_left = 1499.0
-offset_top = 923.0
-offset_right = 2184.0
-offset_bottom = 1395.0
+offset_left = 2020.0
+offset_top = 905.0
+offset_right = 2705.0
+offset_bottom = 1377.0
 theme_override_fonts/font = ExtResource("2_rq8ol")
 theme_override_font_sizes/font_size = 64
 item_count = 5
@@ -92,10 +76,10 @@ item_3/text = "Minimized"
 item_4/text = "Exclusive Fullscreen"
 
 [node name="ViewportModeLabel" type="Label" parent="."]
-offset_left = 1500.0
-offset_top = 836.0
-offset_right = 1690.0
-offset_bottom = 914.0
+offset_left = 2021.0
+offset_top = 818.0
+offset_right = 2211.0
+offset_bottom = 896.0
 theme_override_fonts/font = ExtResource("2_rq8ol")
 theme_override_font_sizes/font_size = 64
 text = "Mode"
@@ -103,5 +87,5 @@ text = "Mode"
 [connection signal="pressed" from="BackButton" to="." method="_on_back_button_pressed"]
 [connection signal="pressed" from="ApplyButton" to="." method="_on_apply_button_pressed"]
 [connection signal="item_selected" from="ResolutionList" to="." method="_on_resolution_list_item_selected"]
-[connection signal="item_selected" from="ViewportModeList" to="." method="_on_resolution_list_item_selected"]
 [connection signal="item_selected" from="ViewportModeList" to="." method="_on_viewport_mode_list_item_selected"]
+[connection signal="item_selected" from="ViewportModeList" to="." method="_on_resolution_list_item_selected"]

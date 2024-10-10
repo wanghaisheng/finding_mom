@@ -1,6 +1,6 @@
-extends RigidBody2D
+extends CharacterBody2D
 
-signal shoot(bullet, direction, location, bullet_name)
+signal shoot(bullet, direction, location)
 
 var type = "bug"
 
@@ -18,21 +18,27 @@ enum states {
 	SHOOT,
 }
 
-enum bullets {
-	PURPLE_BALL,
-	SOLDIER_BULLET,
-}
-
 var current_state = states.MOVE
 
 var ready_shoot = true
 
-var Bullet = preload("res://enemy_bullet.tscn")
+var Bullet = preload("res://bullet.tscn")
+
+func start_animations(v: Vector2):
+	if current_state == states.MOVE:
+		if v.length() > 0:
+			$AnimatedSprite2D.play()
+		else:
+			$AnimatedSprite2D.stop()
 
 func _ready():
 	var i = randi() % mob_types.size()
 	set_type(mob_types[i])
 	$AnimatedSprite2D.play(type)
+	if type == "bug":
+		# Add some randomness to the direction.
+		velocity = Vector2(randi_range(-360, 360), randi_range(-360, 360)).normalized() * 360
+		rotation = atan2(velocity.normalized().y, velocity.normalized().x)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
@@ -47,63 +53,55 @@ func _process(_delta):
 	
 func move_bug():
 	if ready_shoot == true:
-		shoot_bullet(bullets.PURPLE_BALL)
+		shoot_bullet()
+		
+	# the velocity was set at _ready, we can just call move_and_slide()
+	move_and_slide()
 	
 func move_spider():
 	if current_state != states.DEAD:
-		static_move()
 		look_at(player.position)
-		#var v = Vector2.ZERO
-		#v.x = 50
-		#v.y = 50
-		#add_constant_force(v)
+		var motion = player.position
+		motion = motion - position
+		motion = motion.normalized()
+		motion = motion * 400
+		velocity = motion
+		move_and_slide()
+		
 		
 func move_soldier():
+	var v = player.position - position
+	var distance_to_player = sqrt((v.x * v.x) + (v.y * v.y))
 	if current_state == states.SHOOT:
 		look_at(player.position)
-		pass
-	elif current_state != states.DEAD:
+		if ready_shoot:
+			change_living_texture("soldier_attack", false)
+		elif distance_to_player > 600 and $AnimatedSprite2D.animation != "soldier_attack" and $AnimatedSprite2D.animation != "soldier_attack_end": # if we aren't shooting and the player is far away, switch back to MOVE
+			current_state = states.MOVE
+	elif current_state == states.DEAD:
+		velocity = Vector2(0, 0)
+	elif current_state == states.MOVE:
 		look_at(player.position)
-		var v = player.position - position
-		var distance_to_player = sqrt((v.x * v.x) + (v.y * v.y))
 		if distance_to_player > 600:
-			static_move()
+			var motion = player.position
+			motion = motion - position
+			motion = motion.normalized()
+			motion = motion * 350
+			velocity = motion
 		else:
-			if ready_shoot == true:
-				linear_velocity = Vector2.ZERO
-				angular_velocity = 0.0
+			velocity = Vector2.ZERO
+			if ready_shoot:
 				current_state = states.SHOOT
 				change_living_texture("soldier_attack", false)
-				
-	
-#TODO: when we figure out how to move things using forces, change this
-func static_move():
-	var motion = player.position
-	motion = motion - position
-	motion = motion.normalized()
-	motion = motion * 5
-	move_and_collide(motion)
+	start_animations(velocity)
+	move_and_slide()
 	
 func set_player(p):
 	player = p
-	
 
-func _on_visible_on_screen_notifier_2d_screen_exited():
-	queue_free()
-
-
+# maybe remove
 func _on_body_entered(body):
-	if body.is_in_group("player_bullets"):
-		$AnimatedSprite2D.stop()
-		$AnimatedSprite2D.hide()
-		$DeadSprites.look_at(player.position)
-		$DeadSprites.show()
-		$DeadSprites.play(type)
-		current_state = states.DEAD
-		#remove from both layers of collision
-		collision_layer = 0
-		collision_mask = 0
-
+	pass
 
 func _on_bullet_timer_timeout():
 	if current_state != states.DEAD:
@@ -116,8 +114,20 @@ func _on_bullet_timer_timeout():
 				# mark that the soldier can shoot again, and let the _process function do that
 				ready_shoot = true
 			
-func shoot_bullet(b: int):
-	shoot.emit(Bullet, rotation, position, b)
+func shoot_bullet():
+	var b = Bullet.instantiate()
+	var bt
+	match type:
+		"bug":
+			bt = b.bullet_types.PURPLE_BALL
+		"spider":
+			bt = b.bullet_types.PURPLE_BALL
+		"soldier":
+			bt = b.bullet_types.SOLDIER_BULLET
+		_:
+			bt = b.bullet_types.PURPLE_BALL
+	b.set_bullet(bt)
+	shoot.emit(b, rotation, position)
 	ready_shoot = false
 
 func set_type(t):
@@ -129,7 +139,7 @@ func _on_dead_sprites_animation_finished():
 func _on_animated_sprite_2d_animation_looped():
 	if $AnimatedSprite2D.animation == "soldier_attack":
 		change_living_texture("soldier_attack_end", false)
-		shoot_bullet(bullets.SOLDIER_BULLET)
+		shoot_bullet()
 	elif $AnimatedSprite2D.animation == "soldier_attack_end":
 		change_living_texture("soldier", true)
 		current_state = states.MOVE
@@ -137,3 +147,19 @@ func _on_animated_sprite_2d_animation_looped():
 func change_living_texture(animation, repeat):
 	$AnimatedSprite2D.play(animation)
 	$AnimatedSprite2D.texture_repeat = repeat
+
+func _on_area_2d_body_entered(body):
+	if body.is_in_group("player_bullets"):
+		$AnimatedSprite2D.stop()
+		$AnimatedSprite2D.hide()
+		$DeadSprites.look_at(player.position)
+		$DeadSprites.show()
+		$DeadSprites.play(type)
+		current_state = states.DEAD
+		# remove from both layers of collision
+		collision_layer = 0
+		collision_mask = 0
+		$Area2D.collision_layer = 0
+		$Area2D.collision_mask = 0
+		# used to remove the bullet
+		body.collide_with_target()

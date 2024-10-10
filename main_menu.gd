@@ -11,6 +11,11 @@ func _on_quit_button_pressed():
 	get_tree().quit(0)
 
 func _on_play_button_pressed():
+	#turn off buttons and start the first scene
+	$MainMenuCanvas.hide()
+	$OpeningScene.start()
+
+func _on_opening_scene_finish():
 	get_tree().change_scene_to_packed(game)
 
 func _on_settings_button_pressed():
@@ -20,4 +25,3 @@ func _on_settings_button_pressed():
 	else:
 		$MainMenuCanvas.show()
 		$SettingsMenu.hide()
-

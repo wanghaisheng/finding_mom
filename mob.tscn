@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=3 uid="uid://b4lsq4j31jm0c"]
+[gd_scene load_steps=33 format=3 uid="uid://b4lsq4j31jm0c"]
 
 [ext_resource type="Script" path="res://mob.gd" id="1_x3otr"]
 [ext_resource type="Texture2D" uid="uid://co4eihc8e5y20" path="res://Assets/Characters/bug/basic_bug.png" id="2_w3a3n"]
@@ -105,26 +105,13 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="Animation" id="Animation_btp7g"]
-resource_name = "soldier_shoot"
-step = 0.0
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:animation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(),
-"transitions": PackedFloat32Array(),
-"update": 1,
-"values": []
-}
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_5wwe1"]
+radius = 29.4444
+height = 76.6667
 
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_d1qcr"]
-_data = {
-"soldier_shoot": SubResource("Animation_btp7g")
-}
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_vkt81"]
+radius = 29.4444
+height = 76.6667
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_7x2qw"]
 animations = [{
@@ -195,16 +182,7 @@ animations = [{
 "speed": 15.0
 }]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_5wwe1"]
-radius = 29.0
-height = 76.0
-
-[node name="Mob" type="RigidBody2D" groups=["enemies"]]
-collision_layer = 3
-collision_mask = 3
-gravity_scale = 0.0
-max_contacts_reported = 1000
-contact_monitor = true
+[node name="Mob" type="CharacterBody2D" groups=["enemies"]]
 script = ExtResource("1_x3otr")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
@@ -213,10 +191,20 @@ sprite_frames = SubResource("SpriteFrames_cxtoe")
 animation = &"soldier_attack_end"
 metadata/_edit_group_ = true
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="AnimatedSprite2D"]
-libraries = {
-"": SubResource("AnimationLibrary_d1qcr")
-}
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-5, 0)
+scale = Vector2(1.8, 1.8)
+shape = SubResource("CapsuleShape2D_5wwe1")
+metadata/_edit_group_ = true
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 3
+collision_mask = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(-5, 0)
+scale = Vector2(1.8, 1.8)
+shape = SubResource("CapsuleShape2D_vkt81")
 
 [node name="DeadSprites" type="AnimatedSprite2D" parent="."]
 visible = false
@@ -224,22 +212,12 @@ scale = Vector2(6, 6)
 sprite_frames = SubResource("SpriteFrames_7x2qw")
 animation = &"spider"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-5, 0)
-scale = Vector2(1.8, 1.8)
-shape = SubResource("CapsuleShape2D_5wwe1")
-metadata/_edit_group_ = true
-
-[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
-metadata/_edit_group_ = true
-
 [node name="BulletTimer" type="Timer" parent="."]
 wait_time = 5.0
 autostart = true
 
-[connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="animation_looped" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_looped"]
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
 [connection signal="animation_finished" from="DeadSprites" to="." method="_on_dead_sprites_animation_finished"]
 [connection signal="animation_looped" from="DeadSprites" to="." method="_on_dead_sprites_animation_finished"]
-[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
 [connection signal="timeout" from="BulletTimer" to="." method="_on_bullet_timer_timeout"]

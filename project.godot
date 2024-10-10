@@ -13,8 +13,8 @@ config_version=5
 config/name="Robot Game"
 run/main_scene="res://main_menu.tscn"
 config/features=PackedStringArray("4.2", "GL Compatibility")
-boot_splash/image="res://Assets/Characters/player_character/middle_shoulder.png"
-config/icon="res://Assets/Characters/player_character/robot_shoot_2.png"
+boot_splash/image="res://Assets/WagnerGaming/wagner_gaming_icon.png"
+config/icon="res://Assets/WagnerGaming/wagner_gaming_icon.png"
 boot_splash/minimum_display_time=3000
 
 [audio]

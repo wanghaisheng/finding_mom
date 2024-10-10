@@ -1,34 +1,52 @@
 [gd_scene load_steps=6 format=3 uid="uid://dpww0w0pt1lf1"]
 
-[ext_resource type="Texture2D" uid="uid://ct45ce43stmoh" path="res://Assets/Bullets/purple_circle.png" id="1_eidis"]
-[ext_resource type="Texture2D" uid="uid://bxwfp47uyk6o1" path="res://Assets/Bullets/basic_bullet.png" id="2_lmc3j"]
+[ext_resource type="Texture2D" uid="uid://ct45ce43stmoh" path="res://Assets/Bullets/purple_circle.png" id="1_lp2d2"]
+[ext_resource type="Texture2D" uid="uid://bxwfp47uyk6o1" path="res://Assets/Bullets/basic_bullet.png" id="2_o1dvc"]
 
 [sub_resource type="GDScript" id="GDScript_f2ymo"]
 script/source = "extends RigidBody2D
 
+signal player_bullet_dequeue
+
 var direction = 0
 
-enum bullets {
+enum bullet_types {
 	PURPLE_BALL,
 	SOLDIER_BULLET,
+	PLAYER_BULLET,
 }
 
-var current_bullet = bullets.PURPLE_BALL
+var current_bullet = bullet_types.PURPLE_BALL
 
 var purple_ball = \"purple_ball\"
 var soldier_bullet = \"soldier_bullet\"
+var player_bullet = \"soldier_bullet\"
 
 func _ready():
 	gravity_scale = 0.0
+	
+func set_is_enemy_bullet():
+	add_to_group(\"enemy_bullets\")
+	remove_from_group(\"player_bullets\")
+	collision_layer = 4
+	# TODO: set the collision appropriately
+	
+func set_is_player_bullet():
+	add_to_group(\"player_bullets\")
+	remove_from_group(\"enemy_bullets\")
+	collision_layer = 2
+	# TODO: set the collision appropriately
 
 # used to set the bullet to the correct image and speed
 func set_bullet(n: int):
 	var b: String = purple_ball
 	match n:
-		bullets.PURPLE_BALL:
+		bullet_types.PURPLE_BALL:
 			b = purple_ball
-		bullets.SOLDIER_BULLET:
+		bullet_types.SOLDIER_BULLET:
 			b = soldier_bullet
+		bullet_types.PLAYER_BULLET:
+			b = player_bullet
 		_:
 			return
 	$AnimatedSprite2D.stop()
@@ -42,13 +60,18 @@ func set_direction(d):
 	var v = get_bullet_speed()
 	linear_velocity = v.rotated(direction)
 	
+func set_sprite_rotation(direction):
+	$AnimatedSprite2D.rotation = direction
+	
 func get_bullet_speed():
 	var s
 	match current_bullet:
-		bullets.PURPLE_BALL:
+		bullet_types.PURPLE_BALL:
 			s = Vector2(500.0, 0.0)
-		bullets.SOLDIER_BULLET:
+		bullet_types.SOLDIER_BULLET:
 			s = Vector2(900.0, 0.0)
+		bullet_types.PLAYER_BULLET:
+			s = Vector2(1500.0, 0.0)
 	return s
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -58,30 +81,31 @@ func _process(delta):
 	#keeps the bullet facing the direction it is moving
 	rotation = direction
 
-func _on_visible_on_screen_notifier_2d_screen_exited():
+func reclaim_bullet():
+	if is_in_group(\"player_bullets\"):
+		player_bullet_dequeue.emit()
 	queue_free()
 	
 func parried(): 
-	#TODO: we might need to do some additional logic for parrying directly back
+	#TODO: we might need to do some additional logic for parrying directly back to the last owner
 	if is_in_group(\"enemy_bullets\"):
 		set_direction(direction - PI)
-		remove_from_group(\"enemy_bullets\")
-		add_to_group(\"player_bullets\")
-		collision_layer = 2
+		set_is_player_bullet()
 
-func collide_with_player():
-	queue_free()
+# The bullet cannot detect when it has hit a body. So we call this when the body detects the bullet.
+func collide_with_target():
+	reclaim_bullet()
 
 func _on_body_entered(body):
 	if body.is_in_group(\"enemies\"): # coverage for parried bullets
-		queue_free()
+		reclaim_bullet()
 "
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_1o8r6"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("1_eidis")
+"texture": ExtResource("1_lp2d2")
 }],
 "loop": true,
 "name": &"purple_ball",
@@ -89,7 +113,7 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("2_lmc3j")
+"texture": ExtResource("2_o1dvc")
 }],
 "loop": true,
 "name": &"soldier_bullet",
@@ -98,8 +122,8 @@ animations = [{
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_kqn6h"]
 
-[node name="EnemyBullet" type="RigidBody2D" groups=["bullets", "enemy_bullets"]]
-collision_layer = 4
+[node name="Bullet" type="RigidBody2D" groups=["bullets"]]
+collision_layer = 0
 collision_mask = 0
 max_contacts_reported = 1000
 contact_monitor = true
@@ -117,4 +141,4 @@ shape = SubResource("CircleShape2D_kqn6h")
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
-[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="reclaim_bullet"]

@@ -32,11 +32,7 @@ animations = [{
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_8bd6x"]
 
-[node name="Portal" type="RigidBody2D" groups=["portals"]]
-gravity_scale = 0.0
-continuous_cd = 2
-max_contacts_reported = 100
-contact_monitor = true
+[node name="Portal" type="Area2D" groups=["portals"]]
 script = ExtResource("1_sqpfl")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]

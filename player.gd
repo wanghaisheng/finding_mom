@@ -5,20 +5,15 @@ signal hit
 signal shoot(bullet: Resource, direction: float, location: Vector2)
 signal entered_portal
 signal music_note(note)
-signal parry_bullet(body)
+signal freeze_frame(timeScale: float, duration: float)
 
 # ---all variables needed---
-@export var speed: float = 400 # How fast the player will move (pixels/sec).
-@export var roll_speed: float = 600
-
-#@export var _run_speed: float = 100;
-#@export var _acceleration: float = 500;
-#@export var _friction: float = 500;
+@export var speed: float = 30000 # How fast the player will move (pixels/sec).
+@export var roll_speed: float = 45000
 
 var last_direction_rotation = 0
 
-var screen_size # Size of the game window.
-var PlayerBullet = preload("res://player_bullet.tscn")
+var PlayerBullet = preload("res://bullet.tscn")
 var MusicNotes = preload("res://music_notes.tscn")
 var show_flash = true
 var right_music_note = true
@@ -38,7 +33,6 @@ func live_again():
 
 # ---functions---
 func _ready():
-	screen_size = get_viewport_rect().size
 	current_state = states.DEAD
 	hide()
 	$InvulnerableTimer.stop()
@@ -77,11 +71,9 @@ func _process(delta):
 			states.DEAD:
 				speed_used = 0
 		v = v.normalized() * speed_used * delta
-		#position += v * delta
 		
-		move_and_collide(v)
-		#check for max dimensions:
-		#position = position.clamp(Vector2.ZERO, screen_size)
+		velocity = v
+		move_and_slide()
 		
 		# animate if we have moved
 		start_animations(v)
@@ -103,12 +95,10 @@ func _process(delta):
 		
 		# aim for controller:
 		var aim_direction = Input.get_vector("aim_left", "aim_right", "aim_up", "aim_down")
-		#var aim_rads = atan2(aim_direction.y, aim_direction.x)
 		
 		# aim for mouse:
 		var mouse_pos = get_global_mouse_position()
 		var mouse_direction = mouse_pos - position
-		#var mouse_rads = atan2(mouse_direction.y, mouse_direction.x)
 		
 		# if we are aiming with a controller:
 		if aim_direction != Vector2.ZERO:
@@ -117,19 +107,20 @@ func _process(delta):
 			#show the cursor
 			$Cursor.show()
 			#project cursor to proper position
-			var c_position = aim_direction.normalized() * 400
+			var c_position = aim_direction.normalized() * 600
 			$Cursor.position = c_position
 			
 			# rotate the rest of the body and music notes
 			$Area2D/BodySprite.look_at(c_position + position)
 			$Area2D/CollisionBox.look_at(c_position + position)
+			$WallCollision.look_at(c_position + position)
 			mouse_moved = false
 			
 		#elif we are aiming with the mouse
 		elif mouse_direction != Vector2.ZERO and mouse_moved:
 			$Area2D/BodySprite.look_at(get_global_mouse_position())
 			$Area2D/CollisionBox.look_at(get_global_mouse_position())
-		
+			$WallCollision.look_at(get_global_mouse_position())
 
 		# check current state and see what actions we can take
 		match current_state:
@@ -180,10 +171,10 @@ func set_parry_all_collisions(c: int):
 	$ParryAreaAll.collision_mask = c
 
 func shoot_bullet(rotation_rads):
-	# find the weapon we are shooting
-	# generate a new bullet in the right direction
-	shoot.emit(PlayerBullet, rotation_rads, position)
-	#shoot.emit(PlayerBullet, rotation_rads, $BodySprite/RightSide.position)
+	# generate a new bullet from the bullet_types in the right direction
+	var pb = PlayerBullet.instantiate()
+	pb.set_bullet(pb.bullet_types.PLAYER_BULLET)
+	shoot.emit(pb, rotation_rads, position)
 	return
 	
 func parry():
@@ -211,21 +202,27 @@ func get_is_dead():
 func set_is_dead(d: bool):
 	if d:
 		current_state = states.DEAD
+		$Area2D/BodySprite.play("death")
+		$Area2D/LegsSprite.hide()
 	else:
 		current_state = states.MOVE
+		$Area2D/LegsSprite.show()
 
 func _on_invulnerable_timer_timeout():
 	$VisibilityFlashTimer.stop()
 	set_collisions(5)
-	show()
+	$Area2D/BodySprite.modulate = Color(1, 1, 1, 1)
+	$Area2D/LegsSprite.modulate = Color(1, 1, 1, 1)
 	show_flash = true
 	
 func _on_visibility_flash_timer_timeout():
 	show_flash = !show_flash
 	if show_flash:
-		show()
+		$Area2D/BodySprite.modulate = Color(1, 1, 1, 1)
+		$Area2D/LegsSprite.modulate = Color(1, 1, 1, 1)
 	else:
-		hide()
+		$Area2D/BodySprite.modulate = Color(1, 1, 1, 0.6)
+		$Area2D/LegsSprite.modulate = Color(1, 1, 1, 0.2)
 
 # emit the music note to the game
 func _on_music_note_timer_timeout():
@@ -245,16 +242,19 @@ func _on_area_2d_body_entered(body):
 		if body.is_in_group("player_bullets"):
 			pass
 		elif body.is_in_group("enemy_bullets"):
-			hit.emit()
-			start_invulnerability()
-			body.collide_with_player() # used to remove the bullet
+			lose_life()
+			body.collide_with_target() # used to remove the bullet
 		elif body.is_in_group("enemies"):
-			hit.emit()
-			start_invulnerability()
+			lose_life()
 		elif body.is_in_group("portals"):
 			entered_portal.emit()
 		else:
 			pass
+
+func lose_life():
+	hit.emit()
+	freeze_frame.emit(0.1, 0.3)
+	start_invulnerability()
 
 #reset everything after an animation is finished
 func _on_body_sprite_animation_finished():
@@ -270,20 +270,18 @@ func _on_body_sprite_animation_finished():
 
 func _on_parry_area_body_entered(body):
 	if body.is_in_group("enemy_bullets"):
+		freeze_frame.emit(.1, 0.37)
 		set_parry_all_collisions(4)
 		$ParrySuccessTimer.start()
-		parry_bullet.emit(body) # TODO: might be able to remove this emit
 		pass
 
 func _on_parry_area_all_body_entered(body):
 	if body.is_in_group("bullets"):
 		body.parried()
 
-
 func _on_parry_success_timer_timeout():
 	set_parry_all_collisions(0)
 	$ParrySuccessTimer.stop()
-
 
 func _on_parry_active_timer_timeout():
 	set_parry_collisions(0)

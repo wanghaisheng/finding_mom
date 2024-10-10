@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=3 uid="uid://cscp8ee41n224"]
 
-[ext_resource type="Texture2D" uid="uid://c4028s837j6k6" path="res://Assets/Backgrounds/main_menu_background.jpg" id="1_lsqt1"]
 [ext_resource type="Script" path="res://main_menu.gd" id="1_u8lhs"]
+[ext_resource type="PackedScene" uid="uid://cdbt8nsaysi3g" path="res://opening_scene.tscn" id="2_pdp0y"]
 [ext_resource type="FontFile" uid="uid://omargf2labe" path="res://Assets/fonts/Robot Crush.ttf" id="5_ad68v"]
 [ext_resource type="PackedScene" uid="uid://bmd1u62glggyi" path="res://settings_menu.tscn" id="9_tt7vj"]
 
@@ -23,10 +23,7 @@ script/source = "extends Button
 [node name="MainMenu" type="Node2D"]
 script = ExtResource("1_u8lhs")
 
-[node name="MainMenuBackground" type="Sprite2D" parent="."]
-position = Vector2(1920, 1080)
-scale = Vector2(2, 2.06304)
-texture = ExtResource("1_lsqt1")
+[node name="OpeningScene" parent="." instance=ExtResource("2_pdp0y")]
 
 [node name="MainMenuCanvas" type="CanvasLayer" parent="."]
 
@@ -75,6 +72,7 @@ metadata/_edit_use_anchors_ = true
 [node name="SettingsMenu" parent="." instance=ExtResource("9_tt7vj")]
 visible = false
 
+[connection signal="finish" from="OpeningScene" to="." method="_on_opening_scene_finish"]
 [connection signal="pressed" from="MainMenuCanvas/PLAY_BUTTON" to="." method="_on_play_button_pressed"]
 [connection signal="pressed" from="MainMenuCanvas/SETTINGS_BUTTON" to="." method="_on_settings_button_pressed"]
 [connection signal="pressed" from="MainMenuCanvas/QUIT_BUTTON" to="." method="_on_quit_button_pressed"]

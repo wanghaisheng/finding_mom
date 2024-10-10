@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://y5qbgpwao8h4"
-path="res://.godot/imported/lava.png-244a57fc399221b4d4d6e6741a2f1fa2.ctex"
+uid="uid://blue66jtnx304"
+path="res://.godot/imported/mom_cry_1.png-a28c2092c04c6b6c676531910942ed74.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Backgrounds/lava.png"
-dest_files=["res://.godot/imported/lava.png-244a57fc399221b4d4d6e6741a2f1fa2.ctex"]
+source_file="res://Assets/Characters/mom/mom_cry_1.png"
+dest_files=["res://.godot/imported/mom_cry_1.png-a28c2092c04c6b6c676531910942ed74.ctex"]
 
 [params]
 
