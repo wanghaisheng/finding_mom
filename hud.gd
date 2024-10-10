@@ -21,11 +21,10 @@ var empty_bullet = load("res://Assets/Bullets/basic_empty_bullet.png")
 signal start_game
 signal level_complete
 signal quit_game
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	# need to create health and set to healthy
-	pass # Replace with function body.
-
+	pass
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -38,24 +37,6 @@ func show_message(text):
 
 func show_game_over():
 	show_message("Game Over")
-	# Wait until the MessageTimer has counted down.
-	await $MessageTimer.timeout
-
-	$StartButton.show()
-	$QuitButton.show()
-	
-func show_start():
-	$StartButton.show()
-	$QuitButton.show()
-
-func _on_start_button_pressed():
-	$StartButton.hide()
-	$QuitButton.hide()
-	start_game.emit()
-	#current_health = 1
-	#total_hearts = 1
-	display_hearts()
-	restart_score()
 
 func _on_message_timer_timeout():
 	$Message.hide()
@@ -162,7 +143,7 @@ func display_bullets():
 		$BulletArea.add_child(b)
 
 func update_score():
-	$ScoreLabel.text = str(score)
+	$ScoreLabel.text = str(60 - score)
 	if score >= 60: #TODO: reset to 60
 		show_message("Complete")
 		$ScoreTimer.stop()
@@ -180,7 +161,3 @@ func restart_score():
 	
 func stop():
 	$ScoreTimer.stop()
-
-
-func _on_quit_button_pressed():
-	quit_game.emit()

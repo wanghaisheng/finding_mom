@@ -1,13 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://bbmdp63cwku5e"]
+[gd_scene load_steps=3 format=3 uid="uid://bbmdp63cwku5e"]
 
 [ext_resource type="Script" path="res://hud.gd" id="1_bv657"]
 [ext_resource type="FontFile" uid="uid://omargf2labe" path="res://Assets/fonts/Robot Crush.ttf" id="2_ga6r0"]
-
-[sub_resource type="InputEventAction" id="InputEventAction_2cs01"]
-action = &"start_game"
-
-[sub_resource type="Shortcut" id="Shortcut_tre7f"]
-events = [SubResource("InputEventAction_2cs01")]
 
 [node name="HUD" type="CanvasLayer"]
 script = ExtResource("1_bv657")
@@ -45,40 +39,8 @@ theme_override_fonts/font = ExtResource("2_ga6r0")
 theme_override_font_sizes/font_size = 64
 horizontal_alignment = 1
 
-[node name="StartButton" type="Button" parent="."]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -88.5
-offset_top = -43.0
-offset_right = 88.5
-offset_bottom = 43.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_fonts/font = ExtResource("2_ga6r0")
-theme_override_font_sizes/font_size = 64
-shortcut = SubResource("Shortcut_tre7f")
-text = "Start"
-
-[node name="QuitButton" type="Button" parent="."]
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -89.0
-offset_top = -86.0
-offset_right = 89.0
-grow_horizontal = 2
-grow_vertical = 0
-theme_override_fonts/font = ExtResource("2_ga6r0")
-theme_override_font_sizes/font_size = 64
-shortcut = SubResource("Shortcut_tre7f")
-text = "Quit"
-
 [node name="MessageTimer" type="Timer" parent="."]
+wait_time = 5.0
 
 [node name="HeartArea" type="Area2D" parent="."]
 
@@ -98,6 +60,4 @@ text = "Level 0"
 position = Vector2(0, 2160)
 
 [connection signal="timeout" from="ScoreTimer" to="." method="_on_score_timer_timeout"]
-[connection signal="pressed" from="StartButton" to="." method="_on_start_button_pressed"]
-[connection signal="pressed" from="QuitButton" to="." method="_on_quit_button_pressed"]
 [connection signal="timeout" from="MessageTimer" to="." method="_on_message_timer_timeout"]

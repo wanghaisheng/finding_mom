@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cns7vj442rkaq"
-path="res://.godot/imported/left_leg.png-f32977526aad0142096a62f214a01ec4.ctex"
+uid="uid://xuipbd4pj7gf"
+path="res://.godot/imported/portal_large_2.png-303142d2a4d8b51d1a8d831e1895dbd7.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Characters/player_character/left_leg.png"
-dest_files=["res://.godot/imported/left_leg.png-f32977526aad0142096a62f214a01ec4.ctex"]
+source_file="res://Assets/Portal/portal_large_2.png"
+dest_files=["res://.godot/imported/portal_large_2.png-303142d2a4d8b51d1a8d831e1895dbd7.ctex"]
 
 [params]
 

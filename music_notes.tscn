@@ -7,34 +7,17 @@ var quarter_note_path = \"res://Assets/Characters/player_character/quarter_note.
 var eighth_note_path = \"res://Assets/Characters/player_character/eighth_notes.png\"
 var notes_list = [quarter_note_path, eighth_note_path]
 
-#var left_note_position = Vector2(-60, 0)
-#var right_note_position = Vector2(60, 0)
-
-#var start_time = Time.get_unix_time_from_system()
-
 func _ready():
 	var note = notes_list[randi_range(0, 1)]
 	$Note.texture = ResourceLoader.load(note)
 	$Timer.start()
-	#$LeftEarNote.texture = ResourceLoader.load(quarter_note_path)
 	
 func _process(delta):
 	var now = Time.get_unix_time_from_system()
 	var new_position = Vector2(position.x, position.y + sin(now * 5)) # rate of bobbing up and down
 	position = new_position
 
-#func play_left_ear():
-	#left_note_position.x -= 1
-	#left_note_position.y = sin($Timer.time_left)
-	#$LeftEarNote.position = left_note_position
-
-#func play_right_ear():
-	#right_note_position.x += 1
-	#right_note_position.y = cos($Timer.time_left)
-	#$RightEarNote.position = right_note_position
-
 func _on_timer_timeout():
-	print('queue')
 	queue_free()
 "
 
@@ -42,7 +25,7 @@ func _on_timer_timeout():
 script = SubResource("GDScript_88y84")
 
 [node name="Note" type="Sprite2D" parent="."]
-scale = Vector2(2, 2)
+scale = Vector2(3, 3)
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 2.0
