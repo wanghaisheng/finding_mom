@@ -42,11 +42,14 @@ offset_bottom = 87.0
 grow_horizontal = 2
 grow_vertical = 2
 focus_neighbor_left = NodePath("../../ReferenceRect3/QuitButton")
+focus_neighbor_top = NodePath("../../ReferenceRect3/QuitButton")
 focus_neighbor_right = NodePath("../../ReferenceRect2/SettingsButton")
+focus_neighbor_bottom = NodePath("../../ReferenceRect2/SettingsButton")
 focus_next = NodePath("../../ReferenceRect2/SettingsButton")
 focus_previous = NodePath("../../ReferenceRect3/QuitButton")
 theme_override_fonts/font = ExtResource("1_iaiic")
 theme_override_font_sizes/font_size = 64
+action_mode = 0
 text = "Resume"
 
 [node name="ReferenceRect2" type="ReferenceRect" parent="MainPauseMenu"]
@@ -76,11 +79,14 @@ offset_bottom = 87.0
 grow_horizontal = 2
 grow_vertical = 2
 focus_neighbor_left = NodePath("../../ReferenceRect/ResumeButton")
+focus_neighbor_top = NodePath("../../ReferenceRect/ResumeButton")
 focus_neighbor_right = NodePath("../../ReferenceRect3/QuitButton")
+focus_neighbor_bottom = NodePath("../../ReferenceRect3/QuitButton")
 focus_next = NodePath("../../ReferenceRect3/QuitButton")
 focus_previous = NodePath("../../ReferenceRect/ResumeButton")
 theme_override_fonts/font = ExtResource("1_iaiic")
 theme_override_font_sizes/font_size = 64
+action_mode = 0
 text = "Settings"
 
 [node name="ReferenceRect3" type="ReferenceRect" parent="MainPauseMenu"]
@@ -109,11 +115,14 @@ offset_bottom = 87.0
 grow_horizontal = 2
 grow_vertical = 2
 focus_neighbor_left = NodePath("../../ReferenceRect2/SettingsButton")
+focus_neighbor_top = NodePath("../../ReferenceRect2/SettingsButton")
 focus_neighbor_right = NodePath("../../ReferenceRect/ResumeButton")
+focus_neighbor_bottom = NodePath("../../ReferenceRect/ResumeButton")
 focus_next = NodePath("../../ReferenceRect/ResumeButton")
 focus_previous = NodePath("../../ReferenceRect2/SettingsButton")
 theme_override_fonts/font = ExtResource("1_iaiic")
 theme_override_font_sizes/font_size = 64
+action_mode = 0
 text = "Quit"
 
 [node name="PausedLabel" type="Label" parent="MainPauseMenu"]

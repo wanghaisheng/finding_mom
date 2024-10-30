@@ -7,13 +7,32 @@
 process_mode = 3
 script = ExtResource("1_rlpjy")
 
+[node name="Settings" type="Label" parent="."]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -257.0
+offset_right = 257.0
+offset_bottom = 139.0
+grow_horizontal = 2
+theme_override_fonts/font = ExtResource("2_rq8ol")
+theme_override_font_sizes/font_size = 128
+text = "Settings"
+
 [node name="BackButton" type="Button" parent="."]
 offset_left = 2306.0
 offset_top = 1933.0
 offset_right = 2462.0
 offset_bottom = 2029.0
+focus_neighbor_left = NodePath("../ApplyButton")
+focus_neighbor_top = NodePath("../Button10")
+focus_neighbor_right = NodePath("../ApplyButton")
+focus_neighbor_bottom = NodePath("../Button6")
+focus_next = NodePath("../Button")
+focus_previous = NodePath("../Button10")
 theme_override_fonts/font = ExtResource("2_rq8ol")
 theme_override_font_sizes/font_size = 64
+action_mode = 0
 text = "Back"
 
 [node name="ApplyButton" type="Button" parent="."]
@@ -21,71 +40,229 @@ offset_left = 1472.0
 offset_top = 1936.0
 offset_right = 1524.0
 offset_bottom = 1967.0
+focus_neighbor_left = NodePath("../BackButton")
+focus_neighbor_top = NodePath("../Button5")
+focus_neighbor_right = NodePath("../BackButton")
+focus_neighbor_bottom = NodePath("../Button")
+focus_next = NodePath("../Button6")
+focus_previous = NodePath("../Button5")
 theme_override_fonts/font = ExtResource("2_rq8ol")
 theme_override_font_sizes/font_size = 64
+action_mode = 0
 text = "Apply
 "
 
-[node name="ResolutionList" type="ItemList" parent="."]
-offset_left = 1119.0
-offset_top = 907.0
-offset_right = 1807.0
-offset_bottom = 1378.0
-theme_override_fonts/font = ExtResource("2_rq8ol")
-theme_override_font_sizes/font_size = 64
-item_count = 5
-item_0/text = "3840 X 2160"
-item_1/text = "2560 X 1440"
-item_2/text = "1920 X 1080"
-item_3/text = "1280 X 720"
-item_4/text = "1152 X 648"
-
 [node name="ResolutionLabel" type="Label" parent="."]
 offset_left = 1125.0
-offset_top = 824.0
-offset_right = 1482.0
-offset_bottom = 902.0
+offset_top = 800.0
+offset_right = 1525.0
+offset_bottom = 880.0
 theme_override_fonts/font = ExtResource("2_rq8ol")
 theme_override_font_sizes/font_size = 64
 text = "Resolution"
 
-[node name="Settings" type="Label" parent="."]
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -62.5
-offset_right = 62.5
-offset_bottom = 45.0
-grow_horizontal = 2
-theme_override_fonts/font = ExtResource("2_rq8ol")
-theme_override_font_sizes/font_size = 128
-text = "Settings"
-
-[node name="ViewportModeList" type="ItemList" parent="."]
-offset_left = 2020.0
-offset_top = 905.0
-offset_right = 2705.0
-offset_bottom = 1377.0
+[node name="ResolutionOptions" type="OptionButton" parent="."]
+offset_left = 612.0
+offset_top = 512.0
+offset_right = 1212.0
+offset_bottom = 612.0
+focus_neighbor_left = NodePath("../BackButton")
+focus_neighbor_top = NodePath("../ApplyButton")
+focus_neighbor_right = NodePath("../ViewportOptions")
+focus_neighbor_bottom = NodePath("../ApplyButton")
+focus_next = NodePath("../ViewportOptions")
+focus_previous = NodePath("../BackButton")
 theme_override_fonts/font = ExtResource("2_rq8ol")
 theme_override_font_sizes/font_size = 64
 item_count = 5
-item_0/text = "Fullscreen"
-item_1/text = "Windowed"
-item_2/text = "Maximized"
-item_3/text = "Minimized"
-item_4/text = "Exclusive Fullscreen"
+selected = 0
+popup/item_0/text = "3840 X 2160"
+popup/item_0/id = 0
+popup/item_1/text = "2560 X 1440"
+popup/item_1/id = 1
+popup/item_2/text = "1920 X 1080"
+popup/item_2/id = 2
+popup/item_3/text = "1280 X 720"
+popup/item_3/id = 3
+popup/item_4/text = "1152 X 648"
+popup/item_4/id = 4
 
 [node name="ViewportModeLabel" type="Label" parent="."]
-offset_left = 2021.0
-offset_top = 818.0
-offset_right = 2211.0
-offset_bottom = 896.0
+offset_left = 2000.0
+offset_top = 800.0
+offset_right = 2200.0
+offset_bottom = 880.0
 theme_override_fonts/font = ExtResource("2_rq8ol")
 theme_override_font_sizes/font_size = 64
 text = "Mode"
 
+[node name="ViewportOptions" type="OptionButton" parent="."]
+offset_left = 2267.0
+offset_top = 606.0
+offset_right = 2967.0
+offset_bottom = 706.0
+focus_neighbor_left = NodePath("../ResolutionOptions")
+focus_neighbor_top = NodePath("../BackButton")
+focus_neighbor_right = NodePath("../ApplyButton")
+focus_neighbor_bottom = NodePath("../BackButton")
+focus_next = NodePath("../ApplyButton")
+focus_previous = NodePath("../ResolutionOptions")
+theme_override_fonts/font = ExtResource("2_rq8ol")
+theme_override_font_sizes/font_size = 64
+item_count = 5
+selected = 0
+popup/item_0/text = "FULLSCREEN"
+popup/item_0/id = 0
+popup/item_1/text = "WINDOWED"
+popup/item_1/id = 1
+popup/item_2/text = "MAXIMIZED"
+popup/item_2/id = 2
+popup/item_3/text = "MINIMIZED"
+popup/item_3/id = 3
+popup/item_4/text = "EXCLUSIVE FULLSCREEN"
+popup/item_4/id = 4
+
+[node name="Button" type="Button" parent="."]
+offset_left = 1150.0
+offset_top = 897.0
+offset_right = 1687.0
+offset_bottom = 993.0
+focus_neighbor_left = NodePath("../Button6")
+focus_neighbor_top = NodePath("../ApplyButton")
+focus_neighbor_right = NodePath("../Button6")
+focus_neighbor_bottom = NodePath("../Button2")
+focus_next = NodePath("../Button2")
+focus_previous = NodePath("../BackButton")
+theme_override_font_sizes/font_size = 64
+text = "3840 X 2160"
+
+[node name="Button2" type="Button" parent="."]
+offset_left = 1153.0
+offset_top = 1012.0
+offset_right = 1690.0
+offset_bottom = 1108.0
+focus_neighbor_left = NodePath("../Button7")
+focus_neighbor_top = NodePath("../Button")
+focus_neighbor_right = NodePath("../Button7")
+focus_neighbor_bottom = NodePath("../Button3")
+focus_next = NodePath("../Button3")
+focus_previous = NodePath("../Button")
+theme_override_font_sizes/font_size = 64
+text = "2560 X 1440"
+
+[node name="Button3" type="Button" parent="."]
+offset_left = 1152.0
+offset_top = 1109.0
+offset_right = 1689.0
+offset_bottom = 1205.0
+focus_neighbor_left = NodePath("../Button8")
+focus_neighbor_top = NodePath("../Button2")
+focus_neighbor_right = NodePath("../Button8")
+focus_neighbor_bottom = NodePath("../Button4")
+focus_next = NodePath("../Button4")
+focus_previous = NodePath("../Button2")
+theme_override_font_sizes/font_size = 64
+text = "1920 X 1080"
+
+[node name="Button4" type="Button" parent="."]
+offset_left = 1151.0
+offset_top = 1219.0
+offset_right = 1688.0
+offset_bottom = 1315.0
+focus_neighbor_left = NodePath("../Button9")
+focus_neighbor_top = NodePath("../Button3")
+focus_neighbor_right = NodePath("../Button9")
+focus_neighbor_bottom = NodePath("../Button5")
+focus_next = NodePath("../Button5")
+focus_previous = NodePath("../Button3")
+theme_override_font_sizes/font_size = 64
+text = "1280 X 720"
+
+[node name="Button5" type="Button" parent="."]
+offset_left = 1153.0
+offset_top = 1328.0
+offset_right = 1690.0
+offset_bottom = 1424.0
+focus_neighbor_left = NodePath("../Button10")
+focus_neighbor_top = NodePath("../Button4")
+focus_neighbor_right = NodePath("../Button10")
+focus_neighbor_bottom = NodePath("../ApplyButton")
+focus_next = NodePath("../ApplyButton")
+focus_previous = NodePath("../Button4")
+theme_override_font_sizes/font_size = 64
+text = "1152 X 648"
+
+[node name="Button6" type="Button" parent="."]
+offset_left = 1992.0
+offset_top = 903.0
+offset_right = 2529.0
+offset_bottom = 999.0
+focus_neighbor_left = NodePath("../Button")
+focus_neighbor_top = NodePath("../BackButton")
+focus_neighbor_right = NodePath("../Button")
+focus_neighbor_bottom = NodePath("../Button7")
+focus_next = NodePath("../Button7")
+focus_previous = NodePath("../ApplyButton")
+theme_override_font_sizes/font_size = 64
+text = "FULLSCREEN"
+
+[node name="Button7" type="Button" parent="."]
+offset_left = 1990.0
+offset_top = 1008.0
+offset_right = 2527.0
+offset_bottom = 1104.0
+focus_neighbor_left = NodePath("../Button2")
+focus_neighbor_top = NodePath("../Button6")
+focus_neighbor_right = NodePath("../Button2")
+focus_neighbor_bottom = NodePath("../Button8")
+focus_next = NodePath("../Button8")
+focus_previous = NodePath("../Button6")
+theme_override_font_sizes/font_size = 64
+text = "MINIMIZED"
+
+[node name="Button8" type="Button" parent="."]
+offset_left = 1993.0
+offset_top = 1111.0
+offset_right = 2530.0
+offset_bottom = 1207.0
+focus_neighbor_left = NodePath("../Button3")
+focus_neighbor_top = NodePath("../Button7")
+focus_neighbor_right = NodePath("../Button3")
+focus_neighbor_bottom = NodePath("../Button9")
+focus_next = NodePath("../Button9")
+focus_previous = NodePath("../Button7")
+theme_override_font_sizes/font_size = 64
+text = "MAXIMIZED"
+
+[node name="Button9" type="Button" parent="."]
+offset_left = 1992.0
+offset_top = 1213.0
+offset_right = 2529.0
+offset_bottom = 1309.0
+focus_neighbor_left = NodePath("../Button4")
+focus_neighbor_top = NodePath("../Button8")
+focus_neighbor_right = NodePath("../Button4")
+focus_neighbor_bottom = NodePath("../Button10")
+focus_next = NodePath("../Button10")
+focus_previous = NodePath("../Button8")
+theme_override_font_sizes/font_size = 64
+text = "WINDOWED"
+
+[node name="Button10" type="Button" parent="."]
+offset_left = 1992.0
+offset_top = 1316.0
+offset_right = 2739.0
+offset_bottom = 1412.0
+focus_neighbor_left = NodePath("../Button5")
+focus_neighbor_top = NodePath("../Button9")
+focus_neighbor_right = NodePath("../Button5")
+focus_neighbor_bottom = NodePath("../BackButton")
+focus_next = NodePath("../BackButton")
+focus_previous = NodePath("../Button9")
+theme_override_font_sizes/font_size = 64
+text = "EXCLUSIVE FULLSCREEN"
+
 [connection signal="pressed" from="BackButton" to="." method="_on_back_button_pressed"]
 [connection signal="pressed" from="ApplyButton" to="." method="_on_apply_button_pressed"]
-[connection signal="item_selected" from="ResolutionList" to="." method="_on_resolution_list_item_selected"]
-[connection signal="item_selected" from="ViewportModeList" to="." method="_on_viewport_mode_list_item_selected"]
-[connection signal="item_selected" from="ViewportModeList" to="." method="_on_resolution_list_item_selected"]
+[connection signal="item_selected" from="ResolutionOptions" to="." method="_on_resolution_options_item_selected"]
+[connection signal="item_selected" from="ViewportOptions" to="." method="_on_viewport_mode_options_item_selected"]

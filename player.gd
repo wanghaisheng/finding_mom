@@ -10,6 +10,7 @@ signal freeze_frame(timeScale: float, duration: float)
 # ---all variables needed---
 @export var speed: float = 30000 # How fast the player will move (pixels/sec).
 @export var roll_speed: float = 45000
+@export var current_state = states.DEAD
 
 var last_direction_rotation = 0
 
@@ -18,14 +19,15 @@ var MusicNotes = preload("res://music_notes.tscn")
 var show_flash = true
 var right_music_note = true
 var mouse_moved = false
+var is_shooting = false
 
 enum states {
 	MOVE,
 	PARRY,
 	ROLL,
 	DEAD,
+	SHOOT,
 }
-var current_state = states.DEAD
 
 func live_again():
 	current_state = states.MOVE
@@ -41,14 +43,13 @@ func start_animations(v: Vector2):
 	if current_state == states.ROLL or current_state == states.PARRY:
 			$Area2D/LegsSprite.play()
 			$Area2D/BodySprite.play()
-	elif current_state == states.MOVE:		
+	elif current_state == states.MOVE or current_state == states.SHOOT:
 		if v.length() > 0:
 			$Area2D/LegsSprite.play()
 			$Area2D/BodySprite.play()
 		else:
 			$Area2D/LegsSprite.stop()
 			$Area2D/BodySprite.stop()
-	
 
 # should only be handling inputs correlating to movement and moving the cursor
 func _process(delta):
@@ -61,7 +62,7 @@ func _process(delta):
 
 		var speed_used
 		match current_state:
-			states.MOVE:
+			states.MOVE, states.SHOOT:
 				# might need to detect shooting here instead
 				speed_used = speed
 			states.PARRY:
@@ -82,16 +83,20 @@ func _process(delta):
 		
 		# TODO: fix bug where after parry, timing between legs and body are unpaired
 		# let the Legs update if in MOVE or PARRY. Let the Body update only in MOVE
-		if v != Vector2.ZERO and (current_state == states.MOVE or current_state == states.PARRY):
+		if v != Vector2.ZERO and (current_state == states.MOVE or current_state == states.SHOOT or current_state == states.PARRY):
 			# need to figure out how much to rotate the player
 			$Area2D/LegsSprite.set_rotation(rotation_rads)
 			$Area2D/LegsSprite.animation = "walk"
 			if current_state == states.MOVE:
 				$Area2D/BodySprite.animation = "walk"
-		elif current_state == states.MOVE or current_state == states.PARRY:
+			elif current_state == states.SHOOT:
+				$Area2D/BodySprite.animation = "shoot_walk"
+		elif current_state == states.MOVE or current_state == states.SHOOT or current_state == states.PARRY:
 			$Area2D/LegsSprite.animation = "stand"
 			if current_state == states.MOVE:
 				$Area2D/BodySprite.animation = "stand"
+			elif current_state == states.SHOOT:
+				$Area2D/BodySprite.animation = "shoot_stand"
 		
 		# aim for controller:
 		var aim_direction = Input.get_vector("aim_left", "aim_right", "aim_up", "aim_down")
@@ -124,7 +129,7 @@ func _process(delta):
 
 		# check current state and see what actions we can take
 		match current_state:
-			states.MOVE: # can shoot, parry, and roll
+			states.MOVE, states.SHOOT: # can shoot, parry, and roll
 				if Input.is_action_just_pressed("shoot"):
 					shoot_bullet($Area2D/BodySprite.rotation)
 				if Input.is_action_just_pressed("parry"):
@@ -152,6 +157,8 @@ func _input(event):
 		$Cursor.hide()
 
 func roll():
+	# reset all other actions:
+	reset_shoot()
 	set_collisions(0)
 	$Area2D/BodySprite.animation = "roll"
 	$Area2D/BodySprite.play()
@@ -175,9 +182,17 @@ func shoot_bullet(rotation_rads):
 	var pb = PlayerBullet.instantiate()
 	pb.set_bullet(pb.bullet_types.PLAYER_BULLET)
 	shoot.emit(pb, rotation_rads, position)
+	current_state = states.SHOOT
+	$ShootingAnimationTimer.start()
+	#$ShootingAnimationTimer. # reset the timer
 	return
 	
+func reset_shoot():
+	$ShootingAnimationTimer.stop()
+	
 func parry():
+	# reset all other actions:
+	reset_shoot()
 	set_parry_collisions(5)
 	$ParryArea.rotation = $Area2D/BodySprite.rotation
 	$Area2D/BodySprite.animation = "parry"
@@ -286,3 +301,8 @@ func _on_parry_success_timer_timeout():
 func _on_parry_active_timer_timeout():
 	set_parry_collisions(0)
 	$ParryActiveTimer.stop()
+
+
+func _on_shooting_animation_timer_timeout():
+	current_state = states.MOVE
+	$ShootingAnimationTimer.stop()

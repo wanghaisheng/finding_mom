@@ -4,16 +4,45 @@ extends Node
 @export var enemies_on = true
 
 var portal_scene = preload("res://portal.tscn")
+var mob_spawn_scene = preload("res://mob_spawn_location.tscn")
 
-var spawn_locations = {}
+var valid_spawn_locations = []
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	create_spawn_locations()
 	new_game()
+	
+func create_spawn_locations():
+	var start = $MobSpawnLocation.position
+	var end = $MobSpawnLocation2.position
+	var step = 128
+	var current = start
+	while current.x <= end.x:
+		while current.y <= end.y:
+			# here create a spawn location and at it to the list
+			var location: Node2D = mob_spawn_scene.instantiate()
+			location.position = current
+			location.exited.connect(location_exited)
+			location.entered.connect(location_entered)
+			add_child(location)
+			valid_spawn_locations.append(location)
+			current.y += step
+		current.x += step
+		current.y = start.y
+		
+# both of these seem to get called on creation so we dont have to remove them from the valid list by hand
+func location_exited(n: Node2D):
+	valid_spawn_locations.append(n)
+func location_entered(n: Node2D):
+	valid_spawn_locations.erase(n)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
-	pass
+	if $Player.current_state == $Player.states.DEAD:
+		if Input.is_action_just_pressed("parry") or Input.is_action_just_pressed("pause") or Input.is_action_just_pressed("roll") or Input.is_action_just_pressed("shoot") or Input.is_action_just_pressed("start_game"):
+			_on_pause_menu_return_menu()
+		
 	
 func _on_pause_menu_resume():
 	flip_pause_screen()
@@ -22,6 +51,7 @@ func flip_pause_screen():
 	if !get_tree().paused:
 		get_tree().paused = true
 		$PauseMenu.show()
+		$PauseMenu.take_focus()
 	elif get_tree().paused:
 		get_tree().paused = false
 		$PauseMenu.hide()
@@ -36,8 +66,6 @@ func game_over():
 	$HUD.hide_level()
 	
 	$Player.set_is_dead(true)
-	
-	#TODO: kick us back out to the main menu somehow
 
 #this function is called every time the start button is pressed
 func new_game():
@@ -80,16 +108,19 @@ func _on_mob_timer_timeout():
 		# Create a new instance of the Mob scene.
 		var mob = mob_scene.instantiate()
 
+		# select a random spawn location from the valid list
+		var n: Node2D = valid_spawn_locations[randi_range(0, len(valid_spawn_locations))]
+		
+		mob.position = n.position
+		
 		# ----------------------------------------
-		# TODO: change where they spawn in AND let the enemy move itself
-		# Choose a random location on Path2D.
-		var mob_spawn_location = $Player.position
-		#mob_spawn_location.progress_ratio = randf()
-		var rand_theta = randf() * 2 * PI
-		var distance_away = Vector2(sin(rand_theta) * 1920, cos(rand_theta) * 1920)
-
+		# old circle around player:
+		## Choose a random location on Path2D.
+		#var mob_spawn_location = $Player.position
+		#var rand_theta = randf() * 2 * PI
+		#var distance_away = Vector2(sin(rand_theta) * 1920, cos(rand_theta) * 1920)
 		# Set the mob's position to a random location.
-		mob.position = mob_spawn_location + distance_away
+		#mob.position = mob_spawn_location + distance_away
 		# ------------------------------------------
 		
 		# let the mob know where the player is
