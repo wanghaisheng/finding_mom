@@ -147,6 +147,14 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": ExtResource("23_vxcjv")
+}],
+"loop": true,
+"name": &"shoot_stand",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": ExtResource("22_rmrwh")
 }, {
 "duration": 1.0,
@@ -159,7 +167,7 @@ animations = [{
 "texture": ExtResource("23_vxcjv")
 }],
 "loop": true,
-"name": &"shoot",
+"name": &"shoot_walk",
 "speed": 5.0
 }, {
 "frames": [{
@@ -223,9 +231,7 @@ animation = &"walk"
 [node name="BodySprite" type="AnimatedSprite2D" parent="Area2D"]
 scale = Vector2(6, 6)
 sprite_frames = SubResource("SpriteFrames_nwkqy")
-animation = &"parry"
-frame = 3
-frame_progress = 0.501325
+animation = &"roll"
 
 [node name="RightSide" type="Marker2D" parent="Area2D/BodySprite"]
 position = Vector2(0, 15)
@@ -276,6 +282,9 @@ wait_time = 0.05
 [node name="ParryActiveTimer" type="Timer" parent="."]
 wait_time = 0.25
 
+[node name="ShootingAnimationTimer" type="Timer" parent="."]
+one_shot = true
+
 [node name="Camera2D" type="Camera2D" parent="."]
 position_smoothing_enabled = true
 drag_horizontal_enabled = true
@@ -296,3 +305,4 @@ drag_bottom_margin = 0.1
 [connection signal="timeout" from="MusicNoteTimer" to="." method="_on_music_note_timer_timeout"]
 [connection signal="timeout" from="ParrySuccessTimer" to="." method="_on_parry_success_timer_timeout"]
 [connection signal="timeout" from="ParryActiveTimer" to="." method="_on_parry_active_timer_timeout"]
+[connection signal="timeout" from="ShootingAnimationTimer" to="." method="_on_shooting_animation_timer_timeout"]

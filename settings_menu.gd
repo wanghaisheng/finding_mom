@@ -7,7 +7,6 @@ var selectedViewportMode = ""
 
 var config = ConfigFile.new()
 
-# Called when the node enters the scene tree for the first time.
 func _ready():
 	# select the settings from the loaded settings
 	# then apply all of the settings
@@ -21,6 +20,7 @@ func _process(_delta):
 func apply_settings():
 	_on_apply_button_pressed()
 
+# TODO not working right now
 func _on_apply_button_pressed():
 	var sizes = selectedResolution.split(" X ", false, 2)
 	get_window().size = Vector2i(int(sizes[0]), int(sizes[1]))
@@ -54,20 +54,24 @@ func load_settings():
 		selectedViewportMode = config.get_value("Settings", "viewport_mode")
 
 	# next find the index of what they are and select them with this:
-	$ResolutionList.select(0)
-	$ViewportModeList.select(0)
-	for i in $ResolutionList.item_count:
-		if $ResolutionList.get_item_text(i) == selectedResolution:
-			$ResolutionList.select(i)
-	for i in $ViewportModeList.item_count:
-		if $ViewportModeList.get_item_text(i) == selectedViewportMode:
-			$ViewportModeList.select(i)
+	$ResolutionOptions.select(0)
+	$ViewportOptions.select(0)
+	for i in $ResolutionOptions.item_count:
+		if $ResolutionOptions.get_item_text(i) == selectedResolution:
+			$ResolutionOptions.select(i)
+	for i in $ViewportOptions.item_count:
+		if $ViewportOptions.get_item_text(i) == selectedViewportMode:
+			$ViewportOptions.select(i)
 
-func _on_resolution_list_item_selected(index):
-	selectedResolution = $ResolutionList.get_item_text(index)
+func _on_resolution_options_item_selected(index):
+	selectedResolution = $ResolutionOptions.get_item_text(index)
 
-func _on_viewport_mode_list_item_selected(index):
-	selectedViewportMode = $ViewportModeList.get_item_text(index)
+func _on_viewport_mode_options_item_selected(index):
+	selectedViewportMode = $ViewportOptions.get_item_text(index)
 
 func _on_back_button_pressed():
 	back_button_pressed.emit()
+	
+# this grabs the focus when we switch to this scene
+func take_focus():
+	$ApplyButton.grab_focus()

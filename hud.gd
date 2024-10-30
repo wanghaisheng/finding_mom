@@ -2,8 +2,8 @@ extends CanvasLayer
 
 signal player_die
 
-var total_hearts = 5
-var current_health = 5
+var total_hearts = 1
+var current_health = 1
 
 var total_bullets = 3
 var current_bullets = 3
