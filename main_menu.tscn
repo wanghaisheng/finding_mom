@@ -93,6 +93,16 @@ metadata/_edit_use_anchors_ = true
 [node name="SettingsMenu" parent="." instance=ExtResource("9_tt7vj")]
 visible = false
 
+[node name="SkipLabel" type="Label" parent="."]
+visible = false
+offset_left = 3318.0
+offset_top = 2082.0
+offset_right = 3840.0
+offset_bottom = 2159.0
+theme_override_fonts/font = ExtResource("5_ad68v")
+theme_override_font_sizes/font_size = 48
+text = "`Esc` or `Start` to skip"
+
 [connection signal="finish" from="OpeningScene" to="." method="_on_opening_scene_finish"]
 [connection signal="pressed" from="MainMenuCanvas/PLAY_BUTTON" to="." method="_on_play_button_pressed"]
 [connection signal="pressed" from="MainMenuCanvas/SETTINGS_BUTTON" to="." method="_on_settings_button_pressed"]

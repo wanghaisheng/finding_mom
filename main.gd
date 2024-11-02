@@ -95,7 +95,6 @@ func play_next_level():
 	
 	$Player.set_is_dead(false)
 
-	#$HUD.reset_health() #TODO decide if we want to reset health or not (leaning towards no)
 	$HUD.display_hearts()
 	$HUD.display_bullets()
 	

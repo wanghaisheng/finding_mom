@@ -95,7 +95,7 @@ func move_soldier():
 				change_living_texture("soldier_attack", false)
 	start_animations(velocity)
 	move_and_slide()
-	
+
 func set_player(p):
 	player = p
 
