@@ -2,7 +2,7 @@
 
 This is a godot video game with the style of a top-down bullet-hell.
 
-Alpha version is coming soon to (itch.io)[itch.io].
+Alpha version is coming soon to [itch.io](itch.io).
 
 ![Main Menu](./advertising/main_menu.png)
 
