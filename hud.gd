@@ -68,6 +68,7 @@ func lose_heart():
 	if current_health <= 0:
 		restart_level()
 		player_die.emit()
+		$DeathMessageTimer.start()
 
 
 		
@@ -161,3 +162,7 @@ func restart_score():
 	
 func stop():
 	$ScoreTimer.stop()
+
+
+func _on_death_message_timer_timeout():
+	$DeathSkipLabel.show()
