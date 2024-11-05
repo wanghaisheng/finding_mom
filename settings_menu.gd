@@ -20,7 +20,6 @@ func _process(_delta):
 func apply_settings():
 	_on_apply_button_pressed()
 
-# TODO not working right now
 func _on_apply_button_pressed():
 	var sizes = selectedResolution.split(" X ", false, 2)
 	get_window().size = Vector2i(int(sizes[0]), int(sizes[1]))

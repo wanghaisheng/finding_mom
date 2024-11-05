@@ -14,8 +14,7 @@ func _on_settings_button_pressed():
 	else:
 		$MainPauseMenu.show()
 		$SettingsMenu.hide()
-
-
+		take_focus()
 
 func _on_quit_button_pressed():
 	return_menu.emit()
@@ -25,6 +24,6 @@ func _process(delta):
 		_on_resume_button_pressed()
 	pass
 	
-# this grabs the focus when the menu is switched to this scene
+# this grabs the focus when the menu or settings is switched to this scene
 func take_focus():
 	$MainPauseMenu/ReferenceRect/ResumeButton.grab_focus()
