@@ -38,13 +38,3 @@ func _on_settings_button_pressed():
 		$MainMenuCanvas.show()
 		$MainMenuCanvas/PLAY_BUTTON.grab_focus()
 		$SettingsMenu.hide()
-
-func _input(event: InputEvent) -> void:
-	if event is InputEventJoypadButton and event.device == 0 and \
-	   event.button_index == JOY_BUTTON_A and event.pressed:
-			var JoyClick = InputEventMouseButton.new()
-			JoyClick.button_index = MOUSE_BUTTON_LEFT
-			JoyClick.position = focused_node.position
-			JoyClick.position += Vector2(20, 20) # make sure we get onto the button
-			JoyClick.pressed = true
-			Input.parse_input_event(JoyClick)
