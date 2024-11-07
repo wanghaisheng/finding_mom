@@ -44,7 +44,7 @@ focus_previous = NodePath("../QUIT_BUTTON")
 theme_override_fonts/font = ExtResource("5_ad68v")
 theme_override_font_sizes/font_size = 64
 action_mode = 0
-text = "PLAY"
+text = "Play"
 script = SubResource("GDScript_p1d5m")
 metadata/_edit_use_anchors_ = true
 
@@ -65,7 +65,7 @@ focus_previous = NodePath("../PLAY_BUTTON")
 theme_override_fonts/font = ExtResource("5_ad68v")
 theme_override_font_sizes/font_size = 64
 action_mode = 0
-text = "SETTINGS"
+text = "Settings"
 script = SubResource("GDScript_mh8sc")
 metadata/_edit_use_anchors_ = true
 
@@ -86,7 +86,7 @@ focus_previous = NodePath("../SETTINGS_BUTTON")
 theme_override_fonts/font = ExtResource("5_ad68v")
 theme_override_font_sizes/font_size = 64
 action_mode = 0
-text = "QUIT"
+text = "Quit"
 script = SubResource("GDScript_4pgbn")
 metadata/_edit_use_anchors_ = true
 

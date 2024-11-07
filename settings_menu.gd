@@ -8,9 +8,6 @@ var selectedViewportMode = ""
 var config = ConfigFile.new()
 
 func _ready():
-	# select the settings from the loaded settings
-	# then apply all of the settings
-	# make sure all settings values are set and not blank when displaying the menu
 	pass
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

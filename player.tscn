@@ -231,7 +231,7 @@ animation = &"walk"
 [node name="BodySprite" type="AnimatedSprite2D" parent="Area2D"]
 scale = Vector2(6, 6)
 sprite_frames = SubResource("SpriteFrames_nwkqy")
-animation = &"roll"
+animation = &"walk"
 
 [node name="RightSide" type="Marker2D" parent="Area2D/BodySprite"]
 position = Vector2(0, 15)
