@@ -4,6 +4,7 @@ var game = load("res://main_game.tscn")
 
 var focused_node: Control
 
+# here we go through setting up the settings
 func _ready():
 	$SettingsMenu.load_settings()
 	$SettingsMenu.apply_settings()
