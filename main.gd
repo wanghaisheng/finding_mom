@@ -84,7 +84,6 @@ func _on_player_shoot(bullet, direction, location):
 		bullet.set_direction(direction)
 		#spawned_bullet.set_sprite_rotation(direction)
 		bullet.set_is_player_bullet()
-		bullet.position = location
 		add_child(bullet)
 		bullet.player_bullet_dequeue.connect(_on_player_bullet_dequeue)
 		
@@ -128,14 +127,10 @@ func _on_hud_level_complete():
 	#kill all first before we add another portal
 	kill_all_active_things()
 	
-	# TODO: this might be covered by the new level file
-	var portal = portal_scene.instantiate()
-	portal.position = $StartPosition.position
-	add_child(portal)
+	# end_level takes care of the portal creation
+	$Level1.end_level($Player.position)
 	
-	$Level1.stop_spawning()
-	
-	#TODO: stop current music and play level complete sound
+	#TODO: stop current music and play level complete sound?
 
 func _on_player_entered_portal():
 	play_next_level()
@@ -154,3 +149,7 @@ func frame_freeze(ts, d):
 	var timer = get_tree().create_timer(d * ts)
 	await timer.timeout
 	Engine.time_scale = 1.0
+
+
+func _on_level_1_spawn_portal(portal):
+	add_child(portal)
