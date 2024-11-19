@@ -231,13 +231,16 @@ animation = &"walk"
 [node name="BodySprite" type="AnimatedSprite2D" parent="Area2D"]
 scale = Vector2(6, 6)
 sprite_frames = SubResource("SpriteFrames_nwkqy")
-animation = &"walk"
+animation = &"shoot_stand"
 
 [node name="RightSide" type="Marker2D" parent="Area2D/BodySprite"]
 position = Vector2(0, 15)
 
 [node name="LeftSide" type="Marker2D" parent="Area2D/BodySprite"]
 position = Vector2(0, -15)
+
+[node name="ShootPoint" type="Marker2D" parent="Area2D/BodySprite"]
+position = Vector2(14, 15)
 
 [node name="CollisionBox" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource("CapsuleShape2D_wsoa5")

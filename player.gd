@@ -104,7 +104,8 @@ func _process(delta):
 		# aim for mouse:
 		var mouse_pos = get_global_mouse_position()
 		var mouse_direction = mouse_pos - position
-		
+
+		var cursor_position = get_global_mouse_position()
 		# if we are aiming with a controller:
 		if aim_direction != Vector2.ZERO:
 			#hide the mouse
@@ -115,23 +116,25 @@ func _process(delta):
 			var c_position = aim_direction.normalized() * 600
 			$Cursor.position = c_position
 			
+			cursor_position = c_position + position
+			
 			# rotate the rest of the body and music notes
-			$Area2D/BodySprite.look_at(c_position + position)
-			$Area2D/CollisionBox.look_at(c_position + position)
-			$WallCollision.look_at(c_position + position)
+			$Area2D/BodySprite.look_at(cursor_position)
+			$Area2D/CollisionBox.look_at(cursor_position)
+			$WallCollision.look_at(cursor_position)
 			mouse_moved = false
 			
 		#elif we are aiming with the mouse
 		elif mouse_direction != Vector2.ZERO and mouse_moved:
-			$Area2D/BodySprite.look_at(get_global_mouse_position())
-			$Area2D/CollisionBox.look_at(get_global_mouse_position())
-			$WallCollision.look_at(get_global_mouse_position())
+			$Area2D/BodySprite.look_at(cursor_position)
+			$Area2D/CollisionBox.look_at(cursor_position)
+			$WallCollision.look_at(cursor_position)
 
 		# check current state and see what actions we can take
 		match current_state:
 			states.MOVE, states.SHOOT: # can shoot, parry, and roll
 				if Input.is_action_just_pressed("shoot"):
-					shoot_bullet($Area2D/BodySprite.rotation)
+					shoot_bullet(cursor_position)
 				if Input.is_action_just_pressed("parry"):
 					current_state = states.PARRY
 					parry()
@@ -177,11 +180,15 @@ func set_parry_all_collisions(c: int):
 	$ParryAreaAll.collision_layer = c
 	$ParryAreaAll.collision_mask = c
 
-func shoot_bullet(rotation_rads):
+func shoot_bullet(cursor_position: Vector2):
 	# generate a new bullet from the bullet_types in the right direction
 	var pb = PlayerBullet.instantiate()
 	pb.set_bullet(pb.bullet_types.PLAYER_BULLET)
-	shoot.emit(pb, rotation_rads, position)
+	var start_position = $Area2D/BodySprite/ShootPoint.global_position
+	var direction_vector = cursor_position - start_position
+	var direction = atan2(direction_vector.y, direction_vector.x)
+	pb.position = start_position
+	shoot.emit(pb, direction, start_position)
 	current_state = states.SHOOT
 	$ShootingAnimationTimer.start()
 	#$ShootingAnimationTimer. # reset the timer
