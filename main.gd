@@ -2,21 +2,15 @@ extends Node
 
 @export var mob_scene: PackedScene
 
-var portal_scene = preload("res://portal.tscn")
-var mob_spawn_scene = preload("res://spawn_location.tscn")
-
-# Called when the node enters the scene tree for the first time.
 func _ready():
 	new_game()
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
 	if $Player.current_state == $Player.states.DEAD:
 		#TODO: might want to make this check more robust
 		if Input.is_action_just_pressed("parry") or Input.is_action_just_pressed("pause") or Input.is_action_just_pressed("roll") or Input.is_action_just_pressed("shoot") or Input.is_action_just_pressed("start_game"):
 			_on_pause_menu_return_menu()
-		
-	
+
 func _on_pause_menu_resume():
 	flip_pause_screen()
 
@@ -46,18 +40,10 @@ func new_game():
 	$Player.live_again()
 
 func play_next_level():
-	# get the current level and tell the TileMap what to display next
+	# TODO: get the current level and tell the TileMap what to display next
 	var level = $HUD.get_level()
-	match level:
-		0:
-			# set grass
-			pass
-		1:
-			# set something
-			pass
-		2:
-			# set something
-			pass
+	#$Level1.set_level(level)
+
 	$Player.start($StartPosition.position)
 	$Level1.start_spawning()
 

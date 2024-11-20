@@ -4,9 +4,9 @@ extends Node2D
 signal spawn_mob(m: Resource)
 signal spawn_portal(m: Resource)
 
-var mob_spawn_scene = preload("res://spawn_location.tscn")
-var mob_scene = preload("res://mob.tscn")
-var portal_scene = preload("res://portal.tscn")
+@export var mob_spawn_scene: PackedScene
+@export var mob_scene: PackedScene
+@export var portal_scene: PackedScene
 
 var valid_mob_spawn_locations = []
 
@@ -91,6 +91,6 @@ func _on_mob_timer_timeout():
 		# Create a new instance of the Mob scene.
 		var mob = mob_scene.instantiate()
 		# select a random spawn location from the valid list
-		var n: Node2D = valid_mob_spawn_locations[randi_range(0, len(valid_mob_spawn_locations) - 1)]
+		var n: Node2D = valid_mob_spawn_locations[randi_range(0, len(valid_mob_spawn_locations)  - 1)]
 		mob.position = n.position
 		spawn_mob.emit(mob)

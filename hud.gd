@@ -1,14 +1,18 @@
 extends CanvasLayer
 
 signal player_die
+signal start_game
+signal level_complete
+signal quit_game
 
-var total_hearts = 5
-var current_health = 5
+@export var total_hearts = 5
+@export var current_health = 5
 
-var total_bullets = 3
-var current_bullets = 3
+@export var total_bullets = 3
+@export var current_bullets = 3
 
-var current_level = 0
+@export var current_level = 0
+@export var level_length = 5
 
 var score = 0
 
@@ -18,15 +22,26 @@ var empty_heart = load("res://Assets/Icons/empty_heart.png")
 var bullet = load("res://Assets/Bullets/basic_bullet.png")
 var empty_bullet = load("res://Assets/Bullets/basic_empty_bullet.png")
 
-signal start_game
-signal level_complete
-signal quit_game
-
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	show_controls()
 	pass
+	
+# will handle event input
+func _input(event: InputEvent):	
+	# see if the mouse moved to display mouse and hide cursor:
+	if event is InputEventMouseMotion or event is InputEventMouseButton or event is InputEventKey:
+			display_control_type("keyboard")
+	elif event is InputEventJoypadButton or event is InputEventJoypadMotion:
+			display_control_type("xbox")
+		
+		
+func display_control_type(name: String):
+	$ControlsArea/ShootControlSprite.play(name)
+	$ControlsArea/ParryControlSprite.play(name)
+	$ControlsArea/RollControlSprite.play(name)
+	$ControlsArea/MoveControlSprite.play(name)
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	pass
 
@@ -37,6 +52,11 @@ func show_message(text):
 
 func show_game_over():
 	show_message("Game Over")
+	
+func show_controls():
+	$ControlsArea.show()
+	display_control_type("keyboard")
+	$AnimationPlayer.play("controls_dissappear")
 
 func _on_message_timer_timeout():
 	$Message.hide()
@@ -145,7 +165,7 @@ func display_bullets():
 
 func update_score():
 	$ScoreLabel.text = str(60 - score)
-	if score >= 60: #TODO: reset to 60
+	if score >= level_length:
 		show_message("Complete")
 		$ScoreTimer.stop()
 		reset_all_bullets()
