@@ -1,7 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://cscp8ee41n224"]
+[gd_scene load_steps=9 format=3 uid="uid://cscp8ee41n224"]
 
 [ext_resource type="Script" path="res://main_menu.gd" id="1_u8lhs"]
 [ext_resource type="PackedScene" uid="uid://cdbt8nsaysi3g" path="res://opening_scene.tscn" id="2_pdp0y"]
+[ext_resource type="Texture2D" uid="uid://cdg76o3tehvtu" path="res://Assets/Icons/Finding_Mom_4k.png" id="4_bbv0j"]
 [ext_resource type="FontFile" uid="uid://omargf2labe" path="res://Assets/fonts/Robot Crush.ttf" id="5_ad68v"]
 [ext_resource type="PackedScene" uid="uid://bmd1u62glggyi" path="res://settings_menu.tscn" id="9_tt7vj"]
 
@@ -27,68 +28,118 @@ script = ExtResource("1_u8lhs")
 
 [node name="MainMenuCanvas" type="CanvasLayer" parent="."]
 
-[node name="PLAY_BUTTON" type="Button" parent="MainMenuCanvas"]
-anchors_preset = -1
-anchor_right = 0.0924479
-anchor_bottom = 0.0523148
-offset_left = 237.0
-offset_top = 541.0
-offset_right = 459.0
-offset_bottom = 611.0
-focus_neighbor_left = NodePath("../QUIT_BUTTON")
-focus_neighbor_top = NodePath("../QUIT_BUTTON")
-focus_neighbor_right = NodePath("../SETTINGS_BUTTON")
-focus_neighbor_bottom = NodePath("../SETTINGS_BUTTON")
-focus_next = NodePath("../SETTINGS_BUTTON")
-focus_previous = NodePath("../QUIT_BUTTON")
+[node name="ReferenceRect" type="ReferenceRect" parent="MainMenuCanvas"]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 419.0
+offset_top = -700.0
+offset_right = 1419.0
+grow_vertical = 0
+
+[node name="PLAY_BUTTON" type="Button" parent="MainMenuCanvas/ReferenceRect"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -250.0
+offset_top = -90.0
+offset_right = 250.0
+offset_bottom = 90.0
+grow_horizontal = 2
+grow_vertical = 2
+focus_neighbor_left = NodePath("../../ReferenceRect3/QUIT_BUTTON")
+focus_neighbor_top = NodePath("../../ReferenceRect3/QUIT_BUTTON")
+focus_neighbor_right = NodePath("../../ReferenceRect2/SETTINGS_BUTTON")
+focus_neighbor_bottom = NodePath("../../ReferenceRect2/SETTINGS_BUTTON")
+focus_next = NodePath("../../ReferenceRect2/SETTINGS_BUTTON")
+focus_previous = NodePath("../../ReferenceRect3/QUIT_BUTTON")
 theme_override_fonts/font = ExtResource("5_ad68v")
 theme_override_font_sizes/font_size = 64
 action_mode = 0
 text = "Play"
 script = SubResource("GDScript_p1d5m")
-metadata/_edit_use_anchors_ = true
 
-[node name="SETTINGS_BUTTON" type="Button" parent="MainMenuCanvas"]
-anchors_preset = -1
-anchor_right = 0.0911458
-anchor_bottom = 0.0560185
-offset_left = 244.0
-offset_top = 839.0
-offset_right = 466.0
-offset_bottom = 909.0
-focus_neighbor_left = NodePath("../PLAY_BUTTON")
-focus_neighbor_top = NodePath("../PLAY_BUTTON")
-focus_neighbor_right = NodePath("../QUIT_BUTTON")
-focus_neighbor_bottom = NodePath("../QUIT_BUTTON")
-focus_next = NodePath("../QUIT_BUTTON")
-focus_previous = NodePath("../PLAY_BUTTON")
+[node name="ReferenceRect2" type="ReferenceRect" parent="MainMenuCanvas"]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -500.0
+offset_top = -700.0
+offset_right = 500.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="SETTINGS_BUTTON" type="Button" parent="MainMenuCanvas/ReferenceRect2"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -250.0
+offset_top = -90.0
+offset_right = 250.0
+offset_bottom = 90.0
+grow_horizontal = 2
+grow_vertical = 2
+focus_neighbor_left = NodePath("../../ReferenceRect/PLAY_BUTTON")
+focus_neighbor_top = NodePath("../../ReferenceRect/PLAY_BUTTON")
+focus_neighbor_right = NodePath("../../ReferenceRect3/QUIT_BUTTON")
+focus_neighbor_bottom = NodePath("../../ReferenceRect3/QUIT_BUTTON")
+focus_next = NodePath("../../ReferenceRect3/QUIT_BUTTON")
+focus_previous = NodePath("../../ReferenceRect/PLAY_BUTTON")
 theme_override_fonts/font = ExtResource("5_ad68v")
 theme_override_font_sizes/font_size = 64
 action_mode = 0
 text = "Settings"
 script = SubResource("GDScript_mh8sc")
-metadata/_edit_use_anchors_ = true
 
-[node name="QUIT_BUTTON" type="Button" parent="MainMenuCanvas"]
-anchors_preset = -1
-anchor_right = 0.0898438
-anchor_bottom = 0.0523148
-offset_left = 254.0
-offset_top = 1148.0
-offset_right = 476.0
-offset_bottom = 1218.0
-focus_neighbor_left = NodePath("../SETTINGS_BUTTON")
-focus_neighbor_top = NodePath("../SETTINGS_BUTTON")
-focus_neighbor_right = NodePath("../PLAY_BUTTON")
-focus_neighbor_bottom = NodePath("../PLAY_BUTTON")
-focus_next = NodePath("../PLAY_BUTTON")
-focus_previous = NodePath("../SETTINGS_BUTTON")
+[node name="ReferenceRect3" type="ReferenceRect" parent="MainMenuCanvas"]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -1419.0
+offset_top = -700.0
+offset_right = -419.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="QUIT_BUTTON" type="Button" parent="MainMenuCanvas/ReferenceRect3"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -250.0
+offset_top = -90.0
+offset_right = 250.0
+offset_bottom = 90.0
+grow_horizontal = 2
+grow_vertical = 2
+focus_neighbor_left = NodePath("../../ReferenceRect2/SETTINGS_BUTTON")
+focus_neighbor_top = NodePath("../../ReferenceRect2/SETTINGS_BUTTON")
+focus_neighbor_right = NodePath("../../ReferenceRect/PLAY_BUTTON")
+focus_neighbor_bottom = NodePath("../../ReferenceRect/PLAY_BUTTON")
+focus_next = NodePath("../../ReferenceRect/PLAY_BUTTON")
+focus_previous = NodePath("../../ReferenceRect2/SETTINGS_BUTTON")
 theme_override_fonts/font = ExtResource("5_ad68v")
 theme_override_font_sizes/font_size = 64
 action_mode = 0
 text = "Quit"
 script = SubResource("GDScript_4pgbn")
-metadata/_edit_use_anchors_ = true
+
+[node name="Title" type="Sprite2D" parent="MainMenuCanvas"]
+position = Vector2(1960, 450)
+scale = Vector2(0.4, 0.4)
+texture = ExtResource("4_bbv0j")
 
 [node name="SettingsMenu" parent="." instance=ExtResource("9_tt7vj")]
 visible = false
@@ -104,7 +155,7 @@ theme_override_font_sizes/font_size = 48
 text = "`Esc` or `Start` to skip"
 
 [connection signal="finish" from="OpeningScene" to="." method="_on_opening_scene_finish"]
-[connection signal="pressed" from="MainMenuCanvas/PLAY_BUTTON" to="." method="_on_play_button_pressed"]
-[connection signal="pressed" from="MainMenuCanvas/SETTINGS_BUTTON" to="." method="_on_settings_button_pressed"]
-[connection signal="pressed" from="MainMenuCanvas/QUIT_BUTTON" to="." method="_on_quit_button_pressed"]
+[connection signal="pressed" from="MainMenuCanvas/ReferenceRect/PLAY_BUTTON" to="." method="_on_play_button_pressed"]
+[connection signal="pressed" from="MainMenuCanvas/ReferenceRect2/SETTINGS_BUTTON" to="." method="_on_settings_button_pressed"]
+[connection signal="pressed" from="MainMenuCanvas/ReferenceRect3/QUIT_BUTTON" to="." method="_on_quit_button_pressed"]
 [connection signal="back_button_pressed" from="SettingsMenu" to="." method="_on_settings_button_pressed"]

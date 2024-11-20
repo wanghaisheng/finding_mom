@@ -8,8 +8,8 @@ var focused_node: Control
 func _ready():
 	$SettingsMenu.load_settings()
 	$SettingsMenu.apply_settings()
-	$MainMenuCanvas/PLAY_BUTTON.grab_focus()
-	focused_node = $MainMenuCanvas/PLAY_BUTTON
+	$MainMenuCanvas/ReferenceRect/PLAY_BUTTON.grab_focus()
+	focused_node = $MainMenuCanvas/ReferenceRect/PLAY_BUTTON
 	
 	get_viewport().connect("gui_focus_changed", focus_changed)
 	
@@ -37,5 +37,5 @@ func _on_settings_button_pressed():
 		$SettingsMenu.take_focus()
 	else:
 		$MainMenuCanvas.show()
-		$MainMenuCanvas/PLAY_BUTTON.grab_focus()
+		$MainMenuCanvas/ReferenceRect/PLAY_BUTTON.grab_focus()
 		$SettingsMenu.hide()

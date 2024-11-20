@@ -19,33 +19,56 @@ theme_override_fonts/font = ExtResource("2_rq8ol")
 theme_override_font_sizes/font_size = 128
 text = "Settings"
 
-[node name="BackButton" type="Button" parent="."]
-offset_left = 2306.0
-offset_top = 1933.0
-offset_right = 2462.0
-offset_bottom = 2029.0
+[node name="ReferenceRect" type="ReferenceRect" parent="."]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -500.0
+offset_top = -400.0
+offset_right = 500.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="BackButton" type="Button" parent="ReferenceRect"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -360.0
+offset_top = -85.0
+offset_bottom = 85.0
+grow_horizontal = 0
+grow_vertical = 2
 focus_neighbor_left = NodePath("../ApplyButton")
-focus_neighbor_top = NodePath("../ViewportOptions")
+focus_neighbor_top = NodePath("../../ViewportOptions")
 focus_neighbor_right = NodePath("../ApplyButton")
-focus_neighbor_bottom = NodePath("../ViewportOptions")
-focus_next = NodePath("../ResolutionOptions")
+focus_neighbor_bottom = NodePath("../../ViewportOptions")
+focus_next = NodePath("../../ResolutionOptions")
 focus_previous = NodePath("../ApplyButton")
 theme_override_fonts/font = ExtResource("2_rq8ol")
 theme_override_font_sizes/font_size = 64
 action_mode = 0
 text = "Back"
 
-[node name="ApplyButton" type="Button" parent="."]
-offset_left = 1472.0
-offset_top = 1936.0
-offset_right = 1524.0
-offset_bottom = 1967.0
+[node name="ApplyButton" type="Button" parent="ReferenceRect"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -85.0
+offset_right = 360.0
+offset_bottom = 85.0
+grow_vertical = 2
 focus_neighbor_left = NodePath("../BackButton")
-focus_neighbor_top = NodePath("../ResolutionOptions")
+focus_neighbor_top = NodePath("../../ResolutionOptions")
 focus_neighbor_right = NodePath("../BackButton")
-focus_neighbor_bottom = NodePath("../ResolutionOptions")
+focus_neighbor_bottom = NodePath("../../ResolutionOptions")
 focus_next = NodePath("../BackButton")
-focus_previous = NodePath("../ViewportOptions")
+focus_previous = NodePath("../../ViewportOptions")
 theme_override_fonts/font = ExtResource("2_rq8ol")
 theme_override_font_sizes/font_size = 64
 action_mode = 0
@@ -67,11 +90,11 @@ offset_top = 920.0
 offset_right = 1770.0
 offset_bottom = 1020.0
 focus_neighbor_left = NodePath("../ViewportOptions")
-focus_neighbor_top = NodePath("../ApplyButton")
+focus_neighbor_top = NodePath("../ReferenceRect/ApplyButton")
 focus_neighbor_right = NodePath("../ViewportOptions")
-focus_neighbor_bottom = NodePath("../ApplyButton")
+focus_neighbor_bottom = NodePath("../ReferenceRect/ApplyButton")
 focus_next = NodePath("../ViewportOptions")
-focus_previous = NodePath("../BackButton")
+focus_previous = NodePath("../ReferenceRect/BackButton")
 theme_override_fonts/font = ExtResource("2_rq8ol")
 theme_override_font_sizes/font_size = 64
 item_count = 5
@@ -102,10 +125,10 @@ offset_top = 920.0
 offset_right = 2770.0
 offset_bottom = 1020.0
 focus_neighbor_left = NodePath("../ResolutionOptions")
-focus_neighbor_top = NodePath("../BackButton")
+focus_neighbor_top = NodePath("../ReferenceRect/BackButton")
 focus_neighbor_right = NodePath("../ResolutionOptions")
-focus_neighbor_bottom = NodePath("../BackButton")
-focus_next = NodePath("../ApplyButton")
+focus_neighbor_bottom = NodePath("../ReferenceRect/BackButton")
+focus_next = NodePath("../ReferenceRect/ApplyButton")
 focus_previous = NodePath("../ResolutionOptions")
 theme_override_fonts/font = ExtResource("2_rq8ol")
 theme_override_font_sizes/font_size = 64
@@ -122,7 +145,7 @@ popup/item_3/id = 3
 popup/item_4/text = "Exclusive Fullscreen"
 popup/item_4/id = 4
 
-[connection signal="pressed" from="BackButton" to="." method="_on_back_button_pressed"]
-[connection signal="pressed" from="ApplyButton" to="." method="_on_apply_button_pressed"]
+[connection signal="pressed" from="ReferenceRect/BackButton" to="." method="_on_back_button_pressed"]
+[connection signal="pressed" from="ReferenceRect/ApplyButton" to="." method="_on_apply_button_pressed"]
 [connection signal="item_selected" from="ResolutionOptions" to="." method="_on_resolution_options_item_selected"]
 [connection signal="item_selected" from="ViewportOptions" to="." method="_on_viewport_mode_options_item_selected"]

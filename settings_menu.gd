@@ -70,4 +70,4 @@ func _on_back_button_pressed():
 	
 # this grabs the focus when we switch to this scene
 func take_focus():
-	$ApplyButton.grab_focus()
+	$ReferenceRect/ApplyButton.grab_focus()
