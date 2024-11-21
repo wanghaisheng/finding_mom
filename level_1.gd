@@ -49,7 +49,6 @@ func end_level(player_location: Vector2):
 
 	# find the second least distance
 	all_portal_locations.sort_custom(sort_by_distance)
-	print(all_portal_locations)
 	
 	var portal = portal_scene.instantiate()
 	#set to the second closest as we don't want to accidentally bump into it on creation
@@ -60,7 +59,6 @@ func sort_by_distance(a, b):
 	if a.distance < b.distance:
 		return true
 	return false
-	
 
 func create_spawn_locations():
 	var start = $MobSpawnLocation.position

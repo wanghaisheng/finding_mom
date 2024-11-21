@@ -20,6 +20,7 @@ var show_flash = true
 var right_music_note = true
 var mouse_moved = false
 var is_shooting = false
+var portal_position: Vector2
 
 enum states {
 	MOVE,
@@ -50,6 +51,42 @@ func start_animations(v: Vector2):
 		else:
 			$Area2D/LegsSprite.stop()
 			$Area2D/BodySprite.stop()
+
+func display_pointer(display: bool):
+	if display:
+		$PointerSprite.show()
+		$PointerSprite.play("point")
+	else:
+		$PointerSprite.hide()
+		$PointerSprite.stop()
+
+func set_portal(portal: Object):
+	portal_position = portal.position
+
+func portal_on_screen(on: bool):
+	if on:
+		$PointerSprite.hide()
+	else:
+		$PointerSprite.show()
+
+func portal_process():
+	if $PointerSprite.is_visible():
+		# get the radius of the circle the pointer will be on
+		var radius = 1000
+		print("pointer then player")
+		print(global_position)
+		print(position)
+		print(portal_position)
+		var dist: Vector2 = portal_position - global_position
+		dist = dist.normalized()
+		var rad: float = atan2(dist.y, dist.x)
+		var final_pos = (dist * 800)
+
+		$PointerSprite.position = final_pos
+		$PointerSprite.look_at(portal_position)
+		
+		
+		#PointerSprite.position = 
 
 # should only be handling inputs correlating to movement and moving the cursor
 func _process(delta):
@@ -150,6 +187,7 @@ func _process(delta):
 				pass
 			states.DEAD: # cannot do anything
 				pass
+	portal_process()
 
 # will handle event input
 func _input(event):	
@@ -270,6 +308,7 @@ func _on_area_2d_body_entered(body):
 			lose_life()
 		elif body.is_in_group("portals"):
 			entered_portal.emit()
+			display_pointer(false)
 		else:
 			pass
 
