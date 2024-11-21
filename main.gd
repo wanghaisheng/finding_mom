@@ -63,12 +63,10 @@ func play_next_level():
 
 func _on_player_shoot(bullet, direction, location):
 	# TODO: connect a audio sound either here or inside of the Bullet
-	# check to see if Player is alive
+	# check to see if Player is alive and has bullets to shoot
 	if $Player.get_is_dead and $HUD.shoot_bullet():
-		#var spawned_bullet = bullet.instantiate()
 		#order matters here
 		bullet.set_direction(direction)
-		#spawned_bullet.set_sprite_rotation(direction)
 		bullet.set_is_player_bullet()
 		add_child(bullet)
 		bullet.player_bullet_dequeue.connect(_on_player_bullet_dequeue)
@@ -77,13 +75,12 @@ func _on_player_music_note(note):
 	add_child(note)
 
 func _on_level_spawn_mob(mob):
-	# let the mob know where the player is
+	# let the mob know where the player is to attack
 	mob.set_player($Player)
 	mob.shoot.connect(_on_mob_shoot)
 	add_child(mob)
 
 func _on_mob_shoot(bullet, direction, location):
-	#var bullet = bullet.instantiate()
 	#order matters here
 	bullet.set_direction(direction)
 	bullet.set_is_enemy_bullet()
@@ -139,3 +136,17 @@ func frame_freeze(ts, d):
 
 func _on_level_1_spawn_portal(portal):
 	add_child(portal)
+
+	# connect the portal on screen detection
+	portal.entered.connect(_on_portal_entered)
+	portal.exited.connect(_on_portal_exited)
+	
+	# tell the Player about the portal to point to
+	$Player.set_portal(portal)
+	$Player.display_pointer(true)
+	
+func _on_portal_entered():
+	$Player.portal_on_screen(true)
+	
+func _on_portal_exited():
+	$Player.portal_on_screen(false)

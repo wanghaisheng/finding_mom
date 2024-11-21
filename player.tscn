@@ -1,4 +1,4 @@
-[gd_scene load_steps=40 format=3 uid="uid://rgkuwjb6bgdc"]
+[gd_scene load_steps=44 format=3 uid="uid://rgkuwjb6bgdc"]
 
 [ext_resource type="Script" path="res://player.gd" id="1_r8k0x"]
 [ext_resource type="Texture2D" uid="uid://buyr3kd5j0ove" path="res://Assets/Characters/player_character/middle_legs.png" id="2_q014k"]
@@ -32,6 +32,7 @@
 [ext_resource type="Texture2D" uid="uid://cp24404xcrc4g" path="res://Assets/Characters/player_character/robot_shoot_3.png" id="22_rmrwh"]
 [ext_resource type="Texture2D" uid="uid://bececk7h7ntla" path="res://Assets/Characters/player_character/robot_shoot_2.png" id="23_vxcjv"]
 [ext_resource type="Texture2D" uid="uid://cm3y0qwj0l3cu" path="res://Assets/Characters/player_character/robot_shoot_1.png" id="24_cbs7v"]
+[ext_resource type="Texture2D" uid="uid://c3gsqtlbd6v4d" path="res://Assets/Icons/pointing_hand.png" id="33_s1b6r"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_w5b52"]
 radius = 63.0
@@ -209,6 +210,28 @@ height = 168.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ue1xc"]
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_8pywk"]
+atlas = ExtResource("33_s1b6r")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ku8l8"]
+atlas = ExtResource("33_s1b6r")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_hlihm"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8pywk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ku8l8")
+}],
+"loop": true,
+"name": &"point",
+"speed": 2.0
+}]
+
 [node name="Player" type="CharacterBody2D" groups=["player"]]
 motion_mode = 1
 floor_block_on_wall = false
@@ -297,6 +320,12 @@ drag_left_margin = 0.1
 drag_top_margin = 0.1
 drag_right_margin = 0.1
 drag_bottom_margin = 0.1
+
+[node name="PointerSprite" type="AnimatedSprite2D" parent="."]
+visible = false
+scale = Vector2(6, 6)
+sprite_frames = SubResource("SpriteFrames_hlihm")
+animation = &"point"
 
 [connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

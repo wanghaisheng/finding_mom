@@ -31,7 +31,5 @@ func start():
 func end():
 	finish.emit()
 	
-
-
 func _on_robot_body_body_entered(body):
 	$RobotBody.queue_free()

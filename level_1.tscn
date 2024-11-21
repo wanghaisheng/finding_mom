@@ -8,7 +8,6 @@
 
 [node name="Level1" type="Node2D"]
 script = ExtResource("1_yjmf4")
-enemies_on = false
 mob_spawn_scene = ExtResource("3_m377v")
 mob_scene = ExtResource("3_11spw")
 portal_scene = ExtResource("4_ftfbk")

@@ -42,9 +42,6 @@ func display_control_type(name: String):
 	$ControlsArea/RollControlSprite.play(name)
 	$ControlsArea/MoveControlSprite.play(name)
 
-func _process(delta):
-	pass
-
 func show_message(text):
 	$Message.text = text
 	$Message.show()

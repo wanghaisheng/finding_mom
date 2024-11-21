@@ -4,6 +4,13 @@ var game = load("res://main_game.tscn")
 
 var focused_node: Control
 
+func _input(event: InputEvent):
+	# see if the mouse moved to display mouse and hide cursor:
+	if event is InputEventMouseMotion or event is InputEventMouseButton or event is InputEventKey:
+				$SkipArea/SkipButtonSprite.play("keyboard")
+	elif event is InputEventJoypadButton or event is InputEventJoypadMotion:
+			$SkipArea/SkipButtonSprite.play("xbox")
+
 # here we go through setting up the settings
 func _ready():
 	$SettingsMenu.load_settings()
@@ -25,7 +32,7 @@ func _on_play_button_pressed():
 	#turn off buttons and start the first scene
 	$MainMenuCanvas.hide()
 	$OpeningScene.start()
-	$SkipLabel.show()
+	$SkipArea.show()
 
 func _on_opening_scene_finish():
 	get_tree().change_scene_to_packed(game)

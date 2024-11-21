@@ -588,20 +588,20 @@ _data = {
 
 [node name="HUD" type="CanvasLayer"]
 script = ExtResource("1_bv657")
-level_length = 60
 
 [node name="ScoreLabel" type="Label" parent="."]
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -22.5
-offset_right = 22.5
+offset_left = -53.0
+offset_right = 53.0
 offset_bottom = 78.0
 grow_horizontal = 2
 theme_override_fonts/font = ExtResource("2_ga6r0")
 theme_override_font_sizes/font_size = 64
 text = "0
 "
+horizontal_alignment = 1
 
 [node name="Message" type="Label" parent="."]
 anchors_preset = 8
@@ -649,7 +649,6 @@ text = "`Esc` or `Start` to exit"
 position = Vector2(0, 2160)
 
 [node name="ControlsArea" type="Area2D" parent="."]
-modulate = Color(1, 1, 1, 0.166667)
 position = Vector2(3840, 2160)
 
 [node name="RichTextLabel" type="RichTextLabel" parent="ControlsArea"]
@@ -671,29 +670,25 @@ Move"
 position = Vector2(-325, -553)
 scale = Vector2(6, 6)
 sprite_frames = SubResource("SpriteFrames_78jo6")
-animation = &"xbox"
-frame_progress = 0.713965
+animation = &"keyboard"
 
 [node name="ParryControlSprite" type="AnimatedSprite2D" parent="ControlsArea"]
 position = Vector2(-325, -410)
 scale = Vector2(6, 6)
 sprite_frames = SubResource("SpriteFrames_5bkqb")
-animation = &"xbox"
-frame_progress = 0.930199
+animation = &"keyboard"
 
 [node name="RollControlSprite" type="AnimatedSprite2D" parent="ControlsArea"]
 position = Vector2(-325, -272)
 scale = Vector2(6, 6)
 sprite_frames = SubResource("SpriteFrames_xf8hy")
-animation = &"nintendo"
-frame_progress = 0.0963565
+animation = &"keyboard"
 
 [node name="MoveControlSprite" type="AnimatedSprite2D" parent="ControlsArea"]
 position = Vector2(-325, -128)
 scale = Vector2(6, 6)
 sprite_frames = SubResource("SpriteFrames_22f3w")
-animation = &"nintendo"
-frame_progress = 0.330328
+animation = &"keyboard"
 
 [node name="ScoreTimer" type="Timer" parent="."]
 
