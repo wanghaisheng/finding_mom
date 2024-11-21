@@ -73,10 +73,6 @@ func portal_process():
 	if $PointerSprite.is_visible():
 		# get the radius of the circle the pointer will be on
 		var radius = 1000
-		print("pointer then player")
-		print(global_position)
-		print(position)
-		print(portal_position)
 		var dist: Vector2 = portal_position - global_position
 		dist = dist.normalized()
 		var rad: float = atan2(dist.y, dist.x)
