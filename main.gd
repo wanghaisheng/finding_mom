@@ -7,8 +7,7 @@ func _ready():
 
 func _process(_delta):
 	if $Player.current_state == $Player.states.DEAD:
-		#TODO: might want to make this check more robust
-		if Input.is_action_just_pressed("parry") or Input.is_action_just_pressed("pause") or Input.is_action_just_pressed("roll") or Input.is_action_just_pressed("shoot") or Input.is_action_just_pressed("start_game"):
+		if Input.is_action_just_pressed("pause"):
 			_on_pause_menu_return_menu()
 
 func _on_pause_menu_resume():
@@ -30,8 +29,6 @@ func game_over():
 	$Music.stop()
 	$DeathSound.play()
 	
-	$HUD.hide_level()
-	
 	$Player.set_is_dead(true)
 
 #this function is called every time the start button is pressed
@@ -41,7 +38,7 @@ func new_game():
 
 func play_next_level():
 	# TODO: get the current level and tell the TileMap what to display next
-	var level = $HUD.get_level()
+	var _level = $HUD.get_level()
 	#$Level1.set_level(level)
 
 	$Player.start($StartPosition.position)
@@ -57,11 +54,9 @@ func play_next_level():
 	$HUD.display_hearts()
 	$HUD.display_bullets()
 	
-	# display the next level only after the start button is pressed
 	$HUD.next_level()
-	$HUD.display_level()
 
-func _on_player_shoot(bullet, direction, location):
+func _on_player_shoot(bullet, direction, _location):
 	# TODO: connect a audio sound either here or inside of the Bullet
 	# check to see if Player is alive and has bullets to shoot
 	if $Player.get_is_dead and $HUD.shoot_bullet():

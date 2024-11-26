@@ -16,11 +16,11 @@ enum bullet_types {
 	PLAYER_BULLET,
 }
 
-var current_bullet = bullet_types.PURPLE_BALL
+var current_bullet := bullet_types.PURPLE_BALL
 
-var purple_ball = \"purple_ball\"
-var soldier_bullet = \"soldier_bullet\"
-var player_bullet = \"soldier_bullet\"
+const purple_ball := \"purple_ball\"
+const soldier_bullet := \"soldier_bullet\"
+const player_bullet := \"soldier_bullet\"
 
 func _ready():
 	gravity_scale = 0.0
@@ -29,28 +29,29 @@ func set_is_enemy_bullet():
 	add_to_group(\"enemy_bullets\")
 	remove_from_group(\"player_bullets\")
 	collision_layer = 4
-	# TODO: set the collision appropriately
 	
 func set_is_player_bullet():
 	add_to_group(\"player_bullets\")
 	remove_from_group(\"enemy_bullets\")
 	collision_layer = 2
-	# TODO: set the collision appropriately
 
 # used to set the bullet to the correct image and speed
 func set_bullet(n: int):
 	var b: String = purple_ball
 	match n:
 		bullet_types.PURPLE_BALL:
+			current_bullet = bullet_types.PURPLE_BALL
 			b = purple_ball
 		bullet_types.SOLDIER_BULLET:
+			current_bullet = bullet_types.SOLDIER_BULLET
 			b = soldier_bullet
 		bullet_types.PLAYER_BULLET:
+			current_bullet = bullet_types.PLAYER_BULLET
 			b = player_bullet
 		_:
+			print(\"error setting bullet string\")
 			return
 	$AnimatedSprite2D.stop()
-	current_bullet = n
 	$AnimatedSprite2D.play(b)
 
 # call this after set_bullet so the direction figures out the speed as well
@@ -59,9 +60,6 @@ func set_direction(d):
 	# take care of multiplying by bullet_speed
 	var v = get_bullet_speed()
 	linear_velocity = v.rotated(direction)
-	
-func set_sprite_rotation(direction):
-	$AnimatedSprite2D.rotation = direction
 	
 func get_bullet_speed():
 	var s
@@ -97,7 +95,7 @@ func collide_with_target():
 	reclaim_bullet()
 
 func _on_body_entered(body):
-	if body.is_in_group(\"enemies\"): # coverage for parried bullets
+	if body.is_in_group(\"enemies\"): # coverage for parried bullets TODO: check if this creates a bug where enemy bullets reclaim player bullets
 		reclaim_bullet()
 "
 

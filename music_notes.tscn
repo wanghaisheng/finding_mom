@@ -12,7 +12,7 @@ func _ready():
 	$Note.texture = ResourceLoader.load(note)
 	$Timer.start()
 	
-func _process(delta):
+func _process(_delta):
 	var now = Time.get_unix_time_from_system()
 	var new_position = Vector2(position.x, position.y + sin(now * 5)) # rate of bobbing up and down
 	position = new_position

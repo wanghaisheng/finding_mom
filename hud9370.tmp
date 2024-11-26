@@ -1,4 +1,4 @@
-[gd_scene load_steps=79 format=3 uid="uid://bbmdp63cwku5e"]
+[gd_scene load_steps=74 format=3 uid="uid://bbmdp63cwku5e"]
 
 [ext_resource type="Script" path="res://hud.gd" id="1_bv657"]
 [ext_resource type="FontFile" uid="uid://omargf2labe" path="res://Assets/fonts/Robot Crush.ttf" id="2_ga6r0"]
@@ -6,57 +6,6 @@
 [ext_resource type="Texture2D" uid="uid://tr5rdwvg3brg" path="res://Assets/Controls/gdb-playstation-2.png" id="3_wr2rx"]
 [ext_resource type="Texture2D" uid="uid://rdwslsowfsmu" path="res://Assets/Controls/gdb-xbox-2.png" id="4_atsku"]
 [ext_resource type="Texture2D" uid="uid://d1q2g8bpf7atj" path="res://Assets/Controls/gdb-switch-2.png" id="4_f2j07"]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_vwlf2"]
-atlas = ExtResource("3_ak3j0")
-region = Rect2(32, 128, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_eofa4"]
-atlas = ExtResource("4_f2j07")
-region = Rect2(112, 129, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_36oad"]
-atlas = ExtResource("3_wr2rx")
-region = Rect2(336, 64, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_a58wa"]
-atlas = ExtResource("4_atsku")
-region = Rect2(16, 112, 16, 16)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_rfdaj"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_vwlf2")
-}],
-"loop": true,
-"name": &"keyboard",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_eofa4")
-}],
-"loop": true,
-"name": &"nintendo",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_36oad")
-}],
-"loop": true,
-"name": &"playstation",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_a58wa")
-}],
-"loop": true,
-"name": &"xbox",
-"speed": 5.0
-}]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_nd7g3"]
 atlas = ExtResource("3_ak3j0")
@@ -673,6 +622,7 @@ theme_override_font_sizes/font_size = 64
 horizontal_alignment = 1
 
 [node name="LevelLabel" type="Label" parent="."]
+visible = false
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
@@ -683,24 +633,15 @@ theme_override_fonts/font = ExtResource("2_ga6r0")
 theme_override_font_sizes/font_size = 64
 text = "Level 0"
 
-[node name="DeathSkipArea" type="Area2D" parent="."]
+[node name="DeathSkipLabel" type="Label" parent="."]
 visible = false
-position = Vector2(3840, 2160)
-
-[node name="DeathSkipLabel" type="Label" parent="DeathSkipArea"]
-offset_left = -245.0
-offset_top = -166.0
-offset_right = -40.0
-offset_bottom = -80.0
+offset_left = 3329.0
+offset_top = 2074.0
+offset_right = 3841.0
+offset_bottom = 2160.0
 theme_override_fonts/font = ExtResource("2_ga6r0")
-theme_override_font_sizes/font_size = 64
-text = "to exit"
-
-[node name="DeathSkipSprite" type="AnimatedSprite2D" parent="DeathSkipArea"]
-position = Vector2(-325, -128)
-scale = Vector2(6, 6)
-sprite_frames = SubResource("SpriteFrames_rfdaj")
-animation = &"keyboard"
+theme_override_font_sizes/font_size = 48
+text = "`Esc` or `Start` to exit"
 
 [node name="HeartArea" type="Area2D" parent="."]
 
@@ -751,6 +692,9 @@ animation = &"keyboard"
 
 [node name="ScoreTimer" type="Timer" parent="."]
 
+[node name="MessageTimer" type="Timer" parent="."]
+wait_time = 5.0
+
 [node name="DeathMessageTimer" type="Timer" parent="."]
 wait_time = 2.0
 one_shot = true
@@ -761,4 +705,5 @@ libraries = {
 }
 
 [connection signal="timeout" from="ScoreTimer" to="." method="_on_score_timer_timeout"]
+[connection signal="timeout" from="MessageTimer" to="." method="_on_message_timer_timeout"]
 [connection signal="timeout" from="DeathMessageTimer" to="." method="_on_death_message_timer_timeout"]

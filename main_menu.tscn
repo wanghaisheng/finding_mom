@@ -215,7 +215,7 @@ text = "to skip"
 position = Vector2(-251, -54)
 scale = Vector2(6, 6)
 sprite_frames = SubResource("SpriteFrames_p0sr3")
-animation = &"keyboard"
+animation = &"xbox"
 
 [connection signal="finish" from="OpeningScene" to="." method="_on_opening_scene_finish"]
 [connection signal="pressed" from="MainMenuCanvas/ReferenceRect/PLAY_BUTTON" to="." method="_on_play_button_pressed"]
