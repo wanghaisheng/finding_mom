@@ -5,14 +5,14 @@ signal start_game
 signal level_complete
 signal quit_game
 
-@export var total_hearts = 5
-@export var current_health = 5
+@export var total_hearts = 1
+@export var current_health = 1
 
 @export var total_bullets = 3
 @export var current_bullets = 3
 
 @export var current_level = 0
-@export var level_length = 5
+@export var level_length = 60
 
 var score = 0
 
@@ -36,33 +36,23 @@ func _input(event: InputEvent):
 			display_control_type("xbox")
 		
 		
-func display_control_type(name: String):
-	$ControlsArea/ShootControlSprite.play(name)
-	$ControlsArea/ParryControlSprite.play(name)
-	$ControlsArea/RollControlSprite.play(name)
-	$ControlsArea/MoveControlSprite.play(name)
+func display_control_type(ct: String):
+	$ControlsArea/ShootControlSprite.play(ct)
+	$ControlsArea/ParryControlSprite.play(ct)
+	$ControlsArea/RollControlSprite.play(ct)
+	$ControlsArea/MoveControlSprite.play(ct)
 
 func show_message(text):
-	$Message.text = text
-	$Message.show()
-	$MessageTimer.start()
+	$ScoreLabel.text = text
+	$ScoreLabel.show()
 
 func show_game_over():
-	show_message("Game Over")
+	show_message("game over")
 	
 func show_controls():
 	$ControlsArea.show()
 	display_control_type("keyboard")
 	$AnimationPlayer.play("controls_dissappear")
-
-func _on_message_timer_timeout():
-	$Message.hide()
-	
-func display_level():
-	$LevelLabel.show()
-	
-func hide_level():
-	$LevelLabel.hide()
 
 func next_level():
 	current_level += 1
@@ -86,14 +76,14 @@ func lose_heart():
 		restart_level()
 		player_die.emit()
 		$DeathMessageTimer.start()
-
+		show_message("Game Over")
 
 		
 func display_hearts():
 	# clear all hearts
 	var hearts = $HeartArea.get_children()
-	for heart in hearts:
-		heart.queue_free()
+	for h in hearts:
+		h.queue_free()
 		
 	
 	# add each heart
@@ -104,15 +94,17 @@ func display_hearts():
 			sprite.set_texture(full_heart)
 		else:
 			sprite.set_texture(empty_heart)
+
 		#figure out display offset
 		var position = Vector2.ZERO
 		position.x = i * 100 + 50
 		position.y = 50
 		sprite.position = position
-		var scale = Vector2.ZERO
-		scale.x = 5
-		scale.y = 5
-		sprite.scale = scale
+
+		# scale up the size
+		sprite.scale = Vector2(5,5)
+		
+		# finally add it
 		h.add_child(sprite)
 		$HeartArea.add_child(h)
 		
@@ -136,9 +128,8 @@ func shoot_bullet():
 func display_bullets():
 	# clear all bullets
 	var bullets = $BulletArea.get_children()
-	for bullet in bullets:
-		bullet.queue_free()
-		
+	for b in bullets:
+		b.queue_free()
 	
 	# add each bullet
 	for i in range(total_bullets):
@@ -148,25 +139,27 @@ func display_bullets():
 			sprite.set_texture(bullet)
 		else:
 			sprite.set_texture(empty_bullet)
+
 		#figure out display offset
 		var position = Vector2.ZERO
 		position.x = i * 100 + 50
 		position.y = -50
 		sprite.position = position
-		var scale = Vector2.ZERO
-		scale.x = 5
-		scale.y = 5
-		sprite.scale = scale
+		
+		# need to scale up the size
+		sprite.scale = Vector2(5,5)
+		
+		# finally add it
 		b.add_child(sprite)
 		$BulletArea.add_child(b)
 
 func update_score():
 	$ScoreLabel.text = str(60 - score)
 	if score >= level_length:
-		show_message("Complete")
 		$ScoreTimer.stop()
 		reset_all_bullets()
 		level_complete.emit()
+		$ScoreLabel.text = "complete"
 
 func _on_score_timer_timeout():
 	score += 1
@@ -182,4 +175,4 @@ func stop():
 
 
 func _on_death_message_timer_timeout():
-	$DeathSkipLabel.show()
+	$DeathSkipArea.show()

@@ -12,14 +12,18 @@ signal freeze_frame(timeScale: float, duration: float)
 @export var roll_speed: float = 45000
 @export var current_state = states.DEAD
 
+# used for controller to remember which direction to rotate the cursor and sprite:
 var last_direction_rotation = 0
+var last_aim_direction = Vector2(1.0, 0.0).normalized()
+var mouse_moved = false
 
+# used for generating bullets and notes in the main_game
 var PlayerBullet = preload("res://bullet.tscn")
 var MusicNotes = preload("res://music_notes.tscn")
+
+# used for animations
 var show_flash = true
 var right_music_note = true
-var mouse_moved = false
-var is_shooting = false
 var portal_position: Vector2
 
 enum states {
@@ -72,17 +76,14 @@ func portal_on_screen(on: bool):
 func portal_process():
 	if $PointerSprite.is_visible():
 		# get the radius of the circle the pointer will be on
-		var radius = 1000
-		var dist: Vector2 = portal_position - global_position
+		const radius := 800
+		var dist := portal_position - global_position
 		dist = dist.normalized()
-		var rad: float = atan2(dist.y, dist.x)
-		var final_pos = (dist * 800)
+		#var rad := atan2(dist.y, dist.x)
+		var final_pos := (dist * radius)
 
 		$PointerSprite.position = final_pos
 		$PointerSprite.look_at(portal_position)
-		
-		
-		#PointerSprite.position = 
 
 # should only be handling inputs correlating to movement and moving the cursor
 func _process(delta):
@@ -132,7 +133,7 @@ func _process(delta):
 				$Area2D/BodySprite.animation = "shoot_stand"
 		
 		# aim for controller:
-		var aim_direction = Input.get_vector("aim_left", "aim_right", "aim_up", "aim_down")
+		var aim_direction := Input.get_vector("aim_left", "aim_right", "aim_up", "aim_down")
 		
 		# aim for mouse:
 		var mouse_pos = get_global_mouse_position()
@@ -140,12 +141,15 @@ func _process(delta):
 
 		var cursor_position = get_global_mouse_position()
 		# if we are aiming with a controller:
-		if aim_direction != Vector2.ZERO:
-			#hide the mouse
+		if aim_direction != Vector2.ZERO or !mouse_moved:
+			#hide the mouse and show controller cursor
 			Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
-			#show the cursor
 			$Cursor.show()
+			
 			#project cursor to proper position
+			if aim_direction == Vector2.ZERO:
+				aim_direction = last_aim_direction
+			last_aim_direction = aim_direction
 			var c_position = aim_direction.normalized() * 600
 			$Cursor.position = c_position
 			
@@ -167,6 +171,7 @@ func _process(delta):
 		match current_state:
 			states.MOVE, states.SHOOT: # can shoot, parry, and roll
 				if Input.is_action_just_pressed("shoot"):
+					current_state = states.SHOOT
 					shoot_bullet(cursor_position)
 				if Input.is_action_just_pressed("parry"):
 					current_state = states.PARRY
@@ -223,7 +228,6 @@ func shoot_bullet(cursor_position: Vector2):
 	var direction = atan2(direction_vector.y, direction_vector.x)
 	pb.position = start_position
 	shoot.emit(pb, direction, start_position)
-	current_state = states.SHOOT
 	$ShootingAnimationTimer.start()
 	#$ShootingAnimationTimer. # reset the timer
 	return
@@ -346,5 +350,6 @@ func _on_parry_active_timer_timeout():
 
 
 func _on_shooting_animation_timer_timeout():
-	current_state = states.MOVE
+	if current_state != states.DEAD:
+		current_state = states.MOVE
 	$ShootingAnimationTimer.stop()

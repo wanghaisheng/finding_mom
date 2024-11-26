@@ -99,10 +99,6 @@ func move_soldier():
 func set_player(p):
 	player = p
 
-# maybe remove
-func _on_body_entered(body):
-	pass
-
 func _on_bullet_timer_timeout():
 	if current_state != states.DEAD:
 		match type:

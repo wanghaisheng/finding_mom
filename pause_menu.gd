@@ -19,7 +19,7 @@ func _on_settings_button_pressed():
 func _on_quit_button_pressed():
 	return_menu.emit()
 
-func _process(delta):
+func _process(_delta):
 	if Input.is_action_just_pressed("pause"):
 		_on_resume_button_pressed()
 	pass
