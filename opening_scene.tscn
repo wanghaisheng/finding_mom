@@ -80,10 +80,10 @@ animations = [{
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("4_g5rip")
+"texture": ExtResource("5_l2wjs")
 }, {
 "duration": 1.0,
-"texture": ExtResource("5_l2wjs")
+"texture": ExtResource("4_g5rip")
 }],
 "loop": true,
 "name": &"crying",
