@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://cscp8ee41n224"]
+[gd_scene load_steps=19 format=3 uid="uid://cscp8ee41n224"]
 
 [ext_resource type="Script" path="res://main_menu.gd" id="1_u8lhs"]
 [ext_resource type="PackedScene" uid="uid://cdbt8nsaysi3g" path="res://opening_scene.tscn" id="2_pdp0y"]
@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://tr5rdwvg3brg" path="res://Assets/Controls/gdb-playstation-2.png" id="8_1o5od"]
 [ext_resource type="Texture2D" uid="uid://rdwslsowfsmu" path="res://Assets/Controls/gdb-xbox-2.png" id="9_a76dd"]
 [ext_resource type="PackedScene" uid="uid://bmd1u62glggyi" path="res://settings_menu.tscn" id="9_tt7vj"]
+[ext_resource type="AudioStream" uid="uid://bncucsk3jgpkc" path="res://Assets/Music/mom_theme.mp3" id="10_kemhw"]
 
 [sub_resource type="GDScript" id="GDScript_p1d5m"]
 script/source = "extends Button
@@ -217,8 +218,13 @@ scale = Vector2(6, 6)
 sprite_frames = SubResource("SpriteFrames_p0sr3")
 animation = &"xbox"
 
+[node name="MenuThemeSong" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("10_kemhw")
+bus = &"Main Menu"
+
 [connection signal="finish" from="OpeningScene" to="." method="_on_opening_scene_finish"]
 [connection signal="pressed" from="MainMenuCanvas/ReferenceRect/PLAY_BUTTON" to="." method="_on_play_button_pressed"]
 [connection signal="pressed" from="MainMenuCanvas/ReferenceRect2/SETTINGS_BUTTON" to="." method="_on_settings_button_pressed"]
 [connection signal="pressed" from="MainMenuCanvas/ReferenceRect3/QUIT_BUTTON" to="." method="_on_quit_button_pressed"]
 [connection signal="back_button_pressed" from="SettingsMenu" to="." method="_on_settings_button_pressed"]
+[connection signal="finished" from="MenuThemeSong" to="." method="_on_menu_theme_song_finished"]

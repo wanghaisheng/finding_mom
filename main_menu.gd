@@ -18,6 +18,8 @@ func _ready():
 	$MainMenuCanvas/ReferenceRect/PLAY_BUTTON.grab_focus()
 	focused_node = $MainMenuCanvas/ReferenceRect/PLAY_BUTTON
 	
+	$MenuThemeSong.play()
+	
 	get_viewport().connect("gui_focus_changed", focus_changed)
 	
 func focus_changed(node: Control):
@@ -46,3 +48,7 @@ func _on_settings_button_pressed():
 		$MainMenuCanvas.show()
 		$MainMenuCanvas/ReferenceRect/PLAY_BUTTON.grab_focus()
 		$SettingsMenu.hide()
+
+
+func _on_menu_theme_song_finished():
+	$MenuThemeSong.play()

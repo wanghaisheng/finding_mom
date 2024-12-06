@@ -72,8 +72,7 @@ func get_bullet_speed():
 			s = Vector2(1500.0, 0.0)
 	return s
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(_delta):
 	#apply_force(direction, position) # use this for speeding up TODO might use for a tracking projectile
 	
 	#keeps the bullet facing the direction it is moving

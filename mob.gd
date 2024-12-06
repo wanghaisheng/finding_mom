@@ -24,6 +24,13 @@ var ready_shoot = true
 
 var Bullet = preload("res://bullet.tscn")
 
+#TODO: finish using this
+const level_one_chances = [
+	0,
+	40,
+	60
+]
+
 func start_animations(v: Vector2):
 	if current_state == states.MOVE:
 		if v.length() > 0:
@@ -32,6 +39,7 @@ func start_animations(v: Vector2):
 			$AnimatedSprite2D.stop()
 
 func _ready():
+	# TODO: maybe create a more sophisticated way of determining the new mob? Like only create some enemies in the first level.
 	var i = randi() % mob_types.size()
 	set_type(mob_types[i])
 	$AnimatedSprite2D.play(type)
