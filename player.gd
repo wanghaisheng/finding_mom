@@ -115,7 +115,6 @@ func _process(delta):
 		
 		var rotation_rads = atan2(v.y, v.x)
 		
-		# TODO: fix bug where after parry, timing between legs and body are unpaired
 		# let the Legs update if in MOVE or PARRY. Let the Body update only in MOVE
 		if v != Vector2.ZERO and (current_state == states.MOVE or current_state == states.SHOOT or current_state == states.PARRY):
 			# need to figure out how much to rotate the player

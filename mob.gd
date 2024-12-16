@@ -2,10 +2,9 @@ extends CharacterBody2D
 
 signal shoot(bullet, direction, location)
 
-var type = "bug"
+var type = "soldier"
 
-var mob_types = [
-	"bug",
+var available_mob_types = [
 	"soldier",
 	"spider",
 ]
@@ -24,12 +23,34 @@ var ready_shoot = true
 
 var Bullet = preload("res://bullet.tscn")
 
-#TODO: finish using this
-const level_one_chances = [
-	0,
-	40,
-	60
-]
+#TODO: finish using this to set the mob type depending on the level
+
+const level_chances = {
+	"1beginning": {
+		"soldier" = 20,
+		"spider" = 80,
+	},
+	"1end": {
+		"soldier" = 70,
+		"spider" = 30,
+	},
+	"2beginning": {
+		"soldier" = 20,
+		"spider" = 80,
+	},
+	"2end": {
+		"soldier" = 70,
+		"spider" = 30,
+	},
+	"3beginning": {
+		"soldier" = 20,
+		"spider" = 80,
+	},
+	"3end": {
+		"soldier" = 70,
+		"spider" = 30,
+	},
+}
 
 func start_animations(v: Vector2):
 	if current_state == states.MOVE:
@@ -39,9 +60,8 @@ func start_animations(v: Vector2):
 			$AnimatedSprite2D.stop()
 
 func _ready():
-	# TODO: maybe create a more sophisticated way of determining the new mob? Like only create some enemies in the first level.
-	var i = randi() % mob_types.size()
-	set_type(mob_types[i])
+	var i = randi() % available_mob_types.size()
+	set_type(available_mob_types[i])
 	$AnimatedSprite2D.play(type)
 	if type == "bug":
 		# Add some randomness to the direction.
@@ -69,25 +89,39 @@ func move_bug():
 func move_spider():
 	if current_state != states.DEAD:
 		look_at(player.position)
-		var motion = player.position
-		motion = motion - position
-		motion = motion.normalized()
-		motion = motion * 400
+		var distance: Vector2 = player.position - position
+		var motion: Vector2 = distance.normalized()
+		motion = motion * 500
 		velocity = motion
 		move_and_slide()
 		
+		# the spider will show glowing red eyes if within 400 of player:
+		if distance.length() < 400 and $AnimatedSprite2D.animation == "spider":
+			var frame = $AnimatedSprite2D.frame
+			$AnimatedSprite2D.play("spider_attack")
+			$AnimatedSprite2D.frame = frame
+		elif distance.length() >= 400 and $AnimatedSprite2D.animation == "spider_attack":
+			var frame = $AnimatedSprite2D.frame
+			$AnimatedSprite2D.play("spider")
+			$AnimatedSprite2D.frame = frame
 		
 func move_soldier():
 	var v = player.position - position
 	var distance_to_player = sqrt((v.x * v.x) + (v.y * v.y))
+	
+	#logic for shooting at player
 	if current_state == states.SHOOT:
 		look_at(player.position)
 		if ready_shoot:
 			change_living_texture("soldier_attack", false)
-		elif distance_to_player > 600 and $AnimatedSprite2D.animation != "soldier_attack" and $AnimatedSprite2D.animation != "soldier_attack_end": # if we aren't shooting and the player is far away, switch back to MOVE
+		# if we aren't shooting and the player is far away, switch back to MOVE
+		elif distance_to_player > 600 and $AnimatedSprite2D.animation != "soldier_attack" and $AnimatedSprite2D.animation != "soldier_attack_end": 
 			current_state = states.MOVE
+
 	elif current_state == states.DEAD:
 		velocity = Vector2(0, 0)
+
+	#logic for tracking player
 	elif current_state == states.MOVE:
 		look_at(player.position)
 		if distance_to_player > 600:
@@ -101,9 +135,11 @@ func move_soldier():
 			if ready_shoot:
 				current_state = states.SHOOT
 				change_living_texture("soldier_attack", false)
+
 	start_animations(velocity)
 	move_and_slide()
 
+# called by main game to let us know where the player is
 func set_player(p):
 	player = p
 

@@ -193,7 +193,7 @@ text = "Quit"
 script = SubResource("GDScript_4pgbn")
 
 [node name="Title" type="Sprite2D" parent="MainMenuCanvas"]
-position = Vector2(1960, 450)
+position = Vector2(1920, 450)
 scale = Vector2(0.4, 0.4)
 texture = ExtResource("4_bbv0j")
 

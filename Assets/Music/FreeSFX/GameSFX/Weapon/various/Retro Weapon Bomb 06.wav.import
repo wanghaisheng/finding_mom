@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://beyyqm6i8b8m5"
+path="res://.godot/imported/Retro Weapon Bomb 06.wav-cda261dea0a4c51e1e70623bf3d3a288.sample"
+
+[deps]
+
+source_file="res://Assets/Music/FreeSFX/GameSFX/Weapon/various/Retro Weapon Bomb 06.wav"
+dest_files=["res://.godot/imported/Retro Weapon Bomb 06.wav-cda261dea0a4c51e1e70623bf3d3a288.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0
