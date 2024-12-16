@@ -38,7 +38,7 @@ func _on_apply_button_pressed():
 			windowMode = Window.MODE_EXCLUSIVE_FULLSCREEN
 	get_tree().root.mode = windowMode
 	
-	# TODO: set master volume:
+	# set master volume:
 	var master_index := AudioServer.get_bus_index("Master")
 	AudioServer.set_bus_volume_db(master_index, selectedVolume)
 	

@@ -2,11 +2,14 @@ extends Node
 
 @export var mob_scene: PackedScene
 
+@export var is_demoing = true
+@export var music_on = true
+
 func _ready():
 	new_game()
 
 func _process(_delta):
-	if $Player.current_state == $Player.states.DEAD:
+	if $Player.current_state == $Player.states.DEAD: #TODO: check this logic
 		if Input.is_action_just_pressed("pause"):
 			_on_pause_menu_return_menu()
 
@@ -37,7 +40,7 @@ func new_game():
 	$Player.live_again()
 
 func play_next_level():
-	# TODO: get the current level and tell the TileMap what to display next
+	# TODO: get the current level and tell the TileMap what to display next after creating more levels
 	var _level = $HUD.get_level()
 	#$Level1.set_level(level)
 
@@ -47,7 +50,9 @@ func play_next_level():
 	kill_all_active_things()
 	
 	$DeathSound.stop()
-	$Music.play()
+	
+	if music_on:
+		$Music.play()
 	
 	$Player.set_is_dead(false)
 
@@ -57,13 +62,13 @@ func play_next_level():
 	$HUD.next_level()
 
 func _on_player_shoot(bullet, direction, _location):
-	# TODO: connect a audio sound either here or inside of the Bullet
 	# check to see if Player is alive and has bullets to shoot
 	if $Player.get_is_dead and $HUD.shoot_bullet():
 		#order matters here
 		bullet.set_direction(direction)
 		bullet.set_is_player_bullet()
 		add_child(bullet)
+		bullet.play_sound()
 		bullet.player_bullet_dequeue.connect(_on_player_bullet_dequeue)
 		
 func _on_player_music_note(note):
@@ -81,6 +86,7 @@ func _on_mob_shoot(bullet, direction, location):
 	bullet.set_is_enemy_bullet()
 	bullet.position = location
 	add_child(bullet)
+	bullet.play_sound()
 
 func _on_player_bullet_dequeue():
 	$HUD.reclaim_bullet()
@@ -111,7 +117,12 @@ func _on_hud_level_complete():
 	#TODO: stop current music and play level complete sound?
 
 func _on_player_entered_portal():
-	play_next_level()
+	# TODO: on full release, remove this
+	if is_demoing:
+		var demo_end_screen = preload("res://demo_end_screen.tscn")
+		get_tree().change_scene_to_packed(demo_end_screen)
+	else:
+		play_next_level()
 
 func _on_pause_menu_return_menu():
 	get_tree().paused = false

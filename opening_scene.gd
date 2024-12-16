@@ -4,6 +4,8 @@ signal finish
 
 var playing = false
 
+# TODO: use the cinematic sfx in the scene
+
 # on load: might want to display something
 func _ready():
 	$RobotBody/RobotSprite.play("sleep")

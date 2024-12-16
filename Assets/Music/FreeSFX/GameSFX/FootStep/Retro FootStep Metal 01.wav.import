@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://bfol41hexr0wp"
+path="res://.godot/imported/Retro FootStep Metal 01.wav-12b17bbbb95ba690f9e72ccdfaf28961.sample"
+
+[deps]
+
+source_file="res://Assets/Music/FreeSFX/GameSFX/FootStep/Retro FootStep Metal 01.wav"
+dest_files=["res://.godot/imported/Retro FootStep Metal 01.wav-12b17bbbb95ba690f9e72ccdfaf28961.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0
