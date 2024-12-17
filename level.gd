@@ -10,6 +10,43 @@ signal spawn_portal(m: Resource)
 
 var valid_mob_spawn_locations = []
 
+var current_level: int = 1
+
+# TODO: use the time from the HUD as a ratio between "beginning" and "end"
+# each of these have to total 100% representing the % out of 100 each of these have from the beginning to the end of the level from appearing
+const level_chances = {
+	"1beginning": {
+		"bug" = 0,
+		"soldier" = 20,
+		"spider" = 80,
+	},
+	"1end": {
+		"bug" = 0,
+		"soldier" = 70,
+		"spider" = 30,
+	},
+	"2beginning": {
+		"bug" = 0,
+		"soldier" = 20,
+		"spider" = 80,
+	},
+	"2end": {
+		"bug" = 0,
+		"soldier" = 70,
+		"spider" = 30,
+	},
+	"3beginning": {
+		"bug" = 0,
+		"soldier" = 20,
+		"spider" = 80,
+	},
+	"3end": {
+		"bug" = 0,
+		"soldier" = 70,
+		"spider" = 30,
+	},
+}
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	create_spawn_locations()
@@ -83,12 +120,34 @@ func location_exited(n: Node2D):
 	valid_mob_spawn_locations.append(n)
 func location_entered(n: Node2D):
 	valid_mob_spawn_locations.erase(n)
+	
+func set_level(l: int):
+	current_level = l
 
 func _on_mob_timer_timeout():
 	if enemies_on:
 		# Create a new instance of the Mob scene.
-		var mob = mob_scene.instantiate()
+		var mob: Node = mob_scene.instantiate()
 		# select a random spawn location from the valid list
 		var n: Node2D = valid_mob_spawn_locations[randi_range(0, len(valid_mob_spawn_locations)  - 1)]
 		mob.position = n.position
+
+		var type: String = get_mob_type_from_level()
+		mob.set_type(type)
+
 		spawn_mob.emit(mob)
+
+func get_mob_type_from_level() -> String:
+	var chances = level_chances[String.num_int64(current_level)+"beginning"]
+	var type_i: int = randi_range(0, 100)
+	var type: String = ""
+	var total: int = 0 # strange way to allow the total to be different from beginning to end of the level
+	for key in chances:
+		if type_i <= chances[key] + total:
+			type = key
+			break
+		else:
+			total += chances[key]
+	if type == "": # default ***THIS SHOULD NEVER BE HIT*** But we are leaving it here anyway
+		type = "spider"
+	return type
