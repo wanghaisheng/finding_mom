@@ -97,12 +97,12 @@ func display_hearts():
 
 		#figure out display offset
 		var position = Vector2.ZERO
-		position.x = i * 100 + 50
-		position.y = 50
+		position.x = i * 120 + 60
+		position.y = 60
 		sprite.position = position
 
 		# scale up the size
-		sprite.scale = Vector2(5,5)
+		sprite.scale = Vector2(6,6)
 		
 		# finally add it
 		h.add_child(sprite)
@@ -142,12 +142,12 @@ func display_bullets():
 
 		#figure out display offset
 		var position = Vector2.ZERO
-		position.x = i * 100 + 50
-		position.y = -50
+		position.x = i * 120 + 60
+		position.y = -60
 		sprite.position = position
 		
 		# need to scale up the size
-		sprite.scale = Vector2(5,5)
+		sprite.scale = Vector2(6,6)
 		
 		# finally add it
 		b.add_child(sprite)

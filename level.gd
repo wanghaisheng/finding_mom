@@ -13,7 +13,7 @@ var valid_mob_spawn_locations = []
 var current_level: int = 1
 
 # TODO: use the time from the HUD as a ratio between "beginning" and "end"
-# each of these have to total 100% representing the % out of 100 each of these have from the beginning to the end of the level from appearing
+# each of these are the chances out of 101% what mob it might be
 const level_chances = {
 	"1beginning": {
 		"bug" = 0,
@@ -123,6 +123,9 @@ func location_entered(n: Node2D):
 	
 func set_level(l: int):
 	current_level = l
+	var layer_string: String = $Background.all_layers[l]
+	if !$Background.set_layer(layer_string):
+		print("setting layer failed")
 
 func _on_mob_timer_timeout():
 	if enemies_on:

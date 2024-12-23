@@ -99,7 +99,7 @@ func _on_hud_player_die():
 
 func kill_all_active_things():
 	get_tree().call_group("enemies", "queue_free")
-	get_tree().call_group("bullets", "queue_free")
+	get_tree().call_group("bullets", "bullet_die")
 	get_tree().call_group("portals", "queue_free")
 
 func _on_hud_level_complete():

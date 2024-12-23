@@ -43,13 +43,6 @@ func start_animations(v: Vector2):
 			$AnimatedSprite2D.stop()
 
 func _ready():
-	#var i = randi() % available_mob_types.size()
-	#set_type(available_mob_types[i])
-	#$AnimatedSprite2D.play(type)
-	#if type == "bug":
-		## Add some randomness to the direction.
-		#velocity = Vector2(randi_range(-360, 360), randi_range(-360, 360)).normalized() * 360
-		#rotation = atan2(velocity.normalized().y, velocity.normalized().x)
 	pass
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
