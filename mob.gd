@@ -23,34 +23,17 @@ var ready_shoot = true
 
 var Bullet = preload("res://bullet.tscn")
 
-#TODO: finish using this to set the mob type depending on the level
-
-const level_chances = {
-	"1beginning": {
-		"soldier" = 20,
-		"spider" = 80,
-	},
-	"1end": {
-		"soldier" = 70,
-		"spider" = 30,
-	},
-	"2beginning": {
-		"soldier" = 20,
-		"spider" = 80,
-	},
-	"2end": {
-		"soldier" = 70,
-		"spider" = 30,
-	},
-	"3beginning": {
-		"soldier" = 20,
-		"spider" = 80,
-	},
-	"3end": {
-		"soldier" = 70,
-		"spider" = 30,
-	},
-}
+func set_type(t: String):
+	# default if not found
+	if available_mob_types.find(t) == -1:
+		t = "spider"
+	type = t
+	$AnimatedSprite2D.play(type)
+	if type == "bug":
+		# Add some randomness to the direction.
+		velocity = Vector2(randi_range(-360, 360), randi_range(-360, 360)).normalized() * 360
+		rotation = atan2(velocity.normalized().y, velocity.normalized().x)
+	return
 
 func start_animations(v: Vector2):
 	if current_state == states.MOVE:
@@ -60,13 +43,7 @@ func start_animations(v: Vector2):
 			$AnimatedSprite2D.stop()
 
 func _ready():
-	var i = randi() % available_mob_types.size()
-	set_type(available_mob_types[i])
-	$AnimatedSprite2D.play(type)
-	if type == "bug":
-		# Add some randomness to the direction.
-		velocity = Vector2(randi_range(-360, 360), randi_range(-360, 360)).normalized() * 360
-		rotation = atan2(velocity.normalized().y, velocity.normalized().x)
+	pass
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
@@ -169,9 +146,6 @@ func shoot_bullet():
 	b.set_bullet(bt)
 	shoot.emit(b, rotation, position)
 	ready_shoot = false
-
-func set_type(t):
-	type = t
 
 func _on_dead_sprites_animation_finished():
 	queue_free()

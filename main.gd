@@ -27,7 +27,7 @@ func flip_pause_screen():
 
 func game_over():
 	$HUD.stop()
-	$Level1.stop_spawning()
+	$Level.stop_spawning()
 	$HUD.show_game_over()
 	$Music.stop()
 	$DeathSound.play()
@@ -40,27 +40,22 @@ func new_game():
 	$Player.live_again()
 
 func play_next_level():
-	# TODO: get the current level and tell the TileMap what to display next after creating more levels
-	var _level = $HUD.get_level()
-	#$Level1.set_level(level)
-
-	$Player.start($StartPosition.position)
-	$Level1.start_spawning()
-
 	kill_all_active_things()
-	
 	$DeathSound.stop()
+
+	$HUD.display_hearts()
+	$HUD.display_bullets()
+	$HUD.next_level()
+	
+	$Player.start($StartPosition.position)
+	$Player.set_is_dead(false)
+	
+	$Level.set_level($HUD.get_level())
+	$Level.start_spawning()
 	
 	if music_on:
 		$Music.play()
 	
-	$Player.set_is_dead(false)
-
-	$HUD.display_hearts()
-	$HUD.display_bullets()
-	
-	$HUD.next_level()
-
 func _on_player_shoot(bullet, direction, _location):
 	# check to see if Player is alive and has bullets to shoot
 	if $Player.get_is_dead and $HUD.shoot_bullet():
@@ -104,7 +99,7 @@ func _on_hud_player_die():
 
 func kill_all_active_things():
 	get_tree().call_group("enemies", "queue_free")
-	get_tree().call_group("bullets", "queue_free")
+	get_tree().call_group("bullets", "bullet_die")
 	get_tree().call_group("portals", "queue_free")
 
 func _on_hud_level_complete():
@@ -112,7 +107,7 @@ func _on_hud_level_complete():
 	kill_all_active_things()
 	
 	# end_level takes care of the portal creation
-	$Level1.end_level($Player.position)
+	$Level.end_level($Player.position)
 	
 	#TODO: stop current music and play level complete sound?
 
