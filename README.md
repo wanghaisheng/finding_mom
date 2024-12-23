@@ -8,7 +8,7 @@ Alpha version is coming soon to [itch.io](itch.io).
 
 ![Game Play](./advertising/Finding_Mom_Demo.gif)
 
-## Contribute
+## Contribute/Quick Start
 
 Make sure Godot 4.2.2+ is installed.
 
