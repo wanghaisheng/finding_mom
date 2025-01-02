@@ -4,7 +4,7 @@ This is a godot video game with the style of a top-down bullet-hell.
 
 Alpha version is coming soon to [itch.io](itch.io).
 
-![Finding Mom Logo](./Assets/Icons/Finding_Mom_4k.png)
+<img src="./Assets/Icons/Finding_Mom_4k.png" alt="Finding Mom Logo" width="400"/>
 
 ![Game Play](./advertising/Finding_Mom_Demo.gif)
 
